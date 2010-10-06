@@ -1,0 +1,9 @@
+<!-- /templates/plugins/monitoring/fields/monitor/view-activities.vm -->
+<table>
+	#foreach( $activity in $activities)
+	<tr id="monitor_activity_${activity.UserName}">
+		<td>$activity.UserName</td>
+		<td>$outlookDate.format($activity.Time)</td>
+	</tr>
+	#end
+</table>
