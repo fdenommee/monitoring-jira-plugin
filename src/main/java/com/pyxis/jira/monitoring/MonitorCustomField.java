@@ -19,7 +19,6 @@
 package com.pyxis.jira.monitoring;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -64,21 +63,8 @@ public class MonitorCustomField
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getVelocityParameters(Issue issue, CustomField field, FieldLayoutItem fieldLayoutItem) {
 		Map<String, Object> map = super.getVelocityParameters(issue, field, fieldLayoutItem);
-		map.put("activities", getActivitiesSortedByDate());
+		map.put("activities", monitorHelper.getActivities());
 		map.put("outlookDate", authenticationContext.getOutlookDate());
 		return map;
-	}
-
-	private List<UserIssueActivity> getActivitiesSortedByDate() {
-
-		List<UserIssueActivity> activities = monitorHelper.getActivities();
-
-		Collections.sort(activities, new Comparator<UserIssueActivity>() {
-			public int compare(UserIssueActivity o1, UserIssueActivity o2) {
-				return o2.getTime().compareTo(o1.getTime());
-			}
-		});
-
-		return activities;
 	}
 }

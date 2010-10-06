@@ -1,9 +1,27 @@
 <!-- /templates/plugins/monitoring/fields/monitor/view-activities.vm -->
-<table>
-	#foreach( $activity in $activities)
-	<tr id="monitor_activity_${activity.UserName}">
-		<td>$activity.UserName</td>
-		<td>$outlookDate.format($activity.Time)</td>
+<table id="monitor_activity_data" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+	<thead>
+	<tr style="border-bottom: thin solid #cccccc;">
+		<th>${i18n.getText('cf.table.header.user')}</th>
+		<th>${i18n.getText('cf.table.header.lastaccess')}</th>
 	</tr>
-	#end
+	</thead>
+	<tbody>
+		#if($activities.isEmpty())
+		<tr>
+			<td colspan="2">${i18n.getText('cf.no.activity')}</td>
+		</tr>
+		#else
+			#foreach( $activity in $activities)
+			<tr id="monitor_activity_${activity.UserName}">
+				<td>
+					<a href="${baseurl}/secure/ViewProfile.jspa?name=${activity.UserName}">${activity.UserName}</a>
+				</td>
+				<td>
+					${outlookDate.format(${activity.Time})}
+				</td>
+			</tr>
+			#end
+		#end
+	</tbody>
 </table>

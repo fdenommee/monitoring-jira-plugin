@@ -58,8 +58,13 @@ public class MonitorRestTest
 
 		gotoIssue("TEST-1");
 
-		assertEquals(1, getActivities().size());
+		List<RestUserIssueActivity> activities = getActivities();
+		assertEquals(1, activities.size());
 		assertElementPresent("monitor_activity_admin");
+
+		RestUserIssueActivity activity = activities.get(0);
+		assertEquals("TEST-1", activity.getIssueKey());
+		assertEquals("admin", activity.getName());
 	}
 
 	private List<RestUserIssueActivity> getActivities() {

@@ -19,6 +19,8 @@
 package com.pyxis.jira.monitoring;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -33,11 +35,12 @@ public class MonitorHelper {
 	private final List<UserIssueActivity> activities = new ArrayList<UserIssueActivity>();
 
 	public List<UserIssueActivity> getActivities() {
-		return activities;
+		return getActivitiesSortedByDate();
 	}
 
 	public void notify(User user, Issue issue) {
-		log.info("notify : user = " + user.getName() + " / " + issue.getKey() + "( " + Thread.currentThread().toString() + ")");
+		log.info("notify : user = " + user.getName() + " / " + issue.getKey() + "( " +
+				 Thread.currentThread().toString() + ")");
 
 		UserIssueActivity activity = new UserIssueActivity(user.getName(), issue);
 
@@ -46,5 +49,18 @@ public class MonitorHelper {
 		}
 
 		activities.add(activity);
+	}
+
+	private List<UserIssueActivity> getActivitiesSortedByDate() {
+
+		List<UserIssueActivity> sortedActivities = new ArrayList<UserIssueActivity>(activities);
+
+		Collections.sort(sortedActivities, new Comparator<UserIssueActivity>() {
+			public int compare(UserIssueActivity o1, UserIssueActivity o2) {
+				return o2.getTime().compareTo(o1.getTime());
+			}
+		});
+
+		return sortedActivities;
 	}
 }

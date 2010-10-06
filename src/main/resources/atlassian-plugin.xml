@@ -5,9 +5,13 @@
 		<vendor name="${project.organization.name}" url="${project.organization.url}"/>
 		<application-version min="4.0"/>
 		<!--<bundle-instructions>-->
-			<!--<Import-Package>org.apache.commons.collections,*;resolution:=optional</Import-Package>-->
+		<!--<Import-Package>org.apache.commons.collections,*;resolution:=optional</Import-Package>-->
 		<!--</bundle-instructions>-->
 	</plugin-info>
+
+	<resource type="i18n" name="i18n" location="i18n/monitor"/>
+
+	<resource type="download" name="images/" location="includes/images/"/>
 
 	<rest key="monitor" path="/monitor" version="1.0">
 		<description>Provides the REST resource for the monitoring plugin.</description>
@@ -21,7 +25,15 @@
 	<customfield-type key="monitorCustomField" name="Monitor Custom Field"
 					  class="com.pyxis.jira.monitoring.MonitorCustomField">
 		<description>Display the list of users that have accessed this issue over a period of time</description>
-		<resource type="velocity" name="view" location="templates/plugins/monitoring/fields/view-activities.vm"/>
+		<resource type="velocity" name="view"
+				  location="templates/plugins/monitoring/fields/view-activities-container.vm"/>
 	</customfield-type>
 
+	<webwork1 key="monitorCFRefresh" name="Refresh items in the monitor custom field" class="java.lang.Object">
+		<actions>
+			<action name="com.pyxis.jira.monitoring.MonitorCustomFieldAction" alias="MonitorCFRefresh">
+				<view name="success">/templates/plugins/monitoring/fields/view-activities.vm</view>
+			</action>
+		</actions>
+	</webwork1>
 </atlassian-plugin>

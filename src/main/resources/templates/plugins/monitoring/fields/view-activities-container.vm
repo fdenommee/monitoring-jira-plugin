@@ -1,0 +1,47 @@
+<!-- /templates/plugins/monitoring/fields/monitor/view-activities-container.vm -->
+#set ( $DOLLARDOT = "$." )
+<script type="text/javascript">
+	<!--
+	AJS.$(document).ready(function() {
+
+		AJS.$("#monitor_activity_wait").ajaxStart(function() {
+			AJS.$(this).show(0);
+		});
+
+		AJS.$("#monitor_activity_wait").ajaxComplete(function() {
+			AJS.$(this).hide();
+		});
+
+		AJS.$("#monitor_activity_refresh").click(function() {
+			AJS.${DOLLARDOT}ajax({
+				url: "${baseurl}/secure/MonitorCFRefresh.jspa?decorator=none",
+				beforeSend: function() {
+					AJS.$("#monitor_activity_refresh").hide();
+				},
+				success: function(data) {
+					jQuery("#monitor_activity_data").html(data);
+				},
+				complete: function() {
+					AJS.$("#monitor_activity_refresh").show();
+				}
+			});
+		});
+	});
+	// -->
+</script>
+<div id="monitor_activity">
+	<table>
+		<tr>
+			<td>#parse("/templates/plugins/monitoring/fields/view-activities.vm")</td>
+			<td>
+				<input id="monitor_activity_refresh" type="image"
+					   src="${baseurl}/download/resources/com.pyxis.monitoring-jira-plugin/images/refresh.gif"
+						alt="${i18n.getText('cf.refresh')}" title="${i18n.getText('cf.refresh')}">
+			</td>
+			<td>
+				<img id="monitor_activity_wait" alt="" style="display:none;"
+					 src="${baseurl}/download/resources/com.pyxis.monitoring-jira-plugin/images/wait.gif"/>
+			</td>
+		</tr>
+	</table>
+</div>
