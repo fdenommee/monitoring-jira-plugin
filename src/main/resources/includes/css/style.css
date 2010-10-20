@@ -1,0 +1,13 @@
+.hidden {
+	display: none;
+}
+
+#monitor_activity_data {
+	border-collapse: collapse;
+	border-spacing: 0;
+	padding: 0;
+}
+
+#monitor_activity_data thead tr {
+	border-bottom: thin solid #cccccc;
+}

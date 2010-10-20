@@ -1,4 +1,9 @@
 <!-- /templates/plugins/monitoring/fields/monitor/view-activities-container.vm -->
+<style type="text/css">
+<!--
+  @import url(${baseurl}/download/resources/com.pyxis.monitoring-jira-plugin/css/style.css);
+-->
+</style>
 #set ( $DOLLARDOT = "$." )
 <script type="text/javascript">
 	<!--
@@ -19,7 +24,7 @@
 					AJS.$("#monitor_activity_refresh").hide();
 				},
 				success: function(data) {
-					jQuery("#monitor_activity_data").html(data);
+					AJS.$("#monitor_activity_data").html(data);
 				},
 				complete: function() {
 					AJS.$("#monitor_activity_refresh").show();
@@ -39,7 +44,7 @@
 						alt="${i18n.getText('cf.refresh')}" title="${i18n.getText('cf.refresh')}">
 			</td>
 			<td>
-				<img id="monitor_activity_wait" alt="" style="display:none;"
+				<img id="monitor_activity_wait" alt="" class="hidden"
 					 src="${baseurl}/download/resources/com.pyxis.monitoring-jira-plugin/images/wait.gif"/>
 			</td>
 		</tr>

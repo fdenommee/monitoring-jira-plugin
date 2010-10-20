@@ -1,7 +1,7 @@
 <!-- /templates/plugins/monitoring/fields/monitor/view-activities.vm -->
-<table id="monitor_activity_data" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+<table id="monitor_activity_data">
 	<thead>
-	<tr style="border-bottom: thin solid #cccccc;">
+	<tr>
 		<th>${i18n.getText('cf.table.header.user')}</th>
 		<th>${i18n.getText('cf.table.header.lastaccess')}</th>
 	</tr>
