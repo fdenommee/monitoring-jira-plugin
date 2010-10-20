@@ -24,8 +24,6 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.pyxis.jira.monitoring.MonitorHelper;
 
@@ -33,7 +31,6 @@ import static com.pyxis.jira.monitoring.IssueObjectMother.newIssue;
 import static com.pyxis.jira.monitoring.UserObjectMother.newUser;
 import static org.junit.Assert.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class MonitorResourceTest {
 
 	private MonitorHelper helper;

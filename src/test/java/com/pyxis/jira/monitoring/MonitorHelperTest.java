@@ -22,14 +22,11 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.newIssue;
 import static com.pyxis.jira.monitoring.UserObjectMother.newUser;
 import static org.junit.Assert.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class MonitorHelperTest {
 
 	private MonitorHelper helper;
