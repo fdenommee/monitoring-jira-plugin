@@ -18,28 +18,42 @@
  */
 package com.pyxis.jira.monitoring;
 
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_MUTABLEISSUE;
+
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static com.pyxis.jira.monitoring.IssueObjectMother.newIssue;
-import static com.pyxis.jira.monitoring.UserObjectMother.newUser;
-import static org.junit.Assert.*;
+import com.atlassian.jira.issue.IssueManager;
 
+@RunWith(MockitoJUnitRunner.class)
 public class MonitorCustomFieldActionTest {
 
 	private MonitorCustomFieldAction action;
 	private MonitorHelper monitorHelper;
+	@Mock private IssueManager issueManager;
 
 	@Before
 	public void init() {
 		monitorHelper = new MonitorHelper();
-		action = new MonitorCustomFieldAction(monitorHelper);
+		action = new MonitorCustomFieldAction(issueManager, monitorHelper);
 	}
 
 	@Test
 	public void shouldHaveNoActivity()
 			throws Exception {
 
+		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
+		action.setIssueId(TEST_1_MUTABLEISSUE.getId());
+		
 		action.doExecute();
 		assertEquals(0, action.getActivities().size());
 	}
@@ -48,9 +62,12 @@ public class MonitorCustomFieldActionTest {
 	public void shouldHaveActivities()
 			throws Exception {
 
-		monitorHelper.notify(newUser("fdenommee"), newIssue("TEST-1"));
-		monitorHelper.notify(newUser("vthoule"), newIssue("TEST-1"));
-
+		monitorHelper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		monitorHelper.notify(VTHOULE_USER, TEST_1_ISSUE);
+		
+		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
+		action.setIssueId(TEST_1_MUTABLEISSUE.getId());
+		
 		action.doExecute();
 		assertEquals(2, action.getActivities().size());
 	}

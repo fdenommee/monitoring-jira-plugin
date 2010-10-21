@@ -18,14 +18,18 @@
  */
 package com.pyxis.jira.monitoring;
 
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.pyxis.jira.monitoring.IssueObjectMother.newIssue;
-import static com.pyxis.jira.monitoring.UserObjectMother.newUser;
-import static org.junit.Assert.*;
+import com.opensymphony.user.User;
 
 public class MonitorHelperTest {
 
@@ -35,35 +39,63 @@ public class MonitorHelperTest {
 	public void init() {
 		helper = new MonitorHelper();
 	}
+	
+	@Test
+	public void shouldHaveNoActivity() {
+		assertEquals(0, helper.getActivities(TEST_1_ISSUE).size());
+	}
 
+	@Test
+	public void shouldRecordOneActivity() {
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+	}
+	
 	@Test
 	public void activitesAreFoundForDifferentUserOnSameIssue() {
 
-		helper.notify(newUser("fdenommee"), newIssue("TEST-1"));
-		helper.notify(newUser("vthoule"), newIssue("TEST-1"));
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
 
-		List<UserIssueActivity> activities = helper.getActivities();
-		assertEquals(2, activities.size());
+		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER, VTHOULE_USER });
 	}
 
 	@Test
 	public void shouldKeepLatestUserActivityForAnIssue() {
 
-		helper.notify(newUser("fdenommee"), newIssue("TEST-1"));
-		helper.notify(newUser("fdenommee"), newIssue("TEST-1"));
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 
-		List<UserIssueActivity> activities = helper.getActivities();
-		assertEquals(1, activities.size());
+		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
 	}
 
 	@Test
 	public void shouldKeepUsersActivityForDifferentIssues() {
 
-		helper.notify(newUser("fdenommee"), newIssue("TEST-1"));
-		helper.notify(newUser("fdenommee"), newIssue("TEST-2"));
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(FDENOMMEE_USER, TEST_2_ISSUE);
 
-		List<UserIssueActivity> activities = helper.getActivities();
-		assertEquals(2, activities.size());
+		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER});
 	}
+	
+	@Test
+	public void shouldKeepUsersActivityByIssue() {
 
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(FDENOMMEE_USER, TEST_2_ISSUE);
+
+		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+	}
+	
+	private void assertUserActivities(List<UserIssueActivity> expected, User[] actualUsers) {
+		assertEquals("Activity count mistmatch", expected.size(), actualUsers.length);
+		for (int index = 0; index < expected.size(); index++) {
+			assertEquals(expected.get(index).getUserName(), actualUsers[index].getName());
+		}
+	}	
 }

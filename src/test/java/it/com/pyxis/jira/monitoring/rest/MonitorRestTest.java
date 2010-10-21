@@ -54,21 +54,22 @@ public class MonitorRestTest
 	public void testCanFoundActivityOfOurselfOnIssue()
 			throws Exception {
 
-		assertEquals(0, getActivities().size());
+		assertEquals(0, getActivities(10000).size());
 
 		gotoIssue("TEST-1");
 
-		List<RestUserIssueActivity> activities = getActivities();
+		List<RestUserIssueActivity> activities = getActivities(10000);
 		assertEquals(1, activities.size());
 		assertElementPresent("monitor_activity_admin");
 
 		RestUserIssueActivity activity = activities.get(0);
-		assertEquals("TEST-1", activity.getIssueKey());
+		assertEquals(10000, activity.getIssueId());
 		assertEquals("admin", activity.getName());
 	}
-
-	private List<RestUserIssueActivity> getActivities() {
-		WebResource resource = restClient.resource("http://localhost:2990/jira/rest/monitor/1.0/users.xml");
+	
+	private List<RestUserIssueActivity> getActivities(long id) {
+		WebResource resource = restClient.resource(
+				String.format("http://localhost:2990/jira/rest/monitor/1.0/users.xml?id=%s", id));
 		return resource.get(new GenericType<List<RestUserIssueActivity>>() {
 		});
 	}

@@ -18,37 +18,49 @@
  */
 package com.pyxis.jira.monitoring.rest;
 
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_MUTABLEISSUE;
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import java.util.List;
+
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+import com.atlassian.jira.issue.IssueManager;
 import com.pyxis.jira.monitoring.MonitorHelper;
 
-import static com.pyxis.jira.monitoring.IssueObjectMother.newIssue;
-import static com.pyxis.jira.monitoring.UserObjectMother.newUser;
-import static org.junit.Assert.*;
-
+@RunWith(MockitoJUnitRunner.class)
 public class MonitorResourceTest {
 
 	private MonitorHelper helper;
 	private MonitorResource resource;
+	@Mock private IssueManager issueManager;
 
 	@Before
 	public void init() {
 		helper = new MonitorHelper();
-		resource = new MonitorResource(helper);
+		resource = new MonitorResource(issueManager, helper);
 	}
 
 	@Test
 	public void activeUsersAreFound() {
 
-		helper.notify(newUser("fdenommee"), newIssue("TEST-1"));
-		helper.notify(newUser("vthoule"), newIssue("TEST-1"));
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
+		
+		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
 
-		Response response = resource.getActiveUsers(null);
+		Response response = resource.getActiveUsers(TEST_1_ISSUE.getId());
 
 		List<RestUserIssueActivity> users = toListOfUsers(response);
 

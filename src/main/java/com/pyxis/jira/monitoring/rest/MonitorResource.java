@@ -28,6 +28,8 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
 import com.pyxis.jira.monitoring.MonitorHelper;
 import com.pyxis.jira.monitoring.UserIssueActivity;
@@ -35,9 +37,11 @@ import com.pyxis.jira.monitoring.UserIssueActivity;
 @Path("")
 public class MonitorResource {
 
+	private final IssueManager issueManager;
 	private final MonitorHelper helper;
 
-	public MonitorResource(MonitorHelper helper) {
+	public MonitorResource(IssueManager issueManager, MonitorHelper helper) {
+		this.issueManager = issueManager;
 		this.helper = helper;
 	}
 
@@ -45,12 +49,14 @@ public class MonitorResource {
 	@AnonymousAllowed
 	@Path("users")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getActiveUsers(@QueryParam("key") String key) {
+	public Response getActiveUsers(@QueryParam("id") long id) {
+		
+		Issue issue = issueManager.getIssueObject(id);
 
 		List<RestUserIssueActivity> activities = new ArrayList<RestUserIssueActivity>();
 
-		for (UserIssueActivity activity : helper.getActivities()) {
-			activities.add(new RestUserIssueActivity(activity.getUserName(), activity.getIssue().getKey(),
+		for (UserIssueActivity activity : helper.getActivities(issue)) {
+			activities.add(new RestUserIssueActivity(activity.getUserName(), activity.getIssue().getId(),
 													 activity.getTime().getTime()));
 		}
 

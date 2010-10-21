@@ -56,14 +56,14 @@ public class MonitorCustomField
 		// @todo : find another hook for notification - this method is call very often
 		monitorHelper.notify(authenticationContext.getUser(), issue);
 		//this method is call very often, and we need to sort the activities (which is done for the view)
-		return Collections.<List<UserIssueActivity>>emptyList();
+		return Collections.<UserIssueActivity>emptyList();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> getVelocityParameters(Issue issue, CustomField field, FieldLayoutItem fieldLayoutItem) {
 		Map<String, Object> map = super.getVelocityParameters(issue, field, fieldLayoutItem);
-		map.put("activities", monitorHelper.getActivities());
+		map.put("activities", monitorHelper.getActivities(issue));
 		map.put("outlookDate", authenticationContext.getOutlookDate());
 		return map;
 	}

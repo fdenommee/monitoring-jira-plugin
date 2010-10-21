@@ -18,6 +18,11 @@
  */
 package com.pyxis.jira.monitoring;
 
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,11 +30,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.atlassian.jira.security.JiraAuthenticationContext;
-
-import static com.pyxis.jira.monitoring.IssueObjectMother.newIssue;
-import static com.pyxis.jira.monitoring.UserObjectMother.newUser;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MonitorCustomFieldTest {
@@ -47,11 +47,11 @@ public class MonitorCustomFieldTest {
 	@Test
 	public void askingForValueShouldRegisterTheActualUserActivity() {
 
-		when(authenticationContext.getUser()).thenReturn(newUser("fdenommee"));
+		when(authenticationContext.getUser()).thenReturn(FDENOMMEE_USER);
 
-		field.getValueFromIssue(null, newIssue("TEST-1"));
+		field.getValueFromIssue(null, TEST_1_ISSUE);
 
-		assertEquals(1, helper.getActivities().size());
-		assertEquals("fdenommee", helper.getActivities().get(0).getUserName());
+		assertEquals(1, helper.getActivities(TEST_1_ISSUE).size());
+		assertEquals("fdenommee", helper.getActivities(TEST_1_ISSUE).get(0).getUserName());
 	}
 }

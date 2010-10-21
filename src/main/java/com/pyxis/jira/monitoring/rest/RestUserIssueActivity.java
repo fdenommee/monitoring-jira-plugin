@@ -30,17 +30,17 @@ public class RestUserIssueActivity {
 	@XmlElement
 	private final String name;
 	@XmlElement
-	private final String issueKey;
+	private final long issueId;
 	@XmlElement
 	private final long time;
 
 	public RestUserIssueActivity() {
-		this(null, null, 0);
+		this(null, 0, 0);
 	}
 
-	public RestUserIssueActivity(String name, String issueKey, long time) {
+	public RestUserIssueActivity(String name, long issueId, long time) {
 		this.name = name;
-		this.issueKey = issueKey;
+		this.issueId = issueId;
 		this.time = time;
 	}
 
@@ -48,8 +48,8 @@ public class RestUserIssueActivity {
 		return name;
 	}
 
-	public String getIssueKey() {
-		return issueKey;
+	public long getIssueId() {
+		return issueId;
 	}
 
 	public long getTime() {

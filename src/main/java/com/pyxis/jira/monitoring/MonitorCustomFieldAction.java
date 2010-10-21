@@ -20,24 +20,43 @@ package com.pyxis.jira.monitoring;
 
 import java.util.List;
 
+import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 
 public class MonitorCustomFieldAction
 		extends JiraWebActionSupport {
 
-	private final MonitorHelper monitorHelper;
 
-	public MonitorCustomFieldAction(MonitorHelper monitorHelper) {
+	private final IssueManager issueManager;
+	private final MonitorHelper monitorHelper;
+	
+	private long issueId;
+
+	public MonitorCustomFieldAction(IssueManager issueManager, MonitorHelper monitorHelper) {
+		this.issueManager = issueManager;
 		this.monitorHelper = monitorHelper;
+	}
+	
+	public long getIssueId() {
+		return issueId;
+	}
+	
+	public void setIssueId(long issueId) {
+		this.issueId = issueId;
 	}
 
 	public List<UserIssueActivity> getActivities() {
-		return monitorHelper.getActivities();
+		return monitorHelper.getActivities(getIssue());
 	}
 
 	@Override
 	protected String doExecute()
 			throws Exception {
 		return SUCCESS;
+	}
+	
+	private Issue getIssue() {
+		return issueManager.getIssueObject(getIssueId());
 	}
 }

@@ -18,15 +18,30 @@
  */
 package com.pyxis.jira.monitoring;
 
-import com.atlassian.jira.issue.Issue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import static org.mockito.Mockito.*;
+import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.issue.MutableIssue;
 
 public class IssueObjectMother {
 
-	public static Issue newIssue(String key) {
+	public static final Issue TEST_1_ISSUE = newIssue("TEST-1", 1001);
+	public static final Issue TEST_2_ISSUE = newIssue("TEST-2", 1002);
+
+	public static final MutableIssue TEST_1_MUTABLEISSUE = newMutableIssue("TEST-1", 1001);
+
+	public static Issue newIssue(String key, long id) {
 		Issue issue = mock(Issue.class);
 		when(issue.getKey()).thenReturn(key);
+		when(issue.getId()).thenReturn(id);
+		return issue;
+	}
+
+	public static MutableIssue newMutableIssue(String key, long id) {
+		MutableIssue issue = mock(MutableIssue.class);
+		when(issue.getKey()).thenReturn(key);
+		when(issue.getId()).thenReturn(id);
 		return issue;
 	}
 }
