@@ -2,3 +2,8 @@ target
 /monitoring-jira-plugin.iml
 /monitoring-jira-plugin.ipr
 /monitoring-jira-plugin.iws
+/.settings
+/.project
+/target
+/.project
+/.classpath
