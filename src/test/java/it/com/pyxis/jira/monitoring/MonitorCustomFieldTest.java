@@ -46,7 +46,7 @@ public class MonitorCustomFieldTest
 	public void testCanFoundActivityOfOurselfOnIssue()
 			throws Exception {
 
-		gotoIssue("TEST-1");
+		gotoIssue("TEST-2");
 		assertElementPresent("monitor_activity_admin");
 	}
 
@@ -54,10 +54,10 @@ public class MonitorCustomFieldTest
 	public void testCanFoundActivitiesForOtherUsers()
 			throws Exception {
 
-		gotoIssue("TEST-1");
+		gotoIssue("TEST-2");
 		logout();
 		login("fred", "admin");
-		gotoIssue("TEST-1");
+		gotoIssue("TEST-2");
 
 		assertElementPresent("monitor_activity_admin");
 		assertElementPresent("monitor_activity_fred");

@@ -19,7 +19,7 @@
 
 		AJS.$("#monitor_activity_refresh").click(function() {
 			AJS.${DOLLARDOT}ajax({
-				url: "${baseurl}/secure/MonitorCFRefresh.jspa?decorator=none&issue=${issue.key}",
+				url: "${baseurl}/secure/MonitorCFRefresh.jspa?decorator=none&issueId=${issue.id}",
 				beforeSend: function() {
 					AJS.$("#monitor_activity_refresh").hide();
 				},
