@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+	<ModulePrefs 
+		title="__MSG_gadget.user.monitoring.title__"
+		title_url="__MSG_gadget.user.monitoring.title.url__" 
+		directory_title="__MSG_gadget.user.monitoring.title__"
+		description="__MSG_gadget.user.monitoring.description__" 
+		author="Pyxis Technologies"
+		author_email="atlassian.partner@pyxis-tech.com">
+		<Optional feature="gadget-directory">
+			<Param name="categories">
+				JIRA
+            </Param>
+		</Optional>
+		<Require feature="setprefs" />
+		<Require feature="settitle" />
+		<Require feature="views" />
+		<Require feature="dynamic-height" />
+        #supportedLocales("gadget.common,gadget.monitoring.user")
+	</ModulePrefs>
+	<UserPref name="isConfigured" datatype="hidden" default_value="false" />
+	<Content type="html" view="profile">
+        <![CDATA[
+			#requireResource("com.atlassian.jira.gadgets:common")
+			#requireResource("com.pyxis.monitoring-jira-plugin:UserMonitorGadgetJS")
+			#includeResources()
+            Monitoring!
+        ]]>
+	</Content>
+</Module>
