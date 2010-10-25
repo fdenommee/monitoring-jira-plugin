@@ -37,6 +37,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.atlassian.jira.issue.IssueManager;
+import com.pyxis.jira.monitoring.DefaultMonitorHelper;
 import com.pyxis.jira.monitoring.MonitorHelper;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -48,7 +49,7 @@ public class MonitorResourceTest {
 
 	@Before
 	public void init() {
-		helper = new MonitorHelper();
+		helper = new DefaultMonitorHelper();
 		resource = new MonitorResource(issueManager, helper);
 	}
 

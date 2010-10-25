@@ -43,7 +43,7 @@ public class MonitorCustomFieldActionTest {
 
 	@Before
 	public void init() {
-		monitorHelper = new MonitorHelper();
+		monitorHelper = new DefaultMonitorHelper();
 		action = new MonitorCustomFieldAction(issueManager, monitorHelper);
 	}
 

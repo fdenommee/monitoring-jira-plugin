@@ -37,7 +37,7 @@ public class MonitorHelperTest {
 
 	@Before
 	public void init() {
-		helper = new MonitorHelper();
+		helper = new DefaultMonitorHelper();
 	}
 	
 	@Test
