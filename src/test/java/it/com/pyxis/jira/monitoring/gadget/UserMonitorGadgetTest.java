@@ -1,35 +1,35 @@
 package it.com.pyxis.jira.monitoring.gadget;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.openqa.selenium.WebDriver;
 
 import com.atlassian.jira.functest.framework.FuncTestCase;
+import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
+import it.com.pyxis.jira.selenium.DashboardPage;
+import it.com.pyxis.jira.selenium.WebDriverHelper;
+
+import static org.junit.Assert.*;
+import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
 
-	@Before
+	private WebDriver driver;
+
 	protected void setUpTest() {
 		administration.restoreData("it-data.xml");
+
+		driver = WebDriverHelper.newDriver();
+
+		new DashboardPage(driver).loginAsAdmin();
 	}
 
-	@Test
+	@Override
+	protected void tearDownTest() {
+		driver.quit();
+	}
+
 	public void testShouldDisplayHelloInGadget() {
-
-		// @todo : fix this test
-		
-		navigation.logout();
-		navigation.login("admin", "admin");
-
-		navigation.dashboard().navigateTo();
-
-		assertions.assertNodeByIdExists("dashboard");
-		assertions.assertNodeByIdExists("dashboard-header");
-
-		assertions.assertNodeByIdExists("dashboard-content");
-		assertions.assertNodeByIdExists("gadget-10010");
-
-		assertions.assertNodeByIdExists("gadget_monitoring_user");
-		text.assertTextPresent("gadget_monitoring_user", "Hello");
+		MonitoringGadget monitoringGadget = new MonitoringGadget(driver);
+		assertThat(monitoringGadget.getText(), containsString("Hello"));
 	}
 }
