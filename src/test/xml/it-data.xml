@@ -4,7 +4,7 @@
 
 ___ Exported on _____________________________
 
-     on                                            : Monday, October 25, 2010 5:27:33 o'clock PM EDT
+     on                                            : Tuesday, October 26, 2010 4:09:26 o'clock PM EDT
      by                                            : admin ( admin )
 
 ___ Environment ____________________________
@@ -15,14 +15,14 @@ ___ Environment ____________________________
      Java Version                                  : 1.6.0_22 - Sun Microsystems Inc.
      Current Working Directory                     : /home/fdenommee/Dev/monitoring-jira-plugin
      Maximum Allowable Memory                      : 455MB
-     Total Memory                                  : 325MB
-     Free Memory                                   : 92MB
-     Used Memory                                   : 233MB
-     Memory Pool: Code Cache                       : Code Cache: init = 2359296(2304K) used = 8239360(8046K) committed = 8290304(8096K) max = 50331648(49152K)
-     Memory Pool: PS Eden Space                    : PS Eden Space: init = 12451840(12160K) used = 103390520(100967K) committed = 125304832(122368K) max = 132120576(129024K)
-     Memory Pool: PS Survivor Space                : PS Survivor Space: init = 2031616(1984K) used = 6747472(6589K) committed = 22282240(21760K) max = 22282240(21760K)
-     Memory Pool: PS Old Gen                       : PS Old Gen: init = 33030144(32256K) used = 133659136(130526K) committed = 193265664(188736K) max = 357957632(349568K)
-     Memory Pool: PS Perm Gen                      : PS Perm Gen: init = 16777216(16384K) used = 65537352(64001K) committed = 97386496(95104K) max = 167772160(163840K)
+     Total Memory                                  : 258MB
+     Free Memory                                   : 119MB
+     Used Memory                                   : 139MB
+     Memory Pool: Code Cache                       : Code Cache: init = 2359296(2304K) used = 7943872(7757K) committed = 7995392(7808K) max = 50331648(49152K)
+     Memory Pool: PS Eden Space                    : PS Eden Space: init = 12451840(12160K) used = 7529888(7353K) committed = 87425024(85376K) max = 99745792(97408K)
+     Memory Pool: PS Survivor Space                : PS Survivor Space: init = 2031616(1984K) used = 30941416(30216K) committed = 30998528(30272K) max = 30998528(30272K)
+     Memory Pool: PS Old Gen                       : PS Old Gen: init = 33030144(32256K) used = 106480616(103984K) committed = 152109056(148544K) max = 357957632(349568K)
+     Memory Pool: PS Perm Gen                      : PS Perm Gen: init = 16777216(16384K) used = 64134808(62631K) committed = 76414976(74624K) max = 167772160(163840K)
      JVM Input Arguments                           : -Xmx512m -XX:MaxPermSize=160m -Datlassian.dev.mode=true -Dplugin.resource.directories=/home/fdenommee/Dev/monitoring-jira-plugin/src/main/resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Datlassian.dev.mode=true -Dplugin.resource.directories=/home/fdenommee/Dev/monitoring-jira-plugin/src/main/resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Dbaseurl=http://localhost:2990/jira -Dcatalina.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/apache-tomcat-6.0.20 -Dcatalina.base=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/cargo-jira-home -Djava.io.tmpdir=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/cargo-jira-home/temp
 
 ___ Database Configuration _________________
@@ -532,19 +532,14 @@ ___ Listeners ______________________________
 
 ___ Services _______________________________
 
-     Instance Count                                : 3
+     Instance Count                                : 2
 
-     Backup Service                                : com.atlassian.jira.service.services.export.ExportService
-          Service Delay                                 : 43200000ms
-     Last Run                                      : 25/10/10 5:25 PM
-          USEZIP                                        : admin.service.export.backup.as.zip
-          USE_DEFAULT_DIRECTORY                         : true
      Mail Queue Service                            : com.atlassian.jira.service.services.mail.MailQueueService
           Service Delay                                 : 60000ms
-     Last Run                                      : 25/10/10 5:27 PM
+     Last Run                                      : 26/10/10 4:07 PM
      Service Provider Token Remover                : com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService
           Service Delay                                 : 28800000ms
-     Last Run                                      : 25/10/10 5:25 PM
+     Last Run                                      : 26/10/10 4:07 PM
           pluginJobName                                 : Service Provider Token Remover
 
 ___ Trusted Applications ___________________
@@ -734,8 +729,6 @@ ___ Trusted Applications ___________________
     <OSPropertyEntry id="10016" entityName="jira.properties" entityId="1" propertyKey="jira.path.attachments" type="5"/>
     <OSPropertyEntry id="10017" entityName="jira.properties" entityId="1" propertyKey="jira.path.attachments.use.default.directory" type="1"/>
     <OSPropertyEntry id="10018" entityName="jira.properties" entityId="1" propertyKey="jira.option.allowattachments" type="1"/>
-    <OSPropertyEntry id="10019" entityName="ServiceConfig" entityId="10001" propertyKey="USE_DEFAULT_DIRECTORY" type="5"/>
-    <OSPropertyEntry id="10020" entityName="ServiceConfig" entityId="10001" propertyKey="USEZIP" type="5"/>
     <OSPropertyEntry id="10021" entityName="jira.properties" entityId="1" propertyKey="License20" type="6"/>
     <OSPropertyEntry id="10022" entityName="jira.properties" entityId="1" propertyKey="jira.edition" type="5"/>
     <OSPropertyEntry id="10023" entityName="OSUser" entityId="10000" propertyKey="email" type="5"/>
@@ -785,7 +778,7 @@ ___ Trusted Applications ___________________
     <OSPropertyEntry id="10291" entityName="OSUser" entityId="10031" propertyKey="login.currentFailedCount" type="5"/>
     <OSPropertyEntry id="10292" entityName="OSUser" entityId="10031" propertyKey="login.lastLoginMillis" type="5"/>
     <OSPropertyEntry id="10293" entityName="OSUser" entityId="10031" propertyKey="login.count" type="5"/>
-    <OSPropertyEntry id="10310" entityName="ServiceConfig" entityId="10250" propertyKey="pluginJobName" type="5"/>
+    <OSPropertyEntry id="10320" entityName="ServiceConfig" entityId="10260" propertyKey="pluginJobName" type="5"/>
     <OSPropertyNumber id="10001" value="22"/>
     <OSPropertyNumber id="10014" value="1"/>
     <OSPropertyNumber id="10015" value="1"/>
@@ -819,8 +812,6 @@ ___ Trusted Applications ___________________
     <OSPropertyString id="10012" value="http://localhost:2990/jira"/>
     <OSPropertyString id="10013" value="public"/>
     <OSPropertyString id="10016" value="/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/data/attachments"/>
-    <OSPropertyString id="10019" value="true"/>
-    <OSPropertyString id="10020" value="zip"/>
     <OSPropertyString id="10022" value="enterprise"/>
     <OSPropertyString id="10023" value="admin@example.com"/>
     <OSPropertyString id="10024" value="admin"/>
@@ -845,9 +836,9 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSPropertyString id="10053" value="1"/>
     <OSPropertyString id="10054" value="0"/>
     <OSPropertyString id="10055" value="0"/>
-    <OSPropertyString id="10056" value="1288041920537"/>
-    <OSPropertyString id="10057" value="62"/>
-    <OSPropertyString id="10061" value="1288041507385"/>
+    <OSPropertyString id="10056" value="1288123688040"/>
+    <OSPropertyString id="10057" value="63"/>
+    <OSPropertyString id="10061" value="1288041920537"/>
     <OSPropertyString id="10250" value="26"/>
     <OSPropertyString id="10251" value="${fullname} (JIRA)"/>
     <OSPropertyString id="10255" value="never"/>
@@ -859,7 +850,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSPropertyString id="10291" value="0"/>
     <OSPropertyString id="10292" value="1287692246393"/>
     <OSPropertyString id="10293" value="1"/>
-    <OSPropertyString id="10310" value="Service Provider Token Remover"/>
+    <OSPropertyString id="10320" value="Service Provider Token Remover"/>
     <OSPropertyText id="10021" value="AAABBA0ODAoPeNptj1FPgzAUhd/7K5r4jGmZmkDSBwaNogMWYM4svtTuOmtGR27L4v69bOiL8ek+nJzvO/dqDVuaDDvKbim/i2cs5iGVTUtDxiKSgdNoem8OVjzmdUKl9YA9GgevMU0PXQeojdrTBvAISMqhewOs3lcO0ImAkxRBnduZ8iBCNosCHgaMk0+D6nphNFgHcmsuAlm2sl7WeSOnWGlvjiA8DkAKZUazVVaD/OoNniZgFEUj7QyscKescReZSPxeOWeUJdOuPBPz+6gNXlbPN8HTZvMQzBlfk0aWogXnx0t+t/wL/wnbUw+l6kCkVVHIOs2TBVkOqD+Ug78PfgPSNG6BMC0CFBZN4P8f7FRdIKPx3oWYkJwGfM9tAhUAllLN8BrljKaWmkSeRtRCiwHCZ7g=X02dd"/>
     <OSUser id="10000" name="admin" passwordHash="x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A=="/>
     <OSUser id="10030" name="fred" passwordHash="x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A=="/>
@@ -1026,7 +1017,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SequenceValueItem seqName="OSCurrentStep" seqId="10030"/>
     <SequenceValueItem seqName="OSGroup" seqId="10010"/>
     <SequenceValueItem seqName="OSMembership" seqId="10040"/>
-    <SequenceValueItem seqName="OSPropertyEntry" seqId="10320"/>
+    <SequenceValueItem seqName="OSPropertyEntry" seqId="10330"/>
     <SequenceValueItem seqName="OSUser" seqId="10040"/>
     <SequenceValueItem seqName="OSWorkflowEntry" seqId="10020"/>
     <SequenceValueItem seqName="OptionConfiguration" seqId="10010"/>
@@ -1037,14 +1028,13 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SequenceValueItem seqName="ProjectRole" seqId="10010"/>
     <SequenceValueItem seqName="ProjectRoleActor" seqId="10020"/>
     <SequenceValueItem seqName="SchemePermissions" seqId="10050"/>
-    <SequenceValueItem seqName="ServiceConfig" seqId="10260"/>
+    <SequenceValueItem seqName="ServiceConfig" seqId="10270"/>
     <SequenceValueItem seqName="SharePermissions" seqId="10010"/>
     <SequenceValueItem seqName="UpgradeHistory" seqId="10050"/>
     <SequenceValueItem seqName="UpgradeVersionHistory" seqId="10020"/>
     <SequenceValueItem seqName="UserHistoryItem" seqId="10050"/>
     <ServiceConfig id="10000" time="60000" clazz="com.atlassian.jira.service.services.mail.MailQueueService" name="Mail Queue Service"/>
-    <ServiceConfig id="10001" time="43200000" clazz="com.atlassian.jira.service.services.export.ExportService" name="Backup Service"/>
-    <ServiceConfig id="10250" time="28800000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="Service Provider Token Remover"/>
+    <ServiceConfig id="10260" time="28800000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="Service Provider Token Remover"/>
     <SharePermissions id="10000" entityId="10000" entityType="PortalPage" type="global"/>
     <Status id="1" sequence="1" name="Open" description="The issue is open and ready for the assignee to start work on it." iconurl="/images/icons/status_open.gif"/>
     <Status id="3" sequence="3" name="In Progress" description="This issue is being actively worked on at the moment by the assignee." iconurl="/images/icons/status_inprogress.gif"/>
@@ -1097,7 +1087,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
 
 ___ Entities ________________________________
 
-     Total                                         : 534
+     Total                                         : 529
 
      Avatar                                        : 12
      ChangeGroup                                   : 2
@@ -1130,9 +1120,9 @@ ___ Entities ________________________________
      OSHistoryStep                                 : 2
      OSHistoryStepPrev                             : 1
      OSMembership                                  : 5
-     OSPropertyEntry                               : 71
+     OSPropertyEntry                               : 69
      OSPropertyNumber                              : 19
-     OSPropertyString                              : 51
+     OSPropertyString                              : 49
      OSPropertyText                                : 1
      OSUser                                        : 3
      OSWorkflowEntry                               : 2
@@ -1148,7 +1138,7 @@ ___ Entities ________________________________
      Resolution                                    : 5
      SchemePermissions                             : 36
      SequenceValueItem                             : 40
-     ServiceConfig                                 : 3
+     ServiceConfig                                 : 2
      SharePermissions                              : 1
      Status                                        : 5
      UpgradeHistory                                : 34

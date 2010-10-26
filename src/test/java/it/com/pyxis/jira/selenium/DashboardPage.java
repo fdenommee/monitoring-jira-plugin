@@ -36,7 +36,6 @@ public class DashboardPage {
 
 	public void login(String username, String password) {
 		PageFactory.initElements(driver, LoginGadget.class).doLogin(username, password);
-		open();
 	}
 
 	public void loginAsAdmin() {

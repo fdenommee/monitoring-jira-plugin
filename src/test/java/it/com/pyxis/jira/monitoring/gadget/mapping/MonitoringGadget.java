@@ -26,11 +26,14 @@ import static it.com.pyxis.jira.selenium.WebDriverHelper.waitForElementToAppear;
 
 public class MonitoringGadget {
 
+	private static final String GADGET_ID = "gadget-10011";
+
 	private WebElement content;
 
 	public MonitoringGadget(WebDriver driver) {
-		driver.navigate().to("http://localhost:2990/jira");
-		driver.switchTo().frame("gadget-10011");
+		waitForElementToAppear(driver, By.id(GADGET_ID));
+		driver.switchTo().frame(GADGET_ID);
+		
 		content = waitForElementToAppear(driver, By.id("gadget_monitoring_user"));
 	}
 
