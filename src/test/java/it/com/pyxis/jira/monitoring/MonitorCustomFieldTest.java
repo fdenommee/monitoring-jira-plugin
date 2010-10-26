@@ -18,48 +18,35 @@
  */
 package it.com.pyxis.jira.monitoring;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.atlassian.jira.webtests.JIRAWebTest;
+import com.atlassian.jira.functest.framework.FuncTestCase;
 
 public class MonitorCustomFieldTest
-		extends JIRAWebTest {
-
-	public MonitorCustomFieldTest(String name) {
-		super(name);
-	}
+		extends FuncTestCase {
 
 	@Before
-	public void setUp() {
-		super.setUp();
-		restoreData("it-data.xml");
-	}
-
-	@After
-	public void tearDown() {
-		super.tearDown();
+	protected void setUpTest() {
+		administration.restoreData("it-data.xml");
 	}
 
 	@Test
-	public void testCanFoundActivityOfOurselfOnIssue()
-			throws Exception {
+	public void testCanFoundActivityOfOurselfOnIssue() {
 
-		gotoIssue("TEST-2");
-		assertElementPresent("monitor_activity_admin");
+		navigation.issue().viewIssue("TEST-2");
+		assertions.assertNodeByIdExists("monitor_activity_admin");
 	}
 
 	@Test
-	public void testCanFoundActivitiesForOtherUsers()
-			throws Exception {
+	public void testCanFoundActivitiesForOtherUsers() {
 
-		gotoIssue("TEST-2");
-		logout();
-		login("fred", "admin");
-		gotoIssue("TEST-2");
+		navigation.issue().viewIssue("TEST-2");
+		navigation.logout();
+		navigation.login("fred", "admin");
+		navigation.issue().viewIssue("TEST-2");
 
-		assertElementPresent("monitor_activity_admin");
-		assertElementPresent("monitor_activity_fred");
+		assertions.assertNodeByIdExists("monitor_activity_admin");
+		assertions.assertNodeByIdExists("monitor_activity_fred");
 	}
 }

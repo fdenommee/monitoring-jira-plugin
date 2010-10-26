@@ -20,47 +20,35 @@ package it.com.pyxis.jira.monitoring.rest;
 
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.atlassian.jira.webtests.JIRAWebTest;
+import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.pyxis.jira.monitoring.rest.RestUserIssueActivity;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 
 public class MonitorRestTest
-		extends JIRAWebTest {
+		extends FuncTestCase {
 
 	private Client restClient = Client.create();
 
-	public MonitorRestTest(String name) {
-		super(name);
-	}
-
 	@Before
-	public void setUp() {
-		super.setUp();
-		restoreData("it-data.xml");
-	}
-
-	@After
-	public void tearDown() {
-		super.tearDown();
+	protected void setUpTest() {
+		administration.restoreData("it-data.xml");
 	}
 
 	@Test
-	public void testCanFoundActivityOfOurselfOnIssue()
-			throws Exception {
+	public void testCanFoundActivityOfOurselfOnIssue() {
 
 		assertEquals(0, getActivities(10000).size());
 
-		gotoIssue("TEST-1");
+		navigation.issue().viewIssue("TEST-1");
 
 		List<RestUserIssueActivity> activities = getActivities(10000);
 		assertEquals(1, activities.size());
-		assertElementPresent("monitor_activity_admin");
+		assertions.assertNodeByIdExists("monitor_activity_admin");
 
 		RestUserIssueActivity activity = activities.get(0);
 		assertEquals(10000, activity.getIssueId());
