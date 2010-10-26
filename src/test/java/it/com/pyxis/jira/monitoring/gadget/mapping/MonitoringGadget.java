@@ -18,24 +18,13 @@
  */
 package it.com.pyxis.jira.monitoring.gadget.mapping;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static it.com.pyxis.jira.selenium.WebDriverHelper.waitForElementToAppear;
+import org.openqa.selenium.support.FindBy;
 
 public class MonitoringGadget {
 
-	private static final String GADGET_ID = "gadget-10011";
-
+	@FindBy(id = "gadget_monitoring_user")
 	private WebElement content;
-
-	public MonitoringGadget(WebDriver driver) {
-		waitForElementToAppear(driver, By.id(GADGET_ID));
-		driver.switchTo().frame(GADGET_ID);
-		
-		content = waitForElementToAppear(driver, By.id("gadget_monitoring_user"));
-	}
 
 	public String getText() {
 		return content.getText();

@@ -19,11 +19,8 @@
 package it.com.pyxis.jira.selenium;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import static it.com.pyxis.jira.selenium.WebDriverHelper.waitForElementToAppear;
 
 public class LoginGadget {
 
@@ -34,9 +31,8 @@ public class LoginGadget {
 	@FindBy(id = "os_password")
 	private WebElement passwordText;
 
-	public LoginGadget(WebDriver driver) {
-		driver.switchTo().frame("gadget-0");
-		waitForElementToAppear(driver, By.id("content"));
+	public LoginGadget(JiraWebDriver driver) {
+		driver.waitForElementToAppear(By.id("content"));
 	}
 
 	public void doLogin(String username, String password) {

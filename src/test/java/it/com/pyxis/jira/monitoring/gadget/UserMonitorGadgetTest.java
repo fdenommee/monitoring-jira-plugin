@@ -1,11 +1,8 @@
 package it.com.pyxis.jira.monitoring.gadget;
 
-import org.openqa.selenium.WebDriver;
-
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
-import it.com.pyxis.jira.selenium.DashboardPage;
-import it.com.pyxis.jira.selenium.WebDriverHelper;
+import it.com.pyxis.jira.selenium.JiraWebDriver;
 
 import static org.junit.Assert.*;
 import static org.junit.matchers.JUnitMatchers.containsString;
@@ -13,14 +10,16 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
 
-	private WebDriver driver;
+	private JiraWebDriver driver;
+	private MonitoringGadget gadget;
 
 	protected void setUpTest() {
 		administration.restoreData("it-data.xml");
 
-		driver = WebDriverHelper.newDriver();
+		driver = new JiraWebDriver();
+		driver.gotoDashboard().loginAsAdmin();
 
-		new DashboardPage(driver).loginAsAdmin();
+		gadget = driver.selectGadget(MonitoringGadget.class, "gadget-10011");
 	}
 
 	@Override
@@ -29,7 +28,6 @@ public class UserMonitorGadgetTest
 	}
 
 	public void testShouldDisplayHelloInGadget() {
-		MonitoringGadget monitoringGadget = new MonitoringGadget(driver);
-		assertThat(monitoringGadget.getText(), containsString("Hello"));
+		assertThat(gadget.getText(), containsString("Hello"));
 	}
 }

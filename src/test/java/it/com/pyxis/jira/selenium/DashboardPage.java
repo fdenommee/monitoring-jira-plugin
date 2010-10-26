@@ -18,24 +18,16 @@
  */
 package it.com.pyxis.jira.selenium;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
-
 public class DashboardPage {
 
-	private WebDriver driver;
+	private final JiraWebDriver driver;
 
-	public DashboardPage(WebDriver driver) {
+	public DashboardPage(JiraWebDriver driver) {
 		this.driver = driver;
-		open();
-	}
-
-	public void open() {
-		driver.navigate().to("http://localhost:2990/jira");
 	}
 
 	public void login(String username, String password) {
-		PageFactory.initElements(driver, LoginGadget.class).doLogin(username, password);
+		driver.selectGadget(LoginGadget.class, "gadget-0").doLogin(username, password);
 	}
 
 	public void loginAsAdmin() {
