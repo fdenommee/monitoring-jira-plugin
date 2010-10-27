@@ -17,9 +17,7 @@ public class UserMonitorGadgetTest
 		administration.restoreData("it-data.xml");
 
 		driver = new JiraWebDriver();
-		driver.gotoDashboard().loginAsAdmin();
 
-		gadget = driver.selectGadget(MonitoringGadget.class, "gadget-10011");
 	}
 
 	@Override
@@ -28,6 +26,13 @@ public class UserMonitorGadgetTest
 	}
 
 	public void testShouldDisplayHelloInGadget() {
-		assertThat(gadget.getText(), containsString("Hello"));
+		
+		navigation.issue().viewIssue("TEST-2");
+		assertions.assertNodeByIdExists("monitor_activity_admin");
+		
+		
+		driver.gotoDashboard().loginAsAdmin();
+		gadget = driver.selectGadget(MonitoringGadget.class, "gadget-10011");
+		gadget.assertNodeByIdExists("monitor_activity_admin");
 	}
 }

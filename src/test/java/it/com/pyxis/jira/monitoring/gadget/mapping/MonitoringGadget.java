@@ -18,15 +18,28 @@
  */
 package it.com.pyxis.jira.monitoring.gadget.mapping;
 
+import it.com.pyxis.jira.selenium.JiraWebDriver;
+import static org.junit.Assert.assertNotNull;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class MonitoringGadget {
 
+	private JiraWebDriver driver; 
+	
 	@FindBy(id = "gadget_monitoring_user")
 	private WebElement content;
 
+	public MonitoringGadget(JiraWebDriver driver) {
+		this.driver = driver;
+	}
+	
 	public String getText() {
 		return content.getText();
+	}
+
+	public void assertNodeByIdExists(String id) {
+		assertNotNull(driver.findElement(By.id(id)));
 	}
 }

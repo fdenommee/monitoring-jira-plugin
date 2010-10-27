@@ -1,10 +1,27 @@
+AJS.gadget.fields.testIssuePicker = function(gadget, userprefField, userprefLabel, userprefDescription, options) {
+    if (options == null) {
+    	options = {options:[{label:gadget.getPref(userprefField),value:gadget.getPref(userprefField)}] };
+    }
+	if(!AJS.$.isArray(options.options)){
+        options.options = [options.options];
+    }
+    return {
+        userpref: userprefField,
+        label: gadget.getMsg(userprefLabel),
+        description:gadget.getMsg(userprefDescription),
+        type: "select",
+        selected: gadget.getPref(userprefField),
+		options: [{label:"Issue 1",value:"10000"},{label:"Issue 2",value:"10010"}] 
+    };
+};
+
 (function () {
     var gadget = AJS.Gadget({
-        baseUrl: "__ATLASSIAN_BASE_URL__",
+        baseUrl: GadgetBaseUrl,
         config: {
             descriptor: function(args) {
                 var gadget = this;
-                gadgets.window.setTitle("__MSG_gadget.monitoring.user.title__");
+                gadgets.window.setTitle(gadget.getMsg("gadget.monitoring.user.title"));
 
                 return {
                     theme : function() {
@@ -15,6 +32,7 @@
                         }
                     }(),
                     fields: [
+                        AJS.gadget.fields.testIssuePicker(gadget,"issueId","Issue","Id. de l''Issue "),
                         AJS.gadget.fields.nowConfigured()
                     ]
                 };
@@ -29,8 +47,22 @@
                 gadgets.window.setTitle(gadget.getMsg("gadget.monitoring.user.title"));
                 
                 gadget.getView().empty();
-                gadget.getView().append(AJS.$("<div id='gadget_monitoring_user'/>").html("Hello"));
+                gadget.getView().append(AJS.$("<div id='gadget_monitoring_user'/>"));
+                var issueId = gadget.getPref("issueId");
 
+            	AJS.$.ajax({
+            		url: gadget.getBaseUrl() + "/secure/MonitorCFRefresh.jspa?decorator=none&issueId=" + issueId,
+            		dataType: "html",
+            		cache: false,
+            		success: function(data) {
+            			AJS.$("#gadget_monitoring_user").html(data);
+                        gadget.resize();
+            		},
+            		error: function(xhr, textStatus, errorThrown) {
+            			alert(textStatus);
+            			alert(errorThrown);
+            		}
+            	});
                 gadget.resize();
 
             }

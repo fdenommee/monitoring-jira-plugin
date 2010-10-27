@@ -18,13 +18,21 @@
 		<Require feature="dynamic-height" />
         #supportedLocales("gadget.common,gadget.monitoring.user")
 	</ModulePrefs>
+	<UserPref name="issueId" datatype="text" default_value="10000" />
 	<UserPref name="isConfigured" datatype="hidden" default_value="false" />
 	<Content type="html" view="profile">
         <![CDATA[
+			<style type="text/css">
+			<!--
+			  @import url(__ATLASSIAN_BASE_URL__/download/resources/com.pyxis.monitoring-jira-plugin/css/style.css);
+			-->
+			</style>
+	        <script type="text/javascript">
+    	        var GadgetBaseUrl = "__ATLASSIAN_BASE_URL__";
+	        </script>			
 			#requireResource("com.atlassian.jira.gadgets:common")
 			#requireResource("com.pyxis.monitoring-jira-plugin:UserMonitorGadgetJS")
 			#includeResources()
-            Monitoring!
         ]]>
 	</Content>
 </Module>
