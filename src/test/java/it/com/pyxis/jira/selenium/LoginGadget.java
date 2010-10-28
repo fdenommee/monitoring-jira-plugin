@@ -34,6 +34,8 @@ public class LoginGadget
 		usernameText().sendKeys(username);
 		passwordText().sendKeys(password);
 		loginButton().click();
+
+		driver().waitForElementToAppear(By.id("header-details-user"));
 	}
 
 	private WebElement usernameText() {

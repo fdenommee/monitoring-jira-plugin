@@ -18,6 +18,7 @@
  */
 package it.com.pyxis.jira.selenium;
 
+import java.awt.Point;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -27,6 +28,8 @@ import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -105,6 +108,18 @@ public class JiraWebDriver {
 
 	public void quit() {
 		driver.quit();
+	}
+
+	public Point getLocationOnScreenOnceScrolledIntoView(WebElement element) {
+
+		Point p = ((Locatable)element).getLocationOnScreenOnceScrolledIntoView();
+
+		if (driver instanceof ChromeDriver) {
+			// @todo : find a better way to adjust
+			p.translate(0, 70);
+		}
+
+		return p;
 	}
 
 	private Function<WebDriver, WebElement> elementAppear(final By by) {

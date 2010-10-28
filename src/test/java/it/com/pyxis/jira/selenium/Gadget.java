@@ -24,7 +24,6 @@ import java.awt.Point;
 import org.openqa.selenium.By;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.Locatable;
 
 import com.objogate.wl.Automaton;
 import com.objogate.wl.gesture.Gestures;
@@ -48,6 +47,10 @@ public class Gadget {
 		this.gadgetId = gadgetId;
 
 		insideFocus();
+	}
+
+	public JiraWebDriver driver() {
+		return driver;
 	}
 
 	public WebElement findElement(By by) {
@@ -176,7 +179,7 @@ public class Gadget {
 		public Point target(Point currentLocation) {
 
 			if (target == null) {
-				Point p = ((Locatable)element).getLocationOnScreenOnceScrolledIntoView();
+				Point p = driver.getLocationOnScreenOnceScrolledIntoView(element);
 				Dimension d = ((RenderedWebElement)element).getSize();
 				target = new Point(p.x + d.width - 18, p.y + 15); //pic size is 13x13
 			}
