@@ -11,7 +11,7 @@ AJS.gadget.fields.testIssuePicker = function(gadget, userprefField, userprefLabe
         description:gadget.getMsg(userprefDescription),
         type: "select",
         selected: gadget.getPref(userprefField),
-		options: [{label:"Issue 1",value:"10000"},{label:"Issue 2",value:"10010"}] 
+		options: [{label:"Issue 1",value:"10000"},{label:"Issue 2",value:"10010"},{label:"Issue 3",value:"10020"},{label:"Issue 4",value:"10021"},{label:"Issue 5",value:"10022"}] 
     };
 };
 
@@ -48,7 +48,7 @@ AJS.gadget.fields.testIssuePicker = function(gadget, userprefField, userprefLabe
                 
                 gadget.getView().empty();
                 gadget.getView().append(AJS.$("<div id='gadget_monitoring_user'/>"));
-                
+
                 var issueId = gadget.getPref("issueId");
                 var cacheBuster = new Date().getTime();
 

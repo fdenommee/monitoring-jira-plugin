@@ -7,6 +7,12 @@ import it.com.pyxis.jira.selenium.JiraWebDriver;
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
 
+	private static final int TEST1_ISSUE_ID = 10000;
+	private static final int TEST2_ISSUE_ID = 10010;
+
+	private static final String FIRST_MONITORING_GADGET = "gadget-10011";
+	private static final String SECOND_MONITORING_GADGET = "gadget-10020";
+
 	private JiraWebDriver driver;
 	private MonitoringGadget gadget;
 
@@ -14,7 +20,6 @@ public class UserMonitorGadgetTest
 		administration.restoreData("it-data.xml");
 
 		driver = new JiraWebDriver();
-
 		driver.gotoDashboard().loginAsAdmin();
 	}
 
@@ -23,25 +28,71 @@ public class UserMonitorGadgetTest
 		driver.quit();
 	}
 
-	public void testIssueConfigurationIsPersisted()
-			throws Exception {
+	public void testIssueConfigurationIsPersisted() {
 
-		gadget = new MonitoringGadget(driver, "gadget-10011");
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
 
-		gadget.config(10010);
-		gadget.assertConfig(10010);
+		gadget.config(TEST2_ISSUE_ID);
+		gadget.assertConfig(TEST2_ISSUE_ID);
 
-		gadget.config(10000);
-		gadget.assertConfig(10000);
+		gadget.config(TEST1_ISSUE_ID);
+		gadget.assertConfig(TEST1_ISSUE_ID);
 	}
 
-	public void testShouldDisplayHelloInGadget() {
+	public void testShouldSeeNoActivityInAnyGadget() {
+		
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
+		gadget.assertUserHasNoActivity(ADMIN);
+	}
 
+	public void testShouldSeeActivityInGadget() {
+		
+		navigation.issue().viewIssue("TEST-1");
+
+		driver.gotoDashboard();
+
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
+		gadget.assertUserHasActivity(ADMIN);
+		gadget.assertUserHasNoActivity("fred");
+
+		gadget = new MonitoringGadget(driver, SECOND_MONITORING_GADGET);
+		gadget.assertUserHasNoActivity(ADMIN);
+		gadget.assertUserHasNoActivity("fred");
+	}
+
+	public void testShouldSeeActivityForTwoUsersInOnlyFirstGadget() {
+		
+		navigation.issue().viewIssue("TEST-1");
+		navigation.login("fred", "admin");
+		navigation.issue().viewIssue("TEST-1");
+
+		driver.gotoDashboard();
+
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
+		gadget.assertUserHasActivity(ADMIN);
+		gadget.assertUserHasActivity("fred");
+
+		gadget = new MonitoringGadget(driver, SECOND_MONITORING_GADGET);
+		gadget.assertUserHasNoActivity(ADMIN);
+		gadget.assertUserHasNoActivity("fred");
+	}
+
+	public void testShouldSeeActivityInOnlyBothGadgets() {
+		
+		navigation.issue().viewIssue("TEST-1");
 		navigation.issue().viewIssue("TEST-2");
-		assertions.assertNodeByIdExists("monitor_activity_admin");
+		navigation.login("fred", "admin");
+		navigation.issue().viewIssue("TEST-1");
+		navigation.issue().viewIssue("TEST-2");
 
-		gadget = new MonitoringGadget(driver, "gadget-10011");
-		gadget.config(10010);
-		gadget.assertNodeByIdExists("monitor_activity_admin");
+		driver.gotoDashboard();
+
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
+		gadget.assertUserHasActivity(ADMIN);
+		gadget.assertUserHasActivity("fred");
+
+		gadget = new MonitoringGadget(driver, SECOND_MONITORING_GADGET);
+		gadget.assertUserHasActivity(ADMIN);
+		gadget.assertUserHasActivity("fred");
 	}
 }

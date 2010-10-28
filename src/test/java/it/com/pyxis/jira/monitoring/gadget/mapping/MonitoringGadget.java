@@ -67,6 +67,28 @@ public class MonitoringGadget
 		}
 	}
 
+
+	public String getUserActivityId(String user) {
+		return String.format("monitor_activity_%s", user);
+	}
+
+	public WebElement getUserActivityElement(String user) {
+		return findElement(By.id(getUserActivityId(user)));
+	}
+
+	public boolean existUserActivity(String user) {
+		WebElement element = getUserActivityElement(user);
+		return (element != null);
+	}
+
+	public void assertUserHasActivity(String user) {
+		assertTrue("Some Activity should be present for " + user, existUserActivity(user));
+	}
+
+	public void assertUserHasNoActivity(String user) {
+		assertTrue("No Activity should be present for " + user, !existUserActivity(user));
+	}
+
 	private WebElement content() {
 		return findElement(By.id("gadget_monitoring_user"));
 	}
