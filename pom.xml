@@ -83,6 +83,18 @@
 			<version>2.0a6</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.objogate.wl</groupId>
+			<artifactId>windowlicker-core</artifactId>
+			<version>rev268</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.objogate.wl</groupId>
+			<artifactId>windowlicker-web</artifactId>
+			<version>rev268</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

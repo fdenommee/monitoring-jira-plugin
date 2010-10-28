@@ -18,28 +18,60 @@
  */
 package it.com.pyxis.jira.monitoring.gadget.mapping;
 
-import it.com.pyxis.jira.selenium.JiraWebDriver;
-import static org.junit.Assert.assertNotNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
-public class MonitoringGadget {
+import it.com.pyxis.jira.selenium.Gadget;
+import it.com.pyxis.jira.selenium.JiraWebDriver;
 
-	private JiraWebDriver driver; 
-	
-	@FindBy(id = "gadget_monitoring_user")
-	private WebElement content;
+import static org.junit.Assert.*;
 
-	public MonitoringGadget(JiraWebDriver driver) {
-		this.driver = driver;
+public class MonitoringGadget
+		extends Gadget {
+
+	public MonitoringGadget(final JiraWebDriver driver, String gadgetId) {
+		super(driver, gadgetId);
 	}
-	
+
 	public String getText() {
-		return content.getText();
+		return content().getText();
 	}
 
 	public void assertNodeByIdExists(String id) {
-		assertNotNull(driver.findElement(By.id(id)));
+		assertNotNull(content().findElement(By.id(id)));
+	}
+
+	public void config(int issue) {
+
+		openMenu();
+		clickEditMenu();
+
+		Select select = new Select(configIssueId());
+		select.selectByValue(String.valueOf(issue));
+
+		clickSaveButton();
+	}
+
+	public void assertConfig(int issue) {
+
+		openMenu();
+		clickEditMenu();
+
+		try {
+			String value = configIssueId().getValue();
+			assertEquals(String.valueOf(issue), value);
+		}
+		finally {
+			clickCancelButton();
+		}
+	}
+
+	private WebElement content() {
+		return findElement(By.id("gadget_monitoring_user"));
+	}
+
+	private WebElement configIssueId() {
+		return findElement(By.id("issueId"));
 	}
 }

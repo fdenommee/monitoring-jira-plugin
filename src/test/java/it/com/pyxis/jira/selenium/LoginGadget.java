@@ -20,24 +20,31 @@ package it.com.pyxis.jira.selenium;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-public class LoginGadget {
+public class LoginGadget
+		extends Gadget {
 
-	@FindBy(id = "login")
-	private WebElement loginButton;
-	@FindBy(id = "usernameinput")
-	private WebElement usernameText;
-	@FindBy(id = "os_password")
-	private WebElement passwordText;
+	public LoginGadget(JiraWebDriver driver, String gadgetId) {
+		super(driver, gadgetId);
 
-	public LoginGadget(JiraWebDriver driver) {
 		driver.waitForElementToAppear(By.id("content"));
 	}
 
 	public void doLogin(String username, String password) {
-		usernameText.sendKeys(username);
-		passwordText.sendKeys(password);
-		loginButton.click();
+		usernameText().sendKeys(username);
+		passwordText().sendKeys(password);
+		loginButton().click();
+	}
+
+	private WebElement usernameText() {
+		return findElement(By.id("usernameinput"));
+	}
+
+	private WebElement passwordText() {
+		return findElement(By.id("os_password"));
+	}
+
+	private WebElement loginButton() {
+		return findElement(By.id("login"));
 	}
 }

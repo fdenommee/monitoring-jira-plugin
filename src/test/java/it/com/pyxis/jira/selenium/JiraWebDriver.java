@@ -53,6 +53,10 @@ public class JiraWebDriver {
 		driver = newDriver();
 	}
 
+	public WebDriver.TargetLocator switchTo() {
+		return driver.switchTo();
+	}
+
 	public void gotoHome() {
 		driver.navigate().to(homeUrl);
 	}
@@ -60,6 +64,10 @@ public class JiraWebDriver {
 	public DashboardPage gotoDashboard() {
 		gotoHome();
 		return new DashboardPage(this);
+	}
+
+	public void gotoIssue(String issueKey) {
+		driver.navigate().to(String.format("%s/browse/%s", homeUrl, issueKey));
 	}
 
 	public WebElement findElement(By by) {
@@ -95,18 +103,12 @@ public class JiraWebDriver {
 
 	public <T> T with(Class<T> pageClass) {
 		T page = instanciatePage(pageClass);
-		PageFactory.initElements(driver, page);
+		initElements(page);
 		return page;
 	}
 
-	public <T> T selectGadget(Class<T> gadgetClass, String frameId) {
-		selectGadgetFrame(frameId);
-		return with(gadgetClass);
-	}
-
-	public void selectGadgetFrame(String frameId) {
-		waitForElementToAppear(By.id(frameId));
-		driver.switchTo().frame(frameId);
+	public void initElements(Object page) {
+		PageFactory.initElements(driver, page);
 	}
 
 	public void quit() {
@@ -186,7 +188,6 @@ public class JiraWebDriver {
 			try {
 				Constructor<T> ctr = pageClass.getConstructor(JiraWebDriver.class);
 				return ctr.newInstance(this);
-
 			}
 			catch (NoSuchMethodException ex) {
 				return pageClass.newInstance();

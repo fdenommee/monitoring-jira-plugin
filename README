@@ -25,3 +25,6 @@ Useful urls :
   - http://confluence.atlassian.com/display/GADGETS010/Including+Features+into+your+Gadget
 * Maven Plugin
   - http://docs.atlassian.com/maven-amps-plugin/
+* Selenium-WebDriver / Windowlicker
+  - http://seleniumhq.org/docs/09_webdriver.html
+  - http://code.google.com/p/windowlicker/

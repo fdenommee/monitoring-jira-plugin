@@ -4,9 +4,6 @@ import com.atlassian.jira.functest.framework.FuncTestCase;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
 import it.com.pyxis.jira.selenium.JiraWebDriver;
 
-import static org.junit.Assert.*;
-import static org.junit.matchers.JUnitMatchers.containsString;
-
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
 
@@ -18,6 +15,7 @@ public class UserMonitorGadgetTest
 
 		driver = new JiraWebDriver();
 
+		driver.gotoDashboard().loginAsAdmin();
 	}
 
 	@Override
@@ -25,14 +23,24 @@ public class UserMonitorGadgetTest
 		driver.quit();
 	}
 
+	public void testIssueConfigurationIsPersisted()
+			throws Exception {
+
+		gadget = new MonitoringGadget(driver, "gadget-10011");
+
+		gadget.config(10010);
+		gadget.assertConfig(10010);
+
+		gadget.config(10000);
+		gadget.assertConfig(10000);
+	}
+
 	public void testShouldDisplayHelloInGadget() {
-		
+
 		navigation.issue().viewIssue("TEST-2");
 		assertions.assertNodeByIdExists("monitor_activity_admin");
-		
-		
-		driver.gotoDashboard().loginAsAdmin();
-		gadget = driver.selectGadget(MonitoringGadget.class, "gadget-10011");
+
+		gadget = new MonitoringGadget(driver, "gadget-10011");
 		gadget.assertNodeByIdExists("monitor_activity_admin");
 	}
 }
