@@ -29,30 +29,36 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
 public class MonitorRestTest
 		extends FuncTestCase {
+
+	private static final long REST1_ISSUE_ID = 10030;
 
 	private Client restClient = Client.create();
 
 	@Before
 	protected void setUpTest() {
-		administration.restoreData("it-data.xml");
+		administration.restoreData("it-MonitorRestTest.xml");
 	}
 
 	@Test
 	public void testCanFoundActivityOfOurselfOnIssue() {
 
-		assertEquals(0, getActivities(10000).size());
+		List<RestUserIssueActivity> actual = getActivities(REST1_ISSUE_ID);
+		assertThat(actual.size(), is(equalTo(0)));
 
-		navigation.issue().viewIssue("TEST-1");
-
-		List<RestUserIssueActivity> activities = getActivities(10000);
-		assertEquals(1, activities.size());
+		navigation.issue().viewIssue("REST-1");
 		assertions.assertNodeByIdExists("monitor_activity_admin");
 
-		RestUserIssueActivity activity = activities.get(0);
-		assertEquals(10000, activity.getIssueId());
-		assertEquals("admin", activity.getName());
+		actual = getActivities(REST1_ISSUE_ID);
+		assertThat(actual.size(), is(equalTo(1)));
+
+		RestUserIssueActivity activity = actual.get(0);
+		assertThat(activity.getIssueId(), is(equalTo(REST1_ISSUE_ID)));
+		assertThat(activity.getName(), is(equalTo(ADMIN)));
 	}
 	
 	private List<RestUserIssueActivity> getActivities(long id) {
