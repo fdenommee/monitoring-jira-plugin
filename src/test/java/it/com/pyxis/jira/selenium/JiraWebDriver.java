@@ -18,19 +18,12 @@
  */
 package it.com.pyxis.jira.selenium;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.ClassUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.RenderedWebElement;
-import org.openqa.selenium.Speed;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,18 +32,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.base.Function;
 
+import static it.com.pyxis.jira.selenium.WebDriverFactory.DEFAULT_TIMEOUT_IN_SECONDS;
+
 public class JiraWebDriver {
 
-	private static final int DEFAULT_TIMEOUT_IN_SECONDS = 15;
-
-	private final Properties driverProperties;
 	private final WebDriver driver;
 	private final String homeUrl;
 
 	public JiraWebDriver() {
-		driverProperties = loadPropertiesFromLocalTestResource();
-		homeUrl = buildHomeUrl(driverProperties);
-		driver = newDriver();
+		WebDriverFactory factory = new WebDriverFactory();
+		homeUrl = factory.homeUrl();
+		driver = factory.newDriver();
 	}
 
 	public WebDriver.TargetLocator switchTo() {
@@ -115,56 +107,6 @@ public class JiraWebDriver {
 		driver.quit();
 	}
 
-	@SuppressWarnings("unchecked")
-	private WebDriver newDriver() {
-
-		String driverClassName = driverProperties.getProperty(
-				"driver.class", "org.openqa.selenium.firefox.FirefoxDriver");
-
-		try {
-			Class<WebDriver> driverClass = ClassUtils.getClass(driverClassName);
-			WebDriver driver = driverClass.newInstance();
-
-			setDriverSpeed(driver);
-			setTimeout(driver);
-
-			return driver;
-		}
-		catch (Exception ex) {
-			throw new RuntimeException(String.format("Cannot instanciate driver class '%s'!", driverClassName), ex);
-		}
-	}
-
-	private Properties loadPropertiesFromLocalTestResource() {
-
-		Properties properties = new Properties();
-		InputStream is = JiraWebDriver.class.getResourceAsStream("/localtest.properties");
-
-		try {
-			properties.load(is);
-		}
-		catch (IOException ex) {
-			// fallback to default properties
-		}
-		finally {
-			IOUtils.closeQuietly(is);
-		}
-
-		return properties;
-	}
-
-	private String buildHomeUrl(Properties properties) {
-
-		StringBuilder url = new StringBuilder();
-
-		url.append(properties.getProperty("jira.protocol", "http"))
-				.append("://").append(properties.getProperty("jira.host", "localhost"))
-				.append(":").append(properties.getProperty("jira.port", "2990"))
-				.append(properties.getProperty("jira.context"));
-
-		return url.toString();
-	}
-
 	private Function<WebDriver, WebElement> elementAppear(final By by) {
 		return new Function<WebDriver, WebElement>() {
 			public WebElement apply(WebDriver from) {
@@ -201,24 +143,6 @@ public class JiraWebDriver {
 		}
 		catch (IllegalAccessException ex) {
 			throw new RuntimeException(ex);
-		}
-	}
-
-	private void setDriverSpeed(WebDriver driver) {
-		try {
-			driver.manage().setSpeed(Speed.FAST);
-		}
-		catch (Exception ex) {
-			// nothing to do
-		}
-	}
-
-	private void setTimeout(WebDriver driver) {
-		try {
-			driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
-		}
-		catch (Exception ex) {
-			// nothing to do
 		}
 	}
 }
