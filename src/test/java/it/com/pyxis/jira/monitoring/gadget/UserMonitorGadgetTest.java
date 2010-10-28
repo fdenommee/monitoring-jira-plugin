@@ -41,6 +41,7 @@ public class UserMonitorGadgetTest
 		assertions.assertNodeByIdExists("monitor_activity_admin");
 
 		gadget = new MonitoringGadget(driver, "gadget-10011");
+		gadget.config(10010);
 		gadget.assertNodeByIdExists("monitor_activity_admin");
 	}
 }

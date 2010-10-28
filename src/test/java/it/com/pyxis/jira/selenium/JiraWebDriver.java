@@ -41,7 +41,7 @@ import com.google.common.base.Function;
 
 public class JiraWebDriver {
 
-	private static final int DEFAULT_TIMEOUT_IN_SECONDS = 5;
+	private static final int DEFAULT_TIMEOUT_IN_SECONDS = 15;
 
 	private final Properties driverProperties;
 	private final WebDriver driver;

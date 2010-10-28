@@ -27,21 +27,20 @@ import com.atlassian.jira.web.action.JiraWebActionSupport;
 public class MonitorCustomFieldAction
 		extends JiraWebActionSupport {
 
-
 	private final IssueManager issueManager;
 	private final MonitorHelper monitorHelper;
-	
+
 	private long issueId;
 
 	public MonitorCustomFieldAction(IssueManager issueManager, MonitorHelper monitorHelper) {
 		this.issueManager = issueManager;
 		this.monitorHelper = monitorHelper;
 	}
-	
+
 	public long getIssueId() {
 		return issueId;
 	}
-	
+
 	public void setIssueId(long issueId) {
 		this.issueId = issueId;
 	}
@@ -53,9 +52,11 @@ public class MonitorCustomFieldAction
 	@Override
 	protected String doExecute()
 			throws Exception {
+
+		log.info("doExecute");
 		return SUCCESS;
 	}
-	
+
 	private Issue getIssue() {
 		return issueManager.getIssueObject(getIssueId());
 	}

@@ -48,10 +48,13 @@ AJS.gadget.fields.testIssuePicker = function(gadget, userprefField, userprefLabe
                 
                 gadget.getView().empty();
                 gadget.getView().append(AJS.$("<div id='gadget_monitoring_user'/>"));
+                
                 var issueId = gadget.getPref("issueId");
+                var cacheBuster = new Date().getTime();
 
             	AJS.$.ajax({
-            		url: gadget.getBaseUrl() + "/secure/MonitorCFRefresh.jspa?decorator=none&issueId=" + issueId,
+            		url: gadget.getBaseUrl() + "/secure/MonitorCFRefresh.jspa",
+                    data: ({decorator: 'none', issueId: issueId, cacheBuster: cacheBuster}),
             		dataType: "html",
             		cache: false,
             		success: function(data) {
