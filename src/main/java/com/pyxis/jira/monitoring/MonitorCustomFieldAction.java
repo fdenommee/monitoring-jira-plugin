@@ -53,7 +53,6 @@ public class MonitorCustomFieldAction
 	protected String doExecute()
 			throws Exception {
 
-		log.info("doExecute");
 		return SUCCESS;
 	}
 
