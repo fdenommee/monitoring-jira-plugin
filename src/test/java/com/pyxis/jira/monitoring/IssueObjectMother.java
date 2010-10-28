@@ -18,11 +18,10 @@
  */
 package com.pyxis.jira.monitoring;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.MutableIssue;
+
+import static org.mockito.Mockito.*;
 
 public class IssueObjectMother {
 

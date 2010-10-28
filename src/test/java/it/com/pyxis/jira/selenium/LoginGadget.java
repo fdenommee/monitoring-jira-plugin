@@ -35,18 +35,18 @@ public class LoginGadget
 		passwordText().sendKeys(password);
 		loginButton().click();
 
-		driver().waitForElementToAppear(By.id("header-details-user"));
+		driver.waitForElementToAppear(By.id("header-details-user"));
 	}
 
 	private WebElement usernameText() {
-		return findElement(By.id("usernameinput"));
+		return driver.findElement(By.id("usernameinput"));
 	}
 
 	private WebElement passwordText() {
-		return findElement(By.id("os_password"));
+		return driver.findElement(By.id("os_password"));
 	}
 
 	private WebElement loginButton() {
-		return findElement(By.id("login"));
+		return driver.findElement(By.id("login"));
 	}
 }

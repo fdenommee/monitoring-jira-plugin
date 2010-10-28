@@ -21,6 +21,7 @@ package it.com.pyxis.jira.selenium;
 import java.awt.Point;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -41,11 +42,13 @@ public class JiraWebDriver {
 
 	private final WebDriver driver;
 	private final String homeUrl;
+	private final WebDriverWait wait;
 
 	public JiraWebDriver() {
 		WebDriverFactory factory = new WebDriverFactory();
 		homeUrl = factory.homeUrl();
 		driver = factory.newDriver();
+		wait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
 	}
 
 	public WebDriver.TargetLocator switchTo() {
@@ -74,13 +77,15 @@ public class JiraWebDriver {
 		}
 	}
 
+	public List<WebElement> findElements(By by) {
+		return driver.findElements(by);
+	}
+
 	public WebElement waitForElementToAppear(By by) {
-		WebDriverWait wait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
 		return wait.until(elementAppear(by));
 	}
 
 	public void waitForElementToDisappear(By by) {
-		WebDriverWait wait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
 		wait.until(elementDisappear(by));
 	}
 

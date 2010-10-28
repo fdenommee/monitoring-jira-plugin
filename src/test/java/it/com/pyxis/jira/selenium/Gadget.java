@@ -37,8 +37,8 @@ import static org.junit.Assert.*;
 
 public class Gadget {
 
-	private final JiraWebDriver driver;
-	private final String gadgetId;
+	protected final JiraWebDriver driver;
+	protected final String gadgetId;
 
 	private Automaton automaton;
 
@@ -47,14 +47,6 @@ public class Gadget {
 		this.gadgetId = gadgetId;
 
 		insideFocus();
-	}
-
-	public JiraWebDriver driver() {
-		return driver;
-	}
-
-	public WebElement findElement(By by) {
-		return driver.findElement(by);
 	}
 
 	public void outsideFocus() {

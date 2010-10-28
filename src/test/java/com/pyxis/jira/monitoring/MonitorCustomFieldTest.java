@@ -18,11 +18,6 @@
  */
 package com.pyxis.jira.monitoring;
 
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
-import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +25,11 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.atlassian.jira.security.JiraAuthenticationContext;
+
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MonitorCustomFieldTest {

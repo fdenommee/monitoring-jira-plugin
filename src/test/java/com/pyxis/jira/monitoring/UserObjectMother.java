@@ -18,8 +18,6 @@
  */
 package com.pyxis.jira.monitoring;
 
-import static com.pyxis.jira.monitoring.UserObjectMother.newUser;
-
 import com.opensymphony.user.EntityNotFoundException;
 import com.opensymphony.user.User;
 import com.opensymphony.user.UserManager;

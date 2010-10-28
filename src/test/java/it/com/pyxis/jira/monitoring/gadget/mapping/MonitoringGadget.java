@@ -18,6 +18,9 @@
  */
 package it.com.pyxis.jira.monitoring.gadget.mapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -36,10 +39,6 @@ public class MonitoringGadget
 
 	public String getText() {
 		return content().getText();
-	}
-
-	public void assertNodeByIdExists(String id) {
-		assertNotNull(content().findElement(By.id(id)));
 	}
 
 	public void config(int issue) {
@@ -67,33 +66,24 @@ public class MonitoringGadget
 		}
 	}
 
+	public List<String> getUserActivities() {
+		insideFocus();
 
-	public String getUserActivityId(String user) {
-		return String.format("monitor_activity_%s", user);
-	}
+		List<String> activities = new ArrayList<String>();
+		List<WebElement> elements = content().findElements(By.xpath("//tr[starts-with(@id,'monitor_activity_')]/td[1]"));
 
-	public WebElement getUserActivityElement(String user) {
-		return findElement(By.id(getUserActivityId(user)));
-	}
+		for (WebElement element : elements) {
+			activities.add(element.getText());
+		}
 
-	public boolean existUserActivity(String user) {
-		WebElement element = getUserActivityElement(user);
-		return (element != null);
-	}
-
-	public void assertUserHasActivity(String user) {
-		assertTrue("Some Activity should be present for " + user, existUserActivity(user));
-	}
-
-	public void assertUserHasNoActivity(String user) {
-		assertTrue("No Activity should be present for " + user, !existUserActivity(user));
+		return activities;
 	}
 
 	private WebElement content() {
-		return findElement(By.id("gadget_monitoring_user"));
+		return driver.findElement(By.id("gadget_monitoring_user"));
 	}
 
 	private WebElement configIssueId() {
-		return findElement(By.id("issueId"));
+		return driver.findElement(By.id("issueId"));
 	}
 }

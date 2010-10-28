@@ -18,15 +18,7 @@
  */
 package com.pyxis.jira.monitoring.rest;
 
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_MUTABLEISSUE;
-import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
-import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
 import java.util.List;
-
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
@@ -39,6 +31,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.atlassian.jira.issue.IssueManager;
 import com.pyxis.jira.monitoring.DefaultMonitorHelper;
 import com.pyxis.jira.monitoring.MonitorHelper;
+
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_MUTABLEISSUE;
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MonitorResourceTest {

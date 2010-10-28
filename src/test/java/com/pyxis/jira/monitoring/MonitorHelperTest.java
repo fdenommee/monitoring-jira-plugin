@@ -18,18 +18,18 @@
  */
 package com.pyxis.jira.monitoring;
 
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
-import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
-import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
-import static org.junit.Assert.assertEquals;
-
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.opensymphony.user.User;
+
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.junit.Assert.*;
 
 public class MonitorHelperTest {
 
