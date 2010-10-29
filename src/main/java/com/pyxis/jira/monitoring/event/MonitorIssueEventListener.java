@@ -31,10 +31,6 @@ public class MonitorIssueEventListener
 
 	private static final Logger log = Logger.getLogger(MonitorIssueEventListener.class);
 
-	static {
-		EventListenerUtils.registerListener("Monitor Issue Event Listener", MonitorIssueEventListener.class);
-	}
-
 	private final MonitorHelper helper;
 
 	public MonitorIssueEventListener(MonitorHelper helper) {
@@ -50,6 +46,7 @@ public class MonitorIssueEventListener
 		log.debug("custom event (" + event.getEventTypeId() + ") : " + event.toString());
 
 		if (EventType.ISSUE_DELETED_ID.equals(event.getEventTypeId())) {
+			helper.notifyDelete(event.getIssue());
 			// @todo : clear this issue from the helper list (ex: helper.cleanUp(event.getIssue())
 		}
 	}

@@ -28,5 +28,7 @@ public interface MonitorHelper {
 	public List<UserIssueActivity> getActivities(Issue issue); 
 
 	public void notify(User user, Issue issue);
+
+	public void notifyDelete(Issue issue);
 	
 }

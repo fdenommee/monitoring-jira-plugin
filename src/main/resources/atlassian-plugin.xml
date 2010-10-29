@@ -25,6 +25,9 @@
 		<interface class="com.pyxis.jira.monitoring.MonitorHelper" />
 	</component>
 
+	<component key="MonitorEventHelper" name="Monitor Event Helper"
+		class="com.pyxis.jira.monitoring.MonitorEventHelper" />
+
 	<component key="monitorIssueEventListener" name="Monitor Issue event listener"
 		class="com.pyxis.jira.monitoring.event.MonitorIssueEventListener" />
 

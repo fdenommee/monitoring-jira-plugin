@@ -38,6 +38,10 @@ public class DefaultMonitorHelper implements MonitorHelper {
 		activities.put(issue.getId(), userActivities);
 	}
 
+	public void notifyDelete(Issue issue) {
+		activities.remove(issue.getId());
+	}
+	
 	private List<UserIssueActivity> getActivitiesSortedByDate(Issue issue) {
 
 		List<UserIssueActivity> sortedActivities = getActivitiesForIssue(issue);
