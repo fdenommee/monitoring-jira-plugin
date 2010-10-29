@@ -18,7 +18,7 @@
 					<a href="${baseurl}/secure/ViewProfile.jspa?name=${activity.UserName}">${activity.UserName}</a>
 				</td>
 				<td>
-					${outlookDate.format(${activity.Time})}
+					${outlookdate.format(${activity.Time})}
 				</td>
 			</tr>
 			#end
