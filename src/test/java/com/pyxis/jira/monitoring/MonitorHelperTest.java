@@ -27,8 +27,12 @@ import com.opensymphony.user.User;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.INEXISTANTE_ISSUE;
 import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
 import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class MonitorHelperTest {
@@ -60,6 +64,13 @@ public class MonitorHelperTest {
 
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
 		//assertUserActivities(activities, new User[] { FDENOMMEE_USER, VTHOULE_USER });
+	}
+
+	@Test
+	public void shouldReturnNoUserActivityForInexistanteIssue() {
+
+		List<UserIssueActivity> activities = helper.getActivities(INEXISTANTE_ISSUE);
+		assertThat(activities.size(), is(equalTo(0)));
 	}
 
 	@Test

@@ -40,15 +40,15 @@ public class MonitorIssueEventListener
 	public boolean isInternal() {
 		return true;
 	}
+	
+	@Override
+	public void issueDeleted(IssueEvent event) {
+		helper.notifyDelete(event.getIssue());
+	}
 
 	@Override
 	public void customEvent(IssueEvent event) {
 		log.debug("custom event (" + event.getEventTypeId() + ") : " + event.toString());
-
-		if (EventType.ISSUE_DELETED_ID.equals(event.getEventTypeId())) {
-			helper.notifyDelete(event.getIssue());
-			// @todo : clear this issue from the helper list (ex: helper.cleanUp(event.getIssue())
-		}
 	}
 
 	@Override

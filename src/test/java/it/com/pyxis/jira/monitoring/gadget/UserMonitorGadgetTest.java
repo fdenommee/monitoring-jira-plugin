@@ -1,14 +1,23 @@
 package it.com.pyxis.jira.monitoring.gadget;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
+import it.com.pyxis.jira.selenium.JiraSoapServiceProxy;
+import it.com.pyxis.jira.selenium.JiraWebDriver;
+
 import java.util.Arrays;
 import java.util.List;
 
-import com.atlassian.jira.functest.framework.FuncTestCase;
-import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
-import it.com.pyxis.jira.selenium.JiraWebDriver;
+import javax.xml.rpc.ServiceException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import com.atlassian.jira.functest.framework.FuncTestCase;
+import com.atlassian.jira.rpc.soap.client.JiraSoapService;
+import com.atlassian.jira.rpc.soap.client.JiraSoapServiceService;
+import com.atlassian.jira.rpc.soap.client.JiraSoapServiceServiceLocator;
+import com.atlassian.jira.rpc.soap.client.RemoteAuthenticationException;
+import com.atlassian.jira.rpc.soap.client.RemoteException;
 
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
@@ -24,11 +33,15 @@ public class UserMonitorGadgetTest
 
 	private JiraWebDriver driver;
 	private MonitoringGadget gadget;
+	private JiraSoapServiceProxy jiraProxy; 
+	private JiraSoapService jiraSoapService;
 
 	@Override
 	protected void setUpTest() {
 		administration.restoreData("it-UserMonitorGadgetTest.xml");
-
+//		administration.enableAccessLogging();
+		jiraProxy = new JiraSoapServiceProxy();
+		
 		driver = new JiraWebDriver();
 		driver.gotoDashboard().loginAsAdmin();
 	}
@@ -86,6 +99,64 @@ public class UserMonitorGadgetTest
 		actual = gadget.getUserActivities();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
+	}
+
+	public void testShouldIssueActivityRemovedOnIssueDelete() {
+
+		navigation.issue().viewIssue("TEST-1");
+		navigation.issue().viewIssue("TEST-2");
+		navigation.login("fred", "admin");
+		navigation.issue().viewIssue("TEST-1");
+		navigation.issue().viewIssue("TEST-2");
+		
+		driver.gotoDashboard();
+
+		MonitoringGadget gadget1 = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
+		MonitoringGadget gadget2 = new MonitoringGadget(driver, SECOND_MONITORING_GADGET);
+		List<String> expected = Arrays.asList(ADMIN, "fred");
+
+		List<String> actual = null;
+		
+		actual = gadget1.getUserActivities();
+		assertThat(actual.size(), is(equalTo(expected.size())));
+		assertThat(actual.containsAll(expected), is(true));
+		
+		actual = gadget2.getUserActivities();
+		assertThat(actual.size(), is(equalTo(expected.size())));
+		assertThat(actual.containsAll(expected), is(true));
+		
+//		jiraProxy.login(ADMIN, ADMIN).deleteIssue("TEST-2"); 
+		
+		driver.gotoDashboard();
+		
+		actual = gadget1.getUserActivities();
+		assertThat(actual.size(), is(equalTo(expected.size())));
+
+		actual = gadget2.getUserActivities();
+		assertThat(actual.size(), is(equalTo(0)));
+
+	}
+
+	private void getJiraSoapService() {
+		JiraSoapServiceService jiraSoapServiceGetter = new JiraSoapServiceServiceLocator();
+		JiraSoapService jiraSoapService;
+		try {
+			jiraSoapService = jiraSoapServiceGetter.getJirasoapserviceV2();
+			String token = jiraSoapService.login(ADMIN, ADMIN);
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteAuthenticationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (java.rmi.RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void testShouldSeeSameActivitiesBetweenGadgets() {

@@ -40,7 +40,7 @@ public class MonitorIssueEventListenerTest {
 		assertThat(helper.getActivities(TEST_2_ISSUE).size(), is(equalTo(2)));
 		
 		IssueEvent event = new IssueEvent(TEST_1_ISSUE, (Map)null, (User)null, EventType.ISSUE_DELETED_ID);
-		eventListener.customEvent(event);
+		eventListener.issueDeleted(event);
 		
 		assertThat(helper.getActivities(TEST_1_ISSUE).size(), is(equalTo(0)));
 		assertThat(helper.getActivities(TEST_2_ISSUE).size(), is(equalTo(2)));

@@ -57,7 +57,10 @@ public class DefaultMonitorHelper implements MonitorHelper {
 	
 	private List<UserIssueActivity> getActivitiesForIssue(Issue issue) {
 		
-		List<UserIssueActivity> userActivities = activities.get(issue.getId());
+		List<UserIssueActivity> userActivities = null;
+		if (issue != null) {
+			userActivities = activities.get(issue.getId());
+		}
 		
 		if (userActivities == null) {
 			userActivities = new ArrayList<UserIssueActivity>();

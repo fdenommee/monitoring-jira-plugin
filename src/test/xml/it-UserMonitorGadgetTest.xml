@@ -4,39 +4,39 @@
 
 ___ Exported on _____________________________
 
-     on                                            : Thursday, October 28, 2010 3:22:54 o'clock PM EDT
+     on                                            : vendredi 29 octobre 2010 15 h 14 EDT
      by                                            : admin ( admin )
 
-___ Environment ____________________________
+___ Environment ___________________________
 
      JIRA Build                                    : 4.1.2#531
      Build Date                                    : Mon Jun 21 00:00:00 EDT 2010
      JIRA Installation Type                        : unknown
-     Java Version                                  : 1.6.0_22 - Sun Microsystems Inc.
-     Current Working Directory                     : /home/fdenommee/Dev/monitoring-jira-plugin
-     Maximum Allowable Memory                      : 455MB
-     Total Memory                                  : 305MB
-     Free Memory                                   : 88MB
-     Used Memory                                   : 217MB
-     Memory Pool: Code Cache                       : Code Cache: init = 2359296(2304K) used = 12328512(12039K) committed = 12419072(12128K) max = 50331648(49152K)
-     Memory Pool: PS Eden Space                    : PS Eden Space: init = 12451840(12160K) used = 74271080(72530K) committed = 151977984(148416K) max = 169607168(165632K)
-     Memory Pool: PS Survivor Space                : PS Survivor Space: init = 2031616(1984K) used = 3040888(2969K) committed = 3080192(3008K) max = 3080192(3008K)
-     Memory Pool: PS Old Gen                       : PS Old Gen: init = 33030144(32256K) used = 150354240(146830K) committed = 165675008(161792K) max = 357957632(349568K)
-     Memory Pool: PS Perm Gen                      : PS Perm Gen: init = 16777216(16384K) used = 68780160(67168K) committed = 78249984(76416K) max = 167772160(163840K)
-     JVM Input Arguments                           : -Xmx512m -XX:MaxPermSize=160m -Datlassian.dev.mode=true -Dplugin.resource.directories=/home/fdenommee/Dev/monitoring-jira-plugin/src/main/resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Datlassian.dev.mode=true -Dplugin.resource.directories=/home/fdenommee/Dev/monitoring-jira-plugin/src/main/resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Dbaseurl=http://localhost:2990/jira -Dcatalina.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/apache-tomcat-6.0.20 -Dcatalina.base=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/cargo-jira-home -Djava.io.tmpdir=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/cargo-jira-home/temp
+     Java Version                                  : 1.6.0_13 - Sun Microsystems Inc.
+     Current Working Directory                     : C:\Data\Workspaces\spike\monitoring-jira-plugin
+     Maximum Allowable Memory                      : 508MB
+     Total Memory                                  : 231MB
+     Free Memory                                   : 57MB
+     Used Memory                                   : 174MB
+     Memory Pool: Code Cache                       : Code Cache: init = 163840(160K) used = 14527424(14186K) committed = 14548992(14208K) max = 33554432(32768K)
+     Memory Pool: Eden Space                       : Eden Space: init = 917504(896K) used = 160464(156K) committed = 15204352(14848K) max = 33030144(32256K)
+     Memory Pool: Survivor Space                   : Survivor Space: init = 65536(64K) used = 747832(730K) committed = 1835008(1792K) max = 4128768(4032K)
+     Memory Pool: Tenured Gen                      : Tenured Gen: init = 4194304(4096K) used = 181677736(177419K) committed = 225497088(220212K) max = 495583232(483968K)
+     Memory Pool: Perm Gen                         : Perm Gen: init = 12582912(12288K) used = 66338448(64783K) committed = 66584576(65024K) max = 167772160(163840K)
+     JVM Input Arguments                           : -Xmx512m -XX:MaxPermSize=160m -Datlassian.dev.mode=true -Dplugin.resource.directories=C:\Data\Workspaces\spike\monitoring-jira-plugin\src\main\resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Datlassian.dev.mode=true -Dplugin.resource.directories=C:\Data\Workspaces\spike\monitoring-jira-plugin\src\main\resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Dbaseurl=http://localhost:2990/jira -Dcatalina.home=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\apache-tomcat-6.0.20 -Dcatalina.base=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\cargo-jira-home -Djava.io.tmpdir=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\cargo-jira-home\temp
 
-___ Database Configuration _________________
+___ Database Configuration ________________
 
-     Loading entityengine.xml from                 : file:/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/cargo-jira-home/webapps/jira/WEB-INF/classes/entityengine.xml
+     Loading entityengine.xml from                 : file:/C:/Data/Workspaces/spike/monitoring-jira-plugin/target/container/tomcat6x/cargo-jira-home/webapps/jira/WEB-INF/classes/entityengine.xml
      Entity model data source name                 : defaultDS
      Entity model field type name                  : hsql
      Entity model schema name                      : PUBLIC
      Database Version                              : HSQL Database Engine - 1.8.0
      Database Driver                               : HSQL Database Engine Driver - 1.8.0
-     Database URL                                  : jdbc:hsqldb:/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/database
+     Database URL                                  : jdbc:hsqldb:C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home/database
      Database JNDI address                         : java:comp/env/jdbc/JiraDS
 
-___ Core Application Properties ____________
+___ Core Application Properties ___________
 
      Version                                       : 4.1.2
      Build #                                       : 531
@@ -44,11 +44,11 @@ ___ Core Application Properties ____________
      Installation Type                             : unknown
      Server ID                                     : BV8N-OK2J-IQUQ-YNNK
      Base URL                                      : http://localhost:2990/jira
-     Default Language                              : English (Canada)
+     Default Language                              : français (Canada)
      External User Management                      : OFF
      CROWD Integration                             : OFF
 
-___ Application Properties _________________
+___ Application Properties ________________
 
      com.atlassian.sal.jira:build                  : 2
      jira.ajax.autocomplete.issuepicker.enabled    : true
@@ -103,8 +103,8 @@ ___ Application Properties _________________
      jira.issue.desc.environment                   : For example operating system, software platform and/or hardware specifications (include as appropriate for the issue).
      jira.issue.desc.original.timetrack            : This value can not be changed after work has begun on the issue.
      jira.issue.desc.timetrack                     : An estimate of how much work remains until this issue will be resolved.<br>
-                                                     The format of this is ' *w *d *h *m ' (representing weeks, days, hours and minutes - where * can be any number)<br>
-                                                     Examples: 4d, 5h 30m, 60m and 3w.
+The format of this is ' *w *d *h *m ' (representing weeks, days, hours and minutes - where * can be any number)<br>
+Examples: 4d, 5h 30m, 60m and 3w.
      jira.issueindex.fetch.size                    : 200
      jira.jql.autocomplete.disabled                : false
      jira.lf.application.id                        : jira
@@ -154,7 +154,7 @@ ___ Application Properties _________________
      jira.option.issuelinking                      : false
      jira.option.logoutconfirm                     : never
      jira.option.precedence.header.exclude         : false
-     jira.option.rpc.allow                         : false
+     jira.option.rpc.allow                         : true
      jira.option.trackback.receive                 : true
      jira.option.trackback.send                    : false
      jira.option.user.externalmanagement           : false
@@ -202,14 +202,14 @@ ___ Application Properties _________________
      jira.trustedapp.uid                           : jira:15489595
      jira.trustedapps.timeout.default              : 10000
      jira.trustedapps.urlmatch.default             : /sr/jira.issueviews:searchrequest
-                                                     /secure/RunPortlet
-                                                     /rest
+/secure/RunPortlet
+/rest
      jira.usermanagement.maxdisplaymembers         : 200
      jira.version.patched                          : 531
      jira.view.issue.links.sort.order              : type, status, priority
      jira.view.issue.show.quicksubtask.when.no.subtasks : false
      jira.viewcvs.root.type                        : cvsroot
-     jira.webresource.flushcounter                 : 65
+     jira.webresource.flushcounter                 : 165
      jira.webresource.superbatch.flushcounter      : 1
      user.default.share.private                    : true
      user.issues.per.page                          : 50
@@ -219,7 +219,7 @@ ___ Application Properties _________________
      webwork.i18n.encoding                         : UTF-8
      webwork.multipart.maxSize                     : 10485760
 
-___ License Details ________________________
+___ License Details _______________________
 
      License Set                                   : true
      Entitled To Support                           : true
@@ -231,7 +231,7 @@ ___ License Details ________________________
      Maximum Number Of Users                       : Unlimited
 
 
-___ Database Statistics ____________________
+___ Database Statistics ___________________
 
      Issues                                        : 5
      Projects                                      : 1
@@ -240,7 +240,7 @@ ___ Database Statistics ____________________
      Users                                         : 3
      Groups                                        : 3
 
-___ Upgrade History ________________________
+___ Upgrade History _______________________
 
      4.1.2#531
           Time Performed                                : 2010-10-05 11:21:17.135
@@ -250,14 +250,14 @@ ___ Upgrade History ________________________
           Time Performed                                : 2010-04-28 19:20:54.928
 
 
-___ File Paths _____________________________
+___ File Paths ____________________________
 
-     JIRA Home                                     : /home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home
-     Location of atlassian-jira.log                : /home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/log/atlassian-jira.log
-     Index Path                                    : /home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/caches/indexes
-     Attachment Path                               : /home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/data/attachments
+     JIRA Home                                     : C:\Data\Workspaces\spike\monitoring-jira-plugin\target\jira\home
+     Location of atlassian-jira.log                : C:\Data\Workspaces\spike\monitoring-jira-plugin\target\jira\home\log\atlassian-jira.log
+     Index Path                                    : C:\Data\Workspaces\spike\monitoring-jira-plugin\target\jira\home\caches\indexes
+     Attachment Path                               : C:\Data\Workspaces\spike\monitoring-jira-plugin\target\jira\home\data\attachments
 
-___ Plugins ________________________________
+___ Plugins _______________________________
 
      Apache Commons FileUpload Bundle              : org.apache.commons.fileupload-1.2.1
           Version                                       : 1.2.1
@@ -524,7 +524,7 @@ ___ Plugins ________________________________
           Description                                   : Monitoring Jira Plugin (Spike)
 
 
-___ Listeners ______________________________
+___ Listeners _____________________________
 
      Instance Count                                : 4
 
@@ -533,19 +533,19 @@ ___ Listeners ______________________________
      Monitor Issue Event Listener                  : com.pyxis.jira.monitoring.event.MonitorIssueEventListener
      Issue Index Listener                          : com.atlassian.jira.event.listeners.search.IssueIndexListener
 
-___ Services _______________________________
+___ Services ______________________________
 
      Instance Count                                : 2
 
      Mail Queue Service                            : com.atlassian.jira.service.services.mail.MailQueueService
           Service Delay                                 : 60000ms
-     Last Run                                      : 28/10/10 3:22 PM
+     Last Run                                      : 10-10-29 15:14
      Service Provider Token Remover                : com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService
           Service Delay                                 : 28800000ms
-     Last Run                                      : 28/10/10 3:18 PM
+     Last Run                                      : 10-10-29 15:11
           pluginJobName                                 : Service Provider Token Remover
 
-___ Trusted Applications ___________________
+___ Trusted Applications __________________
 
      Instance Count                                : 0
 
@@ -663,7 +663,7 @@ ___ Trusted Applications ___________________
     <ListenerConfig id="10000" clazz="com.atlassian.jira.event.listeners.cache.IssueCacheListener" name="Issue Cache Listener"/>
     <ListenerConfig id="10001" clazz="com.atlassian.jira.event.listeners.mail.MailListener" name="Mail Listener"/>
     <ListenerConfig id="10020" clazz="com.pyxis.jira.monitoring.event.MonitorIssueEventListener" name="Monitor Issue Event Listener"/>
-    <ListenerConfig id="10090" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
+    <ListenerConfig id="10100" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
     <NodeAssociation sourceNodeId="10000" sourceNodeEntity="Project" sinkNodeId="0" sinkNodeEntity="PermissionScheme" associationType="ProjectScheme"/>
     <NodeAssociation sourceNodeId="10000" sourceNodeEntity="Project" sinkNodeId="1" sinkNodeEntity="IssueTypeScreenScheme" associationType="ProjectScheme"/>
     <Notification id="10000" scheme="10000" eventTypeId="1" type="Current_Assignee"/>
@@ -822,7 +822,7 @@ ___ Trusted Applications ___________________
     <OSPropertyNumber id="10253" value="0"/>
     <OSPropertyNumber id="10254" value="0"/>
     <OSPropertyNumber id="10256" value="0"/>
-    <OSPropertyNumber id="10257" value="0"/>
+    <OSPropertyNumber id="10257" value="1"/>
     <OSPropertyNumber id="10258" value="0"/>
     <OSPropertyNumber id="10259" value="0"/>
     <OSPropertyNumber id="10260" value="1"/>
@@ -865,10 +865,10 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSPropertyString id="10053" value="1"/>
     <OSPropertyString id="10054" value="0"/>
     <OSPropertyString id="10055" value="0"/>
-    <OSPropertyString id="10056" value="1288293724925"/>
-    <OSPropertyString id="10057" value="81"/>
-    <OSPropertyString id="10061" value="1288293519503"/>
-    <OSPropertyString id="10250" value="65"/>
+    <OSPropertyString id="10056" value="1288379482531"/>
+    <OSPropertyString id="10057" value="83"/>
+    <OSPropertyString id="10061" value="1288379478359"/>
+    <OSPropertyString id="10250" value="165"/>
     <OSPropertyString id="10251" value="${fullname} (JIRA)"/>
     <OSPropertyString id="10255" value="never"/>
     <OSPropertyString id="10262" value="workaround"/>
@@ -1051,7 +1051,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SequenceValueItem seqName="GenericConfiguration" seqId="10010"/>
     <SequenceValueItem seqName="Issue" seqId="10030"/>
     <SequenceValueItem seqName="IssueTypeScreenSchemeEntity" seqId="10010"/>
-    <SequenceValueItem seqName="ListenerConfig" seqId="10100"/>
+    <SequenceValueItem seqName="ListenerConfig" seqId="10110"/>
     <SequenceValueItem seqName="Notification" seqId="10050"/>
     <SequenceValueItem seqName="NotificationScheme" seqId="10010"/>
     <SequenceValueItem seqName="OSCurrentStep" seqId="10040"/>
