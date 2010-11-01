@@ -24,13 +24,7 @@
 			<version>${jira.version}</version>
 			<scope>provided</scope>
 		</dependency>
-<!--
-		<dependency>
-	        <groupId>com.atlassian.jira.plugins</groupId>
-	        <artifactId>atlassian-jira-rpc-parent</artifactId>
-	        <version>${jira.version}-1</version>
-		</dependency>
--->
+		
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>
@@ -97,12 +91,6 @@
 		<dependency>
 			<groupId>com.objogate.wl</groupId>
 			<artifactId>windowlicker-core</artifactId>
-			<version>rev268</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.objogate.wl</groupId>
-			<artifactId>windowlicker-web</artifactId>
 			<version>rev268</version>
 			<scope>test</scope>
 		</dependency>
