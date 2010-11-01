@@ -28,6 +28,7 @@ import com.pyxis.jira.monitoring.rest.RestUserIssueActivity;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -37,10 +38,12 @@ public class MonitorRestTest
 
 	private static final long REST1_ISSUE_ID = 10030;
 
-	private Client restClient = Client.create();
+	private Client client = Client.create();
 
 	@Before
 	protected void setUpTest() {
+		client.addFilter(new HTTPBasicAuthFilter("admin", "admin"));
+
 		administration.restoreData("it-MonitorRestTest.xml");
 	}
 
@@ -60,10 +63,10 @@ public class MonitorRestTest
 		assertThat(activity.getIssueId(), is(equalTo(REST1_ISSUE_ID)));
 		assertThat(activity.getName(), is(equalTo(ADMIN)));
 	}
-	
+
 	private List<RestUserIssueActivity> getActivities(long id) {
-		WebResource resource = restClient.resource(
-				String.format("http://localhost:2990/jira/rest/monitor/1.0/users.xml?id=%s", id));
+		WebResource resource = client.resource(
+				String.format("http://localhost:2990/jira/rest/monitor/1.0/users.xml?issueId=%s", id));
 		return resource.get(new GenericType<List<RestUserIssueActivity>>() {
 		});
 	}

@@ -1,23 +1,24 @@
-AJS.gadget.fields.testIssuePicker = function(gadget, userprefField, userprefLabel, userprefDescription, options) {
-    if (options == null) {
-    	options = {options:[{label:gadget.getPref(userprefField),value:gadget.getPref(userprefField)}] };
-    }
-	if(!AJS.$.isArray(options.options)){
-        options.options = [options.options];
-    }
-    return {
-        userpref: userprefField,
-        label: gadget.getMsg(userprefLabel),
-        description:gadget.getMsg(userprefDescription),
-        type: "select",
-        selected: gadget.getPref(userprefField),
-		options: [{label:"Issue 1",value:"10000"},{label:"Issue 2",value:"10010"},{label:"Issue 3",value:"10020"},{label:"Issue 4",value:"10021"},{label:"Issue 5",value:"10022"}] 
-    };
-};
-
 (function () {
+    AJS.gadget.fields.testIssuePicker = function(gadget, userprefField, userprefLabel, userprefDescription, options) {
+        if (options == null) {
+            options = {options:[{label:gadget.getPref(userprefField),value:gadget.getPref(userprefField)}] };
+        }
+        if(!AJS.$.isArray(options.options)){
+            options.options = [options.options];
+        }
+        return {
+            userpref: userprefField,
+            label: gadget.getMsg(userprefLabel),
+            description:gadget.getMsg(userprefDescription),
+            type: "select",
+            selected: gadget.getPref(userprefField),
+            options: [{label:"Issue 1",value:"10000"},{label:"Issue 2",value:"10010"},{label:"Issue 3",value:"10020"},{label:"Issue 4",value:"10021"},{label:"Issue 5",value:"10022"},{label:"Issue X",value:"10150"}]
+        };
+    };
+    
     var gadget = AJS.Gadget({
         baseUrl: GadgetBaseUrl,
+        useOauth: "/rest/gadget/1.0/currentUser",
         config: {
             descriptor: function(args) {
                 var gadget = this;
@@ -50,24 +51,22 @@ AJS.gadget.fields.testIssuePicker = function(gadget, userprefField, userprefLabe
                 gadget.getView().append(AJS.$("<div id='gadget_monitoring_user'/>"));
 
                 var issueId = gadget.getPref("issueId");
-                var cacheBuster = new Date().getTime();
 
             	AJS.$.ajax({
-            		url: gadget.getBaseUrl() + "/secure/MonitorCFRefresh.jspa",
-                    data: ({decorator: 'none', issueId: issueId, cacheBuster: cacheBuster}),
-            		dataType: "html",
+            		url: "/rest/monitor/1.0/usershtml",
+                    data: ({issueId: issueId}),
+            		dataType: "json",
             		cache: false,
             		success: function(data) {
-            			AJS.$("#gadget_monitoring_user").html(data);
+                        AJS.$("#gadget_monitoring_user").html(data.body);
                         gadget.resize();
             		},
             		error: function(xhr, textStatus, errorThrown) {
-            			alert(textStatus);
-            			alert(errorThrown);
-            		}
-            	});
+                        alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                        alert("responseText: " + xhr.responseText);
+                    }
+                });
                 gadget.resize();
-
             }
         }
     });

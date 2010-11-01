@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
-	<ModulePrefs 
-		title="__MSG_gadget.user.monitoring.title__"
-		title_url="__MSG_gadget.user.monitoring.title.url__" 
-		directory_title="__MSG_gadget.user.monitoring.title__"
-		description="__MSG_gadget.user.monitoring.description__" 
-		author="Pyxis Technologies"
-		author_email="atlassian.partner@pyxis-tech.com">
+	<ModulePrefs
+			title="__MSG_gadget.user.monitoring.title__"
+			title_url="__MSG_gadget.user.monitoring.title.url__"
+			directory_title="__MSG_gadget.user.monitoring.title__"
+			description="__MSG_gadget.user.monitoring.description__"
+			author="Pyxis Technologies"
+			author_email="atlassian.partner@pyxis-tech.com">
 		<Optional feature="gadget-directory">
 			<Param name="categories">
 				JIRA
-            </Param>
+			</Param>
 		</Optional>
-		<Require feature="setprefs" />
-		<Require feature="settitle" />
-		<Require feature="views" />
-		<Require feature="dynamic-height" />
-        #supportedLocales("gadget.common,gadget.monitoring.user")
+		<Require feature="setprefs"/>
+		<Require feature="settitle"/>
+		<Require feature="views"/>
+		<Require feature="dynamic-height"/>
+		<Require feature="oauthpopup"/>
+		#oauth
+		#supportedLocales("gadget.common,gadget.monitoring.user")
 	</ModulePrefs>
-	<UserPref name="issueId" datatype="text" default_value="10000" />
-	<UserPref name="isConfigured" datatype="hidden" default_value="false" />
+	<UserPref name="issueId" datatype="text" default_value="10000"/>
+	<UserPref name="isConfigured" datatype="hidden" default_value="false"/>
 	<Content type="html" view="profile">
-        <![CDATA[
+		<![CDATA[
 			<style type="text/css">
 			<!--
 			  @import url(__ATLASSIAN_BASE_URL__/download/resources/com.pyxis.monitoring-jira-plugin/css/style.css);

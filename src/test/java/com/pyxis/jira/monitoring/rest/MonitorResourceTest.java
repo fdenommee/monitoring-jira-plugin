@@ -18,6 +18,7 @@
  */
 package com.pyxis.jira.monitoring.rest;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
@@ -31,11 +32,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.atlassian.jira.issue.IssueManager;
 import com.pyxis.jira.monitoring.DefaultMonitorHelper;
 import com.pyxis.jira.monitoring.MonitorHelper;
+import com.pyxis.jira.util.velocity.VelocityRenderer;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_MUTABLEISSUE;
 import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
 import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -45,11 +48,12 @@ public class MonitorResourceTest {
 	private MonitorHelper helper;
 	private MonitorResource resource;
 	@Mock private IssueManager issueManager;
+	@Mock private VelocityRenderer velocityRenderer;
 
 	@Before
 	public void init() {
 		helper = new DefaultMonitorHelper();
-		resource = new MonitorResource(issueManager, helper);
+		resource = new MonitorResource(issueManager, velocityRenderer, helper);
 	}
 
 	@Test
@@ -57,7 +61,7 @@ public class MonitorResourceTest {
 
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
-		
+
 		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
 
 		Response response = resource.getActiveUsers(TEST_1_ISSUE.getId());
@@ -72,5 +76,29 @@ public class MonitorResourceTest {
 		GenericEntity<List<RestUserIssueActivity>> entities =
 				(GenericEntity<List<RestUserIssueActivity>>)response.getEntity();
 		return entities.getEntity();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void htmlRenderingIsSuccessfull() {
+
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
+
+		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
+
+		when(velocityRenderer.newVelocityParameters()).thenReturn(new HashMap<String, Object>());
+		when(velocityRenderer.render(any(String.class), any(HashMap.class))).thenReturn("<html/>");
+
+		Response response = resource.getActiveUsersHtml(TEST_1_ISSUE.getId());
+
+		HtmlEntity htmlEntity = toHtmlEntity(response);
+		assertThat(htmlEntity.isSuccess(), is(true));
+	}
+
+	@SuppressWarnings("unchecked")
+	private HtmlEntity toHtmlEntity(Response response) {
+		GenericEntity<HtmlEntity> entity = (GenericEntity<HtmlEntity>)response.getEntity();
+		return entity.getEntity();
 	}
 }
