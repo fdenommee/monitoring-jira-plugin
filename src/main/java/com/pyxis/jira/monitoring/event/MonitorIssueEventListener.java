@@ -18,41 +18,36 @@
  */
 package com.pyxis.jira.monitoring.event;
 
-import org.apache.log4j.Logger;
-
 import com.atlassian.jira.event.issue.AbstractIssueEventListener;
 import com.atlassian.jira.event.issue.IssueEvent;
 import com.atlassian.jira.event.type.EventType;
+import com.atlassian.jira.issue.Issue;
 import com.pyxis.jira.monitoring.MonitorHelper;
-import com.pyxis.jira.util.EventListenerUtils;
 
 public class MonitorIssueEventListener
 		extends AbstractIssueEventListener {
 
-	private static final Logger log = Logger.getLogger(MonitorIssueEventListener.class);
+	private final MonitorHelper monitorHelper;
 
-	private final MonitorHelper helper;
-
-	public MonitorIssueEventListener(MonitorHelper helper) {
-		this.helper = helper;
+	public MonitorIssueEventListener(MonitorHelper monitorHelper) {
+		this.monitorHelper = monitorHelper;
 	}
 
-	public boolean isInternal() {
-		return true;
-	}
-	
-	@Override
 	public void issueDeleted(IssueEvent event) {
-		helper.notifyDelete(event.getIssue());
+		cleanActivitiesForIssue(event.getIssue());
 	}
 
-	@Override
 	public void customEvent(IssueEvent event) {
-		log.debug("custom event (" + event.getEventTypeId() + ") : " + event.toString());
+		if (EventType.ISSUE_DELETED_ID.equals(event.getEventTypeId())) {
+			cleanActivitiesForIssue(event.getIssue());
+		}
 	}
 
-	@Override
-	public void workflowEvent(IssueEvent event) {
-		log.debug("workflow event (" + event.getEventTypeId() + ") : " + event.toString());
+	private void cleanActivitiesForIssue(Issue issue) {
+		getMonitorHelper().notifyDelete(issue);
+	}
+
+	private MonitorHelper getMonitorHelper() {
+		return monitorHelper;
 	}
 }

@@ -72,13 +72,10 @@ public class MonitorRestTest
 	@Test
 	public void testDeletingAnIssue() {
 
-		List<RestUserIssueActivity> actual = getActivities(REST2_ISSUE_ID);
-		assertThat(actual.size(), is(equalTo(0)));
-
 		navigation.issue().viewIssue("REST-2");
 
-		actual = getActivities(REST2_ISSUE_ID);
-		assertThat(actual.size(), is(equalTo(1)));
+		List<RestUserIssueActivity> actual = getActivities(REST2_ISSUE_ID);
+		assertThat(actual.size(), is(greaterThanOrEqualTo(1)));
 
 		navigation.issue().deleteIssue("REST-2");
 
