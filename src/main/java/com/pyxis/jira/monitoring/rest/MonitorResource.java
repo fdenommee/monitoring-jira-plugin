@@ -53,11 +53,9 @@ public class MonitorResource {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getActiveUsers(@QueryParam("issueId") long issueId) {
 
-		Issue issue = issueManager.getIssueObject(issueId);
-
 		List<RestUserIssueActivity> activities = new ArrayList<RestUserIssueActivity>();
 
-		for (UserIssueActivity activity : helper.getActivities(issue)) {
+		for (UserIssueActivity activity : getActivitiesForIssue(issueId)) {
 			activities.add(new RestUserIssueActivity(activity.getUserName(), activity.getIssue().getId(),
 													 activity.getTime().getTime()));
 		}
@@ -74,12 +72,8 @@ public class MonitorResource {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getActiveUsersHtml(@QueryParam("issueId") long issueId) {
 
-		Issue issue = issueManager.getIssueObject(issueId);
-		List<UserIssueActivity> activities =
-				issue == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(issue);
-
 		Map<String, Object> parameters = velocityRenderer.newVelocityParameters();
-		parameters.put("activities", activities);
+		parameters.put("activities", getActivitiesForIssue(issueId));
 
 		String body = velocityRenderer.render(
 				"templates/plugins/monitoring/fields/view-activities.vm", parameters);
@@ -88,5 +82,10 @@ public class MonitorResource {
 		};
 
 		return Response.ok(entity).build();
+	}
+
+	private List<UserIssueActivity> getActivitiesForIssue(long issueId) {
+		Issue issue = issueManager.getIssueObject(issueId);
+		return issue == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(issue);
 	}
 }

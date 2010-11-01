@@ -19,6 +19,7 @@
 package it.com.pyxis.jira.monitoring.rest;
 
 import java.util.List;
+import javax.ws.rs.core.MediaType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,12 +38,16 @@ public class MonitorRestTest
 		extends FuncTestCase {
 
 	private static final long REST1_ISSUE_ID = 10030;
+	private static final long REST2_ISSUE_ID = 10040;
 
 	private Client client = Client.create();
+	private WebResource service;
 
 	@Before
 	protected void setUpTest() {
+//		client.addFilter(new LoggingFilter());
 		client.addFilter(new HTTPBasicAuthFilter("admin", "admin"));
+		service = client.resource("http://localhost:2990/jira/rest/monitor/1.0");
 
 		administration.restoreData("it-MonitorRestTest.xml");
 	}
@@ -64,10 +69,29 @@ public class MonitorRestTest
 		assertThat(activity.getName(), is(equalTo(ADMIN)));
 	}
 
+	@Test
+	public void testDeletingAnIssue() {
+
+		List<RestUserIssueActivity> actual = getActivities(REST2_ISSUE_ID);
+		assertThat(actual.size(), is(equalTo(0)));
+
+		navigation.issue().viewIssue("REST-2");
+
+		actual = getActivities(REST2_ISSUE_ID);
+		assertThat(actual.size(), is(equalTo(1)));
+
+		navigation.issue().deleteIssue("REST-2");
+
+		actual = getActivities(REST2_ISSUE_ID);
+		assertThat(actual.size(), is(equalTo(0)));
+	}
+
 	private List<RestUserIssueActivity> getActivities(long id) {
-		WebResource resource = client.resource(
-				String.format("http://localhost:2990/jira/rest/monitor/1.0/users.xml?issueId=%s", id));
-		return resource.get(new GenericType<List<RestUserIssueActivity>>() {
-		});
+
+		return service.path("users")
+				.queryParam("issueId", String.valueOf(id))
+				.accept(MediaType.APPLICATION_XML_TYPE)
+				.get(new GenericType<List<RestUserIssueActivity>>() {
+				});
 	}
 }

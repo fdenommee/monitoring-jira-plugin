@@ -27,6 +27,7 @@ import com.opensymphony.user.User;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.newIssue;
 import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
 import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
 import static org.junit.Assert.*;
@@ -46,6 +47,11 @@ public class MonitorHelperTest {
 	}
 
 	@Test
+	public void shouldHaveNoActivityForUnknowIssue() {
+		assertEquals(0, helper.getActivities(newIssue("UNKNOW", 999)).size());		
+	}
+
+	@Test
 	public void shouldRecordOneActivity() {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
@@ -59,7 +65,7 @@ public class MonitorHelperTest {
 		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
 
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
-		//assertUserActivities(activities, new User[] { FDENOMMEE_USER, VTHOULE_USER });
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER, VTHOULE_USER });
 	}
 
 	@Test
@@ -97,5 +103,5 @@ public class MonitorHelperTest {
 		for (int index = 0; index < expected.size(); index++) {
 			assertEquals(expected.get(index).getUserName(), actualUsers[index].getName());
 		}
-	}	
+	}
 }
