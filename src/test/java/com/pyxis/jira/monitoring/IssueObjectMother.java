@@ -28,7 +28,7 @@ public class IssueObjectMother {
 	public static final Issue TEST_1_ISSUE = newIssue("TEST-1", 1001);
 	public static final Issue TEST_2_ISSUE = newIssue("TEST-2", 1002);
 	
-	public static final MutableIssue INEXISTANTE_ISSUE = newMutableIssue("TEST-99999", -1);
+	public static final MutableIssue UNKNOWN_ISSUE = newMutableIssue("TEST-99999", -1);
 
 	public static final MutableIssue TEST_1_MUTABLEISSUE = newMutableIssue("TEST-1", 1001);
 

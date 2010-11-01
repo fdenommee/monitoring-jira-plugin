@@ -27,7 +27,7 @@ import com.opensymphony.user.User;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
-import static com.pyxis.jira.monitoring.IssueObjectMother.INEXISTANTE_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.UNKNOWN_ISSUE;
 import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
 import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -63,13 +63,13 @@ public class MonitorHelperTest {
 		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
 
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
-		//assertUserActivities(activities, new User[] { FDENOMMEE_USER, VTHOULE_USER });
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER, VTHOULE_USER });
 	}
 
 	@Test
-	public void shouldReturnNoUserActivityForInexistanteIssue() {
+	public void shouldReturnNoUserActivityForUnknownIssue() {
 
-		List<UserIssueActivity> activities = helper.getActivities(INEXISTANTE_ISSUE);
+		List<UserIssueActivity> activities = helper.getActivities(UNKNOWN_ISSUE);
 		assertThat(activities.size(), is(equalTo(0)));
 	}
 
@@ -108,5 +108,5 @@ public class MonitorHelperTest {
 		for (int index = 0; index < expected.size(); index++) {
 			assertEquals(expected.get(index).getUserName(), actualUsers[index].getName());
 		}
-	}	
+	}
 }

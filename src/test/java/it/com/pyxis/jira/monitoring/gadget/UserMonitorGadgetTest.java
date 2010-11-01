@@ -10,14 +10,14 @@ import it.com.pyxis.jira.selenium.JiraWebDriver;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.rpc.ServiceException;
-
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.atlassian.jira.rpc.soap.client.JiraSoapService;
-import com.atlassian.jira.rpc.soap.client.JiraSoapServiceService;
-import com.atlassian.jira.rpc.soap.client.JiraSoapServiceServiceLocator;
-import com.atlassian.jira.rpc.soap.client.RemoteAuthenticationException;
-import com.atlassian.jira.rpc.soap.client.RemoteException;
+import com.pyxis.jira.monitoring.rest.RestUserIssueActivity;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.GenericType;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
@@ -35,6 +35,9 @@ public class UserMonitorGadgetTest
 	private MonitoringGadget gadget;
 	private JiraSoapServiceProxy jiraProxy; 
 	private JiraSoapService jiraSoapService;
+	
+	private Client restClient = Client.create();
+	
 
 	@Override
 	protected void setUpTest() {
@@ -42,13 +45,38 @@ public class UserMonitorGadgetTest
 //		administration.enableAccessLogging();
 		jiraProxy = new JiraSoapServiceProxy();
 		
+
 		driver = new JiraWebDriver();
 		driver.gotoDashboard().loginAsAdmin();
 	}
-
+	
+	private WebResource getWebResourceAs(String userName, String password) {
+		
+//		MultivaluedMapImpl queryParams = new MultivaluedMapImpl();
+//        queryParams.add("os_username", userName);
+//        queryParams.add("os_password", password);
+        restClient.addFilter(new HTTPBasicAuthFilter(userName, password)); 		
+        WebResource resource = restClient.resource("http://localhost:2990/jira/rest"); //.queryParams(queryParams);
+        return resource;
+	}
+	
 	@Override
 	protected void tearDownTest() {
 		driver.quit();
+	}
+
+	public void testViewIssueByREST() {
+		String ret = null;
+		WebResource resource = null;
+		
+		resource = getWebResourceAs(ADMIN,ADMIN);
+		ret = resource.path(String.format("monitor/1.0/users.xml?id=%s", 10000)).get(new GenericType<List<RestUserIssueActivity>>() {}).toString();
+		System.err.println(ret);
+
+		resource = getWebResourceAs(ADMIN,ADMIN);
+		ret = resource.path("/api/1.0/issues/10000/voters").get(String.class);
+		System.err.println(ret);
+
 	}
 
 	public void testIssueConfigurationIsPersisted() {

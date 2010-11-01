@@ -4,7 +4,7 @@
 
 ___ Exported on _____________________________
 
-     on                                            : Thursday, October 28, 2010 4:54:55 o'clock PM EDT
+     on                                            : Monday, November 1, 2010 12:59:19 o'clock PM EDT
      by                                            : admin ( admin )
 
 ___ Environment ____________________________
@@ -15,14 +15,14 @@ ___ Environment ____________________________
      Java Version                                  : 1.6.0_22 - Sun Microsystems Inc.
      Current Working Directory                     : /home/fdenommee/Dev/monitoring-jira-plugin
      Maximum Allowable Memory                      : 455MB
-     Total Memory                                  : 330MB
-     Free Memory                                   : 117MB
-     Used Memory                                   : 213MB
-     Memory Pool: Code Cache                       : Code Cache: init = 2359296(2304K) used = 9259072(9042K) committed = 9338880(9120K) max = 50331648(49152K)
-     Memory Pool: PS Eden Space                    : PS Eden Space: init = 12451840(12160K) used = 73405776(71685K) committed = 122224640(119360K) max = 124190720(121280K)
-     Memory Pool: PS Survivor Space                : PS Survivor Space: init = 2031616(1984K) used = 2758568(2693K) committed = 27394048(26752K) max = 27394048(26752K)
-     Memory Pool: PS Old Gen                       : PS Old Gen: init = 33030144(32256K) used = 147144000(143695K) committed = 197394432(192768K) max = 357957632(349568K)
-     Memory Pool: PS Perm Gen                      : PS Perm Gen: init = 16777216(16384K) used = 72520048(70820K) committed = 106037248(103552K) max = 167772160(163840K)
+     Total Memory                                  : 289MB
+     Free Memory                                   : 84MB
+     Used Memory                                   : 205MB
+     Memory Pool: Code Cache                       : Code Cache: init = 2359296(2304K) used = 9586368(9361K) committed = 9633792(9408K) max = 50331648(49152K)
+     Memory Pool: PS Eden Space                    : PS Eden Space: init = 12451840(12160K) used = 68137720(66540K) committed = 101515264(99136K) max = 111738880(109120K)
+     Memory Pool: PS Survivor Space                : PS Survivor Space: init = 2031616(1984K) used = 12179440(11893K) committed = 34471936(33664K) max = 34471936(33664K)
+     Memory Pool: PS Old Gen                       : PS Old Gen: init = 33030144(32256K) used = 134493600(131341K) committed = 167313408(163392K) max = 357957632(349568K)
+     Memory Pool: PS Perm Gen                      : PS Perm Gen: init = 16777216(16384K) used = 67342144(65763K) committed = 78643200(76800K) max = 167772160(163840K)
      JVM Input Arguments                           : -Xmx512m -XX:MaxPermSize=160m -Datlassian.dev.mode=true -Dplugin.resource.directories=/home/fdenommee/Dev/monitoring-jira-plugin/src/main/resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Datlassian.dev.mode=true -Dplugin.resource.directories=/home/fdenommee/Dev/monitoring-jira-plugin/src/main/resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Dbaseurl=http://localhost:2990/jira -Dcatalina.home=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/apache-tomcat-6.0.20 -Dcatalina.base=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/cargo-jira-home -Djava.io.tmpdir=/home/fdenommee/Dev/monitoring-jira-plugin/target/container/tomcat6x/cargo-jira-home/temp
 
 ___ Database Configuration _________________
@@ -209,7 +209,7 @@ ___ Application Properties _________________
      jira.view.issue.links.sort.order              : type, status, priority
      jira.view.issue.show.quicksubtask.when.no.subtasks : false
      jira.viewcvs.root.type                        : cvsroot
-     jira.webresource.flushcounter                 : 111
+     jira.webresource.flushcounter                 : 150
      jira.webresource.superbatch.flushcounter      : 1
      user.default.share.private                    : true
      user.issues.per.page                          : 50
@@ -233,7 +233,7 @@ ___ License Details ________________________
 
 ___ Database Statistics ____________________
 
-     Issues                                        : 1
+     Issues                                        : 2
      Projects                                      : 1
      Custom Fields                                 : 1
      Workflows                                     : 0
@@ -539,10 +539,10 @@ ___ Services _______________________________
 
      Mail Queue Service                            : com.atlassian.jira.service.services.mail.MailQueueService
           Service Delay                                 : 60000ms
-     Last Run                                      : 28/10/10 4:54 PM
+     Last Run                                      : 01/11/10 12:58 PM
      Service Provider Token Remover                : com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService
           Service Delay                                 : 28800000ms
-     Last Run                                      : 28/10/10 4:49 PM
+     Last Run                                      : 01/11/10 12:54 PM
           pluginJobName                                 : Service Provider Token Remover
 
 ___ Trusted Applications ___________________
@@ -631,6 +631,7 @@ ___ Trusted Applications ___________________
     <GadgetUserPreference id="10087" portletconfiguration="10040" userprefkey="refresh" userprefvalue="false"/>
     <GenericConfiguration id="10000" datatype="DefaultValue" datakey="10000" xmlvalue="&lt;string&gt;1&lt;/string&gt;"/>
     <Issue id="10030" key="REST-1" project="10010" reporter="admin" assignee="admin" type="3" summary="Test 1" priority="3" status="1" created="2010-10-28 16:53:19.385" updated="2010-10-28 16:53:19.385" votes="0" workflowId="10030"/>
+    <Issue id="10040" key="REST-2" project="10010" reporter="admin" assignee="admin" type="3" summary="Test 2" priority="3" status="1" created="2010-11-01 12:58:10.024" updated="2010-11-01 12:58:10.024" votes="0" workflowId="10040"/>
     <IssueType id="1" sequence="1" name="Bug" description="A problem which impairs or prevents the functions of the product." iconurl="/images/icons/bug.gif"/>
     <IssueType id="2" sequence="2" name="New Feature" description="A new feature of the product, which has yet to be developed." iconurl="/images/icons/newfeature.gif"/>
     <IssueType id="3" sequence="3" name="Task" description="A task that needs to be done." iconurl="/images/icons/task.gif"/>
@@ -640,7 +641,7 @@ ___ Trusted Applications ___________________
     <ListenerConfig id="10000" clazz="com.atlassian.jira.event.listeners.cache.IssueCacheListener" name="Issue Cache Listener"/>
     <ListenerConfig id="10001" clazz="com.atlassian.jira.event.listeners.mail.MailListener" name="Mail Listener"/>
     <ListenerConfig id="10020" clazz="com.pyxis.jira.monitoring.event.MonitorIssueEventListener" name="Monitor Issue Event Listener"/>
-    <ListenerConfig id="10100" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
+    <ListenerConfig id="10110" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
     <NodeAssociation sourceNodeId="10010" sourceNodeEntity="Project" sinkNodeId="0" sinkNodeEntity="PermissionScheme" associationType="ProjectScheme"/>
     <NodeAssociation sourceNodeId="10010" sourceNodeEntity="Project" sinkNodeId="1" sinkNodeEntity="IssueTypeScreenScheme" associationType="ProjectScheme"/>
     <Notification id="10000" scheme="10000" eventTypeId="1" type="Current_Assignee"/>
@@ -693,6 +694,7 @@ ___ Trusted Applications ___________________
     <Notification id="10048" scheme="10000" eventTypeId="16" type="All_Watchers"/>
     <NotificationScheme id="10000" name="Default Notification Scheme"/>
     <OSCurrentStep id="10040" entryId="10030" stepId="1" actionId="0" owner="" startDate="2010-10-28 16:53:19.38" status="Open"/>
+    <OSCurrentStep id="10050" entryId="10040" stepId="1" actionId="0" owner="" startDate="2010-11-01 12:58:10.016" status="Open"/>
     <OSCurrentStepPrev id="10010" previousId="10000"/>
     <OSCurrentStepPrev id="10011" previousId="10010"/>
     <OSGroup id="10000" name="jira-administrators"/>
@@ -836,10 +838,10 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSPropertyString id="10053" value="1"/>
     <OSPropertyString id="10054" value="0"/>
     <OSPropertyString id="10055" value="0"/>
-    <OSPropertyString id="10056" value="1288299100123"/>
-    <OSPropertyString id="10057" value="84"/>
-    <OSPropertyString id="10061" value="1288298731607"/>
-    <OSPropertyString id="10250" value="111"/>
+    <OSPropertyString id="10056" value="1288630668803"/>
+    <OSPropertyString id="10057" value="87"/>
+    <OSPropertyString id="10061" value="1288630667404"/>
+    <OSPropertyString id="10250" value="150"/>
     <OSPropertyString id="10251" value="${fullname} (JIRA)"/>
     <OSPropertyString id="10255" value="never"/>
     <OSPropertyString id="10262" value="workaround"/>
@@ -862,6 +864,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSUser id="10030" name="fred" passwordHash="x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A=="/>
     <OSUser id="10031" name="bob" passwordHash="x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A=="/>
     <OSWorkflowEntry id="10030" name="jira" state="1"/>
+    <OSWorkflowEntry id="10040" name="jira" state="1"/>
     <OptionConfiguration id="10000" fieldid="issuetype" optionid="1" fieldconfig="10000" sequence="0"/>
     <OptionConfiguration id="10001" fieldid="issuetype" optionid="2" fieldconfig="10000" sequence="1"/>
     <OptionConfiguration id="10002" fieldid="issuetype" optionid="3" fieldconfig="10000" sequence="2"/>
@@ -946,7 +949,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <Priority id="3" sequence="3" name="Major" description="Major loss of function." iconurl="/images/icons/priority_major.gif" statusColor="#009900"/>
     <Priority id="4" sequence="4" name="Minor" description="Minor loss of function, or other problem where easy workaround is present." iconurl="/images/icons/priority_minor.gif" statusColor="#006600"/>
     <Priority id="5" sequence="5" name="Trivial" description="Cosmetic problem like misspelt words or misaligned text." iconurl="/images/icons/priority_trivial.gif" statusColor="#003300"/>
-    <Project id="10010" name="Rest" url="" lead="admin" description="" key="REST" counter="1" assigneetype="2" avatar="10011"/>
+    <Project id="10010" name="Rest" url="" lead="admin" description="" key="REST" counter="2" assigneetype="2" avatar="10011"/>
     <ProjectRole id="10000" name="Users" description="A project role that represents users in a project"/>
     <ProjectRole id="10001" name="Developers" description="A project role that represents developers in a project"/>
     <ProjectRole id="10002" name="Administrators" description="A project role that represents administrators in a project"/>
@@ -1013,17 +1016,17 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SequenceValueItem seqName="FieldScreenTab" seqId="10010"/>
     <SequenceValueItem seqName="GadgetUserPreference" seqId="10090"/>
     <SequenceValueItem seqName="GenericConfiguration" seqId="10010"/>
-    <SequenceValueItem seqName="Issue" seqId="10040"/>
+    <SequenceValueItem seqName="Issue" seqId="10050"/>
     <SequenceValueItem seqName="IssueTypeScreenSchemeEntity" seqId="10010"/>
-    <SequenceValueItem seqName="ListenerConfig" seqId="10110"/>
+    <SequenceValueItem seqName="ListenerConfig" seqId="10120"/>
     <SequenceValueItem seqName="Notification" seqId="10050"/>
     <SequenceValueItem seqName="NotificationScheme" seqId="10010"/>
-    <SequenceValueItem seqName="OSCurrentStep" seqId="10050"/>
+    <SequenceValueItem seqName="OSCurrentStep" seqId="10060"/>
     <SequenceValueItem seqName="OSGroup" seqId="10010"/>
     <SequenceValueItem seqName="OSMembership" seqId="10040"/>
     <SequenceValueItem seqName="OSPropertyEntry" seqId="10370"/>
     <SequenceValueItem seqName="OSUser" seqId="10040"/>
-    <SequenceValueItem seqName="OSWorkflowEntry" seqId="10040"/>
+    <SequenceValueItem seqName="OSWorkflowEntry" seqId="10050"/>
     <SequenceValueItem seqName="OptionConfiguration" seqId="10010"/>
     <SequenceValueItem seqName="PluginVersion" seqId="10080"/>
     <SequenceValueItem seqName="PortalPage" seqId="10030"/>
@@ -1036,7 +1039,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SequenceValueItem seqName="SharePermissions" seqId="10010"/>
     <SequenceValueItem seqName="UpgradeHistory" seqId="10050"/>
     <SequenceValueItem seqName="UpgradeVersionHistory" seqId="10020"/>
-    <SequenceValueItem seqName="UserHistoryItem" seqId="10080"/>
+    <SequenceValueItem seqName="UserHistoryItem" seqId="10090"/>
     <ServiceConfig id="10000" time="60000" clazz="com.atlassian.jira.service.services.mail.MailQueueService" name="Mail Queue Service"/>
     <ServiceConfig id="10290" time="28800000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="Service Provider Token Remover"/>
     <SharePermissions id="10000" entityId="10000" entityType="PortalPage" type="global"/>
@@ -1092,14 +1095,15 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <UserHistoryItem id="10060" type="Issue" entityId="10000" username="fred" lastViewed="1288293502110"/>
     <UserHistoryItem id="10061" type="Project" entityId="10000" username="fred" lastViewed="1288293502179"/>
     <UserHistoryItem id="10062" type="Issue" entityId="10010" username="fred" lastViewed="1288293502179"/>
-    <UserHistoryItem id="10070" type="Project" entityId="10010" username="admin" lastViewed="1288299200092"/>
+    <UserHistoryItem id="10070" type="Project" entityId="10010" username="admin" lastViewed="1288630696603"/>
     <UserHistoryItem id="10071" type="Issue" entityId="10030" username="admin" lastViewed="1288299200063"/>
+    <UserHistoryItem id="10080" type="Issue" entityId="10040" username="admin" lastViewed="1288630696603"/>
 <!-- 
 
 
 ___ Entities ________________________________
 
-     Total                                         : 538
+     Total                                         : 542
 
      Avatar                                        : 12
      ConfigurationContext                          : 2
@@ -1116,7 +1120,7 @@ ___ Entities ________________________________
      FieldScreenTab                                : 3
      GadgetUserPreference                          : 10
      GenericConfiguration                          : 1
-     Issue                                         : 1
+     Issue                                         : 2
      IssueType                                     : 4
      IssueTypeScreenScheme                         : 1
      IssueTypeScreenSchemeEntity                   : 1
@@ -1124,7 +1128,7 @@ ___ Entities ________________________________
      NodeAssociation                               : 2
      Notification                                  : 48
      NotificationScheme                            : 1
-     OSCurrentStep                                 : 1
+     OSCurrentStep                                 : 2
      OSCurrentStepPrev                             : 2
      OSGroup                                       : 3
      OSHistoryStepPrev                             : 1
@@ -1134,7 +1138,7 @@ ___ Entities ________________________________
      OSPropertyString                              : 53
      OSPropertyText                                : 3
      OSUser                                        : 3
-     OSWorkflowEntry                               : 1
+     OSWorkflowEntry                               : 2
      OptionConfiguration                           : 4
      PermissionScheme                              : 1
      PluginVersion                                 : 66
@@ -1152,7 +1156,7 @@ ___ Entities ________________________________
      Status                                        : 5
      UpgradeHistory                                : 34
      UpgradeVersionHistory                         : 2
-     UserHistoryItem                               : 13
+     UserHistoryItem                               : 14
 
  -->
 </entity-engine-xml>

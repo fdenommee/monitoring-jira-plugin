@@ -63,7 +63,7 @@ public class MonitorCustomField
 	public Map<String, Object> getVelocityParameters(Issue issue, CustomField field, FieldLayoutItem fieldLayoutItem) {
 		Map<String, Object> map = super.getVelocityParameters(issue, field, fieldLayoutItem);
 		map.put("activities", monitorHelper.getActivities(issue));
-		map.put("outlookDate", authenticationContext.getOutlookDate());
+		map.put("outlookdate", authenticationContext.getOutlookDate());
 		return map;
 	}
 }

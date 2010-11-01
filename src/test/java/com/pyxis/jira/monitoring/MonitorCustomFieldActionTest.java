@@ -28,7 +28,7 @@ import com.atlassian.jira.issue.IssueManager;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_MUTABLEISSUE;
-import static com.pyxis.jira.monitoring.IssueObjectMother.INEXISTANTE_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.UNKNOWN_ISSUE;
 import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
 import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
 import static org.junit.Assert.*;
@@ -62,7 +62,7 @@ public class MonitorCustomFieldActionTest {
 	public void shouldHaveNoActivityForInexistantIssue()
 			throws Exception {
 
-		when(issueManager.getIssueObject(INEXISTANTE_ISSUE.getId())).thenReturn(null);
+		when(issueManager.getIssueObject(UNKNOWN_ISSUE.getId())).thenReturn(null);
 		action.setIssueId(TEST_1_MUTABLEISSUE.getId());
 		
 		action.doExecute();
