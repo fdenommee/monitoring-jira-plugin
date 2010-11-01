@@ -125,7 +125,7 @@ public class UserMonitorGadgetTest
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 		
-//		jiraProxy.login(ADMIN, ADMIN).deleteIssue("TEST-2"); 
+		jiraProxy.login(ADMIN, ADMIN).deleteIssue("TEST-2"); 
 		
 		driver.gotoDashboard();
 		
@@ -135,28 +135,6 @@ public class UserMonitorGadgetTest
 		actual = gadget2.getUserActivities();
 		assertThat(actual.size(), is(equalTo(0)));
 
-	}
-
-	private void getJiraSoapService() {
-		JiraSoapServiceService jiraSoapServiceGetter = new JiraSoapServiceServiceLocator();
-		JiraSoapService jiraSoapService;
-		try {
-			jiraSoapService = jiraSoapServiceGetter.getJirasoapserviceV2();
-			String token = jiraSoapService.login(ADMIN, ADMIN);
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteAuthenticationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (java.rmi.RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 
 	public void testShouldSeeSameActivitiesBetweenGadgets() {

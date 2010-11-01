@@ -1,5 +1,8 @@
 package it.com.pyxis.jira.selenium;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.hamcrest.core.Is;
 import org.hamcrest.core.IsNull;
 
@@ -11,6 +14,8 @@ import com.atlassian.jira.rpc.soap.client.RemoteAuthenticationException;
 import com.atlassian.jira.rpc.soap.client.RemoteException;
 import com.atlassian.jira.rpc.soap.client.RemoteIssue;
 import com.atlassian.jira.rpc.soap.client.RemotePermissionException;
+import com.atlassian.jira_soapclient.SOAPSession;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -19,32 +24,39 @@ import static org.junit.Assert.assertNotNull;
 public class JiraSoapServiceProxy {
 
 	private JiraSoapServiceService jiraSoapServiceGetter = new JiraSoapServiceServiceLocator();
+	private SOAPSession soapSession;
 	private JiraSoapService jiraSoapService = null;
-	private String token = null;
+//	private String token = null;
+	
+	private String baseUrl = "http://localhost:2990/jira/rpc/soap/jirasoapservice-v2";
 
 	public JiraSoapServiceProxy() {
 		getJiraSoapService();
 	}
 
 	public String getToken() {
-		return token;
+		return soapSession.getAuthenticationToken();
 	}
 
 	public JiraSoapService getJiraSoapService() {
 		if (jiraSoapService == null) {
 			try {
-				jiraSoapService = jiraSoapServiceGetter.getJirasoapserviceV2();
-			} catch (javax.xml.rpc.ServiceException e) {
+				soapSession = new SOAPSession(new URL(baseUrl));
+				jiraSoapService = soapSession.getJiraSoapService();
+			} catch (MalformedURLException e) {
 				e.printStackTrace();
+			} finally {
+				// TODO: handle exception
 			}
 			assertNotNull(jiraSoapService);
 		}
 		return jiraSoapService;
 	}
 
-	public JiraSoapServiceProxy login(String user, String pwd) {
+	public JiraSoapServiceProxy login(String userName, String password) {
 		try {
-			token = getJiraSoapService().login(user, pwd);
+			soapSession.connect(userName, password);
+//			token = getJiraSoapService().login(userName, password);
 		} catch (RemoteAuthenticationException e) {
 			e.printStackTrace();
 		} catch (RemoteException e) {
@@ -54,7 +66,7 @@ public class JiraSoapServiceProxy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertNotNull(token);
+		assertNotNull(getToken());
 		
 		return this;
 	}

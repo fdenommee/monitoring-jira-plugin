@@ -24,7 +24,13 @@
 			<version>${jira.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
+<!--
+		<dependency>
+	        <groupId>com.atlassian.jira.plugins</groupId>
+	        <artifactId>atlassian-jira-rpc-parent</artifactId>
+	        <version>${jira.version}-1</version>
+		</dependency>
+-->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>
