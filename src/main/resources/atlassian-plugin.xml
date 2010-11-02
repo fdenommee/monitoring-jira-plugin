@@ -49,7 +49,7 @@
 		</actions>
 	</webwork1>
 
-	<gadget key="user-monitoring-gadget" name="Pyxis Monitor Gadget" location="gadgets/user-monitoring-gadget.xml">
+	<gadget key="user-monitoring-gadget" name="User Monitoring Gadget" location="gadgets/user-monitoring-gadget.xml">
 		<description>User Monitoring gadget!</description>
 	</gadget>
 

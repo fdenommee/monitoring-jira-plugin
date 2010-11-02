@@ -1,17 +1,14 @@
 package it.com.pyxis.jira.monitoring.gadget;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
-import it.com.pyxis.jira.selenium.JiraSoapServiceProxy;
-import it.com.pyxis.jira.selenium.JiraWebDriver;
-
 import java.util.Arrays;
 import java.util.List;
 
 import com.atlassian.jira.functest.framework.FuncTestCase;
-import com.atlassian.jira.rpc.soap.client.JiraSoapService;
+import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
+import it.com.pyxis.jira.selenium.JiraWebDriver;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
@@ -27,11 +24,6 @@ public class UserMonitorGadgetTest
 
 	private JiraWebDriver driver;
 	private MonitoringGadget gadget;
-	private JiraSoapServiceProxy jiraProxy; 
-	private JiraSoapService jiraSoapService;
-	
-//	private Client restClient = Client.create();
-	
 
 	@Override
 	protected void setUpTest() {
@@ -110,9 +102,7 @@ public class UserMonitorGadgetTest
 		MonitoringGadget gadget2 = new MonitoringGadget(driver, SECOND_MONITORING_GADGET);
 		List<String> expected = Arrays.asList(ADMIN, "fred");
 
-		List<String> actual = null;
-		
-		actual = gadget1.getUserActivities();
+		List<String> actual = gadget1.getUserActivities();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 		

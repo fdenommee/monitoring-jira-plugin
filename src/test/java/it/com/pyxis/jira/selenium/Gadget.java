@@ -59,10 +59,6 @@ public class Gadget {
 		driver.switchTo().frame(gadgetId);
 	}
 
-	@Deprecated
-	public void openMenu() {
-	}
-
 	public void closeMenu() {
 		outsideFocus();
 		getAutomaton().perform(

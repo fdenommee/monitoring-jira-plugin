@@ -45,7 +45,6 @@ public class MonitorRestTest
 
 	@Before
 	protected void setUpTest() {
-//		client.addFilter(new LoggingFilter());
 		client.addFilter(new HTTPBasicAuthFilter("admin", "admin"));
 		service = client.resource("http://localhost:2990/jira/rest/monitor/1.0");
 

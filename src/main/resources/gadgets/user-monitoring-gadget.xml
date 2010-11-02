@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
 	<ModulePrefs
-			title="__MSG_gadget.user.monitoring.title__"
-			title_url="__MSG_gadget.user.monitoring.title.url__"
-			directory_title="__MSG_gadget.user.monitoring.title__"
-			description="__MSG_gadget.user.monitoring.description__"
+			title="__MSG_gadget.monitoring.user.title__"
+			directory_title="__MSG_gadget.monitoring.user.title__"
+			description="__MSG_gadget.monitoring.user.title.description__"
 			author="Pyxis Technologies"
 			author_email="atlassian.partner@pyxis-tech.com">
 		<Optional feature="gadget-directory">

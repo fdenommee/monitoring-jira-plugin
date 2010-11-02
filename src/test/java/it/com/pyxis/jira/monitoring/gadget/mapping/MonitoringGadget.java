@@ -43,7 +43,6 @@ public class MonitoringGadget
 
 	public void config(int issue) {
 
-		openMenu();
 		clickEditMenu();
 
 		Select select = new Select(configIssueId());
@@ -54,7 +53,6 @@ public class MonitoringGadget
 
 	public void assertConfig(int issue) {
 
-		openMenu();
 		clickEditMenu();
 
 		try {
