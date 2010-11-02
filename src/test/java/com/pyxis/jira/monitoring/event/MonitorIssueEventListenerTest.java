@@ -1,4 +1,4 @@
-package com.pyxis.jira.monitoring;
+package com.pyxis.jira.monitoring.event;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
@@ -18,6 +18,8 @@ import com.atlassian.jira.event.issue.IssueEvent;
 import com.atlassian.jira.event.type.EventType;
 import com.atlassian.jira.issue.IssueManager;
 import com.opensymphony.user.User;
+import com.pyxis.jira.monitoring.DefaultMonitorHelper;
+import com.pyxis.jira.monitoring.MonitorHelper;
 import com.pyxis.jira.monitoring.event.MonitorIssueEventListener;
 
 public class MonitorIssueEventListenerTest {
