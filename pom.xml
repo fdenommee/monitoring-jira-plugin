@@ -23,13 +23,6 @@
 			<artifactId>atlassian-jira</artifactId>
 			<version>${jira.version}</version>
 			<scope>provided</scope>
-			<!-- Conflict on Hudson integration server -->
-			<exclusions>
-				<exclusion>
-					<groupId>dom4j</groupId>
-					<artifactId>dom4j</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		
 		<dependency>
@@ -76,13 +69,6 @@
 			<artifactId>jira-func-tests</artifactId>
 			<version>${jira.version}</version>
 			<scope>test</scope>
-			<!-- Conflict on Hudson integration server -->
-			<exclusions>
-				<exclusion>
-					<groupId>dom4j</groupId>
-					<artifactId>dom4j</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.atlassian.jira.plugins</groupId>
