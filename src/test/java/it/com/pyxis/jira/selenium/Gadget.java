@@ -33,7 +33,6 @@ import com.objogate.wl.robot.RoboticAutomaton;
 import static com.objogate.wl.gesture.Gestures.clickMouseButton;
 import static com.objogate.wl.gesture.Gestures.moveMouseTo;
 import static com.objogate.wl.gesture.Gestures.sequence;
-import static org.junit.Assert.*;
 
 public class Gadget {
 
@@ -60,12 +59,8 @@ public class Gadget {
 		driver.switchTo().frame(gadgetId);
 	}
 
+	@Deprecated
 	public void openMenu() {
-		WebElement gadget = gadgetRenderBox();
-		getAutomaton().perform(
-				sequence(
-						moveMouseTo(new GadgetMenuTracker(gadget)),
-						clickMouseButton(Gestures.BUTTON1)));
 	}
 
 	public void closeMenu() {
@@ -79,45 +74,11 @@ public class Gadget {
 	}
 
 	public void clickEditMenu() {
-
-		WebElement gadget = gadgetRenderBox();
-
-		WebElement gadgetHeader = dashboardItemHeader(gadget);
-		assertNotNull(gadgetHeader);
-
-		WebElement gadgetMenu = gadgetMenu(gadgetHeader);
-		assertNotNull(gadgetMenu);
-
-		WebElement configMenu = gadgetMenu.findElement(By.className("configure"));
-		assertNotNull(configMenu);
-
-		WebElement configAnchor = noTarget(configMenu);
-		assertNotNull(configAnchor);
-
-		configAnchor.click();
-
-		insideFocus();
+		clickMenuItem("configure");
 	}
 
 	public void clickRefreshMenu() {
-
-		WebElement gadget = gadgetRenderBox();
-
-		WebElement gadgetHeader = dashboardItemHeader(gadget);
-		assertNotNull(gadgetHeader);
-
-		WebElement gadgetMenu = gadgetMenu(gadgetHeader);
-		assertNotNull(gadgetMenu);
-
-		WebElement configMenu = gadgetMenu.findElement(By.className("reload"));
-		assertNotNull(configMenu);
-
-		WebElement refreshAnchor = noTarget(configMenu);
-		assertNotNull(refreshAnchor);
-
-		refreshAnchor.click();
-
-		insideFocus();
+		clickMenuItem("reload");
 	}
 
 	public void clickCancelButton() {
@@ -139,16 +100,37 @@ public class Gadget {
 		return driver.findElement(By.id(String.format("%s-renderbox", gadgetId)));
 	}
 
-	private WebElement noTarget(WebElement parent) {
-		return parent.findElement(By.className("no_target"));
+	private void clickMenuItem(String classItem) {
+
+		WebElement gadget = gadgetRenderBox();
+		hoverOn(gadget);
+
+		getAutomaton().perform(
+				sequence(moveMouseTo(new GadgetMenuTracker(gadget)), clickMouseButton(Gestures.BUTTON1)));
+
+		String xpath = String.format(
+				".//*[@id='%s-chrome']/*/div[@class='gadget-menu']/*//li[@class='%s']/a[@class='no_target']",
+				gadgetId, classItem);
+
+		WebElement menuElement = gadget.findElement(By.xpath(xpath));
+		hoverOn(menuElement);
+
+		getAutomaton().perform(
+				sequence(moveMouseTo(new MenuTracker(menuElement)), clickMouseButton(Gestures.BUTTON1)));
+
+		insideFocus();
 	}
 
-	private WebElement gadgetMenu(WebElement parent) {
-		return parent.findElement(By.className("gadget-menu"));
-	}
+	private void hoverOn(WebElement element) {
 
-	private WebElement dashboardItemHeader(WebElement parent) {
-		return parent.findElement(By.className("dashboard-item-header"));
+		if (element instanceof RenderedWebElement) {
+			try {
+				((RenderedWebElement)element).hover();
+			}
+			catch (UnsupportedOperationException ex) {
+				System.err.printf("WARNING: hover not supported : %s", ex.getMessage());
+			}
+		}
 	}
 
 	private Automaton getAutomaton() {
@@ -156,6 +138,27 @@ public class Gadget {
 			automaton = new RoboticAutomaton();
 		}
 		return automaton;
+	}
+
+	private class MenuTracker
+			implements Tracker {
+
+		private final WebElement element;
+		private Point center;
+
+		private MenuTracker(WebElement element) {
+			this.element = element;
+		}
+
+		public Point target(Point currentLocation) {
+			if (center == null) {
+				Point p = driver.getLocationOnScreenOnceScrolledIntoView(element);
+				Dimension d = ((RenderedWebElement)element).getSize();
+
+				center = new Point(p.x + d.width / 2, p.y + d.height / 2);
+			}
+			return center;
+		}
 	}
 
 	private class GadgetMenuTracker
