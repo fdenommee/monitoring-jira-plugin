@@ -18,13 +18,9 @@
  */
 package com.pyxis.jira.monitoring;
 
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import com.opensymphony.user.User;
-
+import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_OTHER_TEST;
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_TEST;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.UNKNOWN_ISSUE;
@@ -33,17 +29,36 @@ import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import com.atlassian.jira.issue.IssueManager;
+import com.opensymphony.user.User;
+
+@RunWith(MockitoJUnitRunner.class)
 public class MonitorHelperTest {
 
 	private MonitorHelper helper;
+	@Mock private IssueManager issueManager;
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper();
+		helper = new DefaultMonitorHelper(issueManager);
 	}
 	
+	@Test
+	public void shouldHaveNoActivityForProject() {
+		assertEquals(0, helper.getActivities(PROJECT_TEST).size());
+	}
+
 	@Test
 	public void shouldHaveNoActivity() {
 		assertEquals(0, helper.getActivities(TEST_1_ISSUE).size());
@@ -53,6 +68,24 @@ public class MonitorHelperTest {
 	public void shouldRecordOneActivity() {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+	}
+	
+	@Test
+	public void activitesAreFoundPerProjectForSameUser() {
+		
+		when(issueManager.getIssueObject(OTHER_TEST_1_ISSUE.getId())).thenReturn(OTHER_TEST_1_ISSUE);
+		when(issueManager.getIssueObject(TEST_1_ISSUE.getId())).thenReturn(TEST_1_ISSUE);
+		
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(FDENOMMEE_USER, OTHER_TEST_1_ISSUE);
+		
+		List<UserIssueActivity> activities = null;
+		
+		activities = helper.getActivities(PROJECT_TEST);
+		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+
+		activities = helper.getActivities(PROJECT_OTHER_TEST);
 		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
 	}
 	
