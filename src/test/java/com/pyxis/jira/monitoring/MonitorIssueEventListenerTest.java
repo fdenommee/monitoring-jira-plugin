@@ -12,9 +12,11 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import com.atlassian.jira.event.issue.IssueEvent;
 import com.atlassian.jira.event.type.EventType;
+import com.atlassian.jira.issue.IssueManager;
 import com.opensymphony.user.User;
 import com.pyxis.jira.monitoring.event.MonitorIssueEventListener;
 
@@ -22,10 +24,11 @@ public class MonitorIssueEventListenerTest {
 
 	private MonitorHelper helper;
 	private MonitorIssueEventListener eventListener;
+	@Mock private IssueManager issueManager;
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper();
+		helper = new DefaultMonitorHelper(issueManager);
 		eventListener = new MonitorIssueEventListener(helper);
 	}
 	
