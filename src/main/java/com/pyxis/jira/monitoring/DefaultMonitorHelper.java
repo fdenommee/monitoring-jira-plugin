@@ -27,6 +27,7 @@ public class DefaultMonitorHelper
 	}
 
 	public List<UserIssueActivity> getActivities(Issue issue) {
+		if (issue == null) return Collections.emptyList();
 		List<UserIssueActivity> userActivities = getActivitiesForIssue(issue);
 		sortByDate(userActivities);
 		return userActivities;
@@ -52,6 +53,10 @@ public class DefaultMonitorHelper
 		activities.remove(issue.getId());
 	}
 
+	public void clear() {
+		activities.clear();
+	}
+
 	private void sortByDate(List<UserIssueActivity> activities) {
 
 		Collections.sort(activities, new Comparator<UserIssueActivity>() {
@@ -64,32 +69,36 @@ public class DefaultMonitorHelper
 	private List<UserIssueActivity> getActivitiesForProject(Project project) {
 
 		List<UserIssueActivity> userActivities = new ArrayList<UserIssueActivity>();
-		for (List<UserIssueActivity> userIssueActivities :  activities.values() ) {
-			UserIssueActivity userIssueActivity = userIssueActivities.get(0);
-			if (userIssueActivity.getIssue().getProjectObject().getKey().equals(project.getKey())) {
-				userActivities.addAll(userIssueActivities);
+
+		for (Long issueId : activities.keySet()) {
+			List<UserIssueActivity> activitiesByIssue = activities.get(issueId);
+
+			if (has(activitiesByIssue) && sameProject(firstProjectOf(activitiesByIssue), project)) {
+				userActivities.addAll(activitiesByIssue);
 			}
 		}
 
 		return userActivities;
 	}
 
+	private boolean has(List<UserIssueActivity> entries) {
+		return entries.size() > 0;
+	}
+
+	private Project firstProjectOf(List<UserIssueActivity> entries) {
+		return firstIssueOf(entries).getProjectObject();
+	}
+
+	private Issue firstIssueOf(List<UserIssueActivity> entries) {
+		return entries.get(0).getIssue();
+	}
+
+	private boolean sameProject(Project p1, Project p2) {
+		return p1.getKey().equals(p2.getKey());
+	}
+
 	private List<UserIssueActivity> getActivitiesForIssue(Issue issue) {
-
-		List<UserIssueActivity> userActivities = null;
-		if (issue != null) {
-			userActivities = activities.get(issue.getId());
-		}
-
-		if (userActivities == null) {
-			userActivities = new ArrayList<UserIssueActivity>();
-		}
-
-		return userActivities;
+		List<UserIssueActivity> userActivities = activities.get(issue.getId());
+		return userActivities == null ? new ArrayList<UserIssueActivity>() : userActivities;
 	}
-
-	public void clear() {
-		activities.clear();		
-	}
-
 }

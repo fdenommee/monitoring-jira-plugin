@@ -25,8 +25,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import com.pyxis.jira.monitoring.rest.MonitorResource;
-
 import it.com.pyxis.jira.selenium.Gadget;
 import it.com.pyxis.jira.selenium.JiraWebDriver;
 
@@ -43,23 +41,23 @@ public class MonitoringGadget
 		return content().getText();
 	}
 
-	public void config(int project) {
+	public void config(int projectId) {
 
 		clickEditMenu();
 
 		Select select = new Select(configProjectId());
-		select.selectByValue(MonitorResource.PROJECT_PREFIX + String.valueOf(project));
+		select.selectByValue(toProjectValue(projectId));
 
 		clickSaveButton();
 	}
 
-	public void assertConfig(int project) {
+	public void assertConfig(int projectId) {
 
 		clickEditMenu();
 
 		try {
 			String value = configProjectId().getValue();
-			assertEquals(MonitorResource.PROJECT_PREFIX + String.valueOf(project), value);
+			assertEquals(toProjectValue(projectId), value);
 		}
 		finally {
 			clickCancelButton();
@@ -71,8 +69,6 @@ public class MonitoringGadget
 
 		List<String> activities = new ArrayList<String>();
 		List<WebElement> elements = content().findElements(By.xpath("//tr[starts-with(@id,'monitor_activity_')]/td[1]"));
-//		List<WebElement> elements = content().findElements(By.xpath(".//tr[starts-with(@id,'monitor_activity_')]/td[2]"));
-		
 
 		for (WebElement element : elements) {
 			activities.add(element.getText());
@@ -85,15 +81,11 @@ public class MonitoringGadget
 		return driver.findElement(By.id("gadget_monitoring_user"));
 	}
 
-	private WebElement configSearchByIssue() {
-		return driver.findElement(By.id("searchByIssue"));
-	}
-
-	private WebElement configIssueId() {
-		return driver.findElement(By.id("issueId"));
-	}
-
 	private WebElement configProjectId() {
 		return driver.findElement(By.id("projectId"));
+	}
+
+	private String toProjectValue(int projectId) {
+		return String.format("project-%d", projectId);
 	}
 }

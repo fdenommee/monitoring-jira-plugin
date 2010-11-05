@@ -18,7 +18,7 @@
  */
 package com.pyxis.jira.monitoring;
 
-import org.junit.Before; 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -53,7 +53,7 @@ public class MonitorCustomFieldActionTest {
 
 		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
 		action.setIssueId(TEST_1_MUTABLEISSUE.getId());
-		
+
 		action.doExecute();
 		assertEquals(0, action.getActivities().size());
 	}
@@ -64,7 +64,7 @@ public class MonitorCustomFieldActionTest {
 
 		when(issueManager.getIssueObject(UNKNOWN_ISSUE.getId())).thenReturn(null);
 		action.setIssueId(TEST_1_MUTABLEISSUE.getId());
-		
+
 		action.doExecute();
 		assertEquals(0, action.getActivities().size());
 	}
@@ -75,28 +75,11 @@ public class MonitorCustomFieldActionTest {
 
 		monitorHelper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		monitorHelper.notify(VTHOULE_USER, TEST_1_ISSUE);
-		
+
 		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
 		action.setIssueId(TEST_1_MUTABLEISSUE.getId());
-		
+
 		action.doExecute();
 		assertEquals(2, action.getActivities().size());
-	}
-
-	@Test
-	public void shouldHaveNoActivitiesAfterClear()
-			throws Exception {
-
-		monitorHelper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
-		monitorHelper.notify(VTHOULE_USER, TEST_1_ISSUE);
-		
-		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
-		action.setIssueId(TEST_1_MUTABLEISSUE.getId());
-		
-		action.doExecute();
-		assertEquals(2, action.getActivities().size());
-
-		action.doClearActivity();
-		assertEquals(0, action.getActivities().size());
 	}
 }

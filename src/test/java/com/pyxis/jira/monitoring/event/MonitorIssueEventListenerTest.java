@@ -1,17 +1,16 @@
 package com.pyxis.jira.monitoring.event;
 
-import java.util.Map;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import com.atlassian.jira.event.issue.IssueEvent;
 import com.atlassian.jira.event.type.EventType;
-import com.atlassian.jira.issue.IssueManager;
-import com.opensymphony.user.User;
+import com.atlassian.jira.issue.Issue;
 import com.pyxis.jira.monitoring.DefaultMonitorHelper;
 import com.pyxis.jira.monitoring.MonitorHelper;
+import com.pyxis.jira.monitoring.UserIssueActivity;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
@@ -24,7 +23,6 @@ public class MonitorIssueEventListenerTest {
 
 	private MonitorHelper helper;
 	private MonitorIssueEventListener eventListener;
-	@Mock private IssueManager issueManager;
 
 	@Before
 	public void init() {
@@ -33,38 +31,50 @@ public class MonitorIssueEventListenerTest {
 	}
 
 	@Test
-	public void shouldDoNothingOnOtherEvent() {
-		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
-		
-		IssueEvent event = new IssueEvent(TEST_1_ISSUE, (Map)null, (User)null, EventType.ISSUE_UPDATED_ID);
-		eventListener.customEvent(event);
-		
-		assertThat(helper.getActivities(TEST_1_ISSUE).size(), is(equalTo(1)));
-		
-	}
+	public void shouldDeleteActivity() {
 
-	@Test
-	public void shouldRemoveIssueActivityForDeletedIssue() {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
-		
-		IssueEvent event = new IssueEvent(TEST_1_ISSUE, (Map)null, (User)null, EventType.ISSUE_DELETED_ID);
+
+		IssueEvent event = new IssueEvent(TEST_1_ISSUE, null, null, EventType.ISSUE_DELETED_ID);
 		eventListener.issueDeleted(event);
-		
-		assertThat(helper.getActivities(TEST_1_ISSUE).size(), is(equalTo(0)));
-		
+
+		assertThat(sizeOf(activityFor(TEST_1_ISSUE)), is(0));
 	}
 
 	@Test
 	public void shouldRemoveIssueActivityOnlyForDeletedIssue() {
-		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		helper.notify(FDENOMMEE_USER, TEST_2_ISSUE);
 		helper.notify(VTHOULE_USER, TEST_2_ISSUE);
-	
-		IssueEvent event = new IssueEvent(TEST_1_ISSUE, (Map)null, (User)null, EventType.ISSUE_DELETED_ID);
-		eventListener.issueDeleted(event);
 
-		assertThat(helper.getActivities(TEST_1_ISSUE).size(), is(equalTo(0)));
-		assertThat(helper.getActivities(TEST_2_ISSUE).size(), is(equalTo(2)));
+		notifyDeletedIssue(TEST_1_ISSUE);
+
+		assertThat(sizeOf(activityFor(TEST_1_ISSUE)), is(0));
+		assertThat(sizeOf(activityFor(TEST_2_ISSUE)), is(2));
+	}
+
+	@Test
+	public void shouldOnlyHandleDeleteEvent() {
+
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+
+		IssueEvent event = new IssueEvent(TEST_1_ISSUE, null, null, EventType.ISSUE_UPDATED_ID);
+		eventListener.issueUpdated(event);
+
+		assertThat(sizeOf(activityFor(TEST_1_ISSUE)), is(1));
+	}
+
+	private void notifyDeletedIssue(Issue issue) {
+		IssueEvent event = new IssueEvent(issue, null, null, EventType.ISSUE_DELETED_ID);
+		eventListener.issueDeleted(event);
+	}
+
+	private List<UserIssueActivity> activityFor(Issue issue) {
+		return helper.getActivities(issue);
+	}
+
+	private int sizeOf(List<UserIssueActivity> activities) {
+		return activities.size();
 	}
 }

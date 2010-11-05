@@ -39,7 +39,6 @@ public class MonitorRestTest
 
 	private static final long PROJECT_REST = 10010;
 	private static final long REST1_ISSUE_ID = 10030;
-	private static final long REST2_ISSUE_ID = 10040;
 
 	private Client client = Client.create();
 	private WebResource service;
@@ -100,16 +99,16 @@ public class MonitorRestTest
 		assertThat(actual.size(), is(equalTo(0)));
 	}
 	
-	private List<RestUserIssueActivity> getActivities(long id) {
+	private List<RestUserIssueActivity> getActivities(long projectId) {
 
 		return service.path("users")
-				.queryParam("projectId", String.valueOf(id))
+				.queryParam("projectId", String.valueOf(projectId))
 				.accept(MediaType.APPLICATION_XML_TYPE)
 				.get(new GenericType<List<RestUserIssueActivity>>() {
 				});
 	}
 
-	public void clearActivities() {
+	private void clearActivities() {
 		service.path("clear")
 				.accept(MediaType.APPLICATION_XML_TYPE)
 				.get(String.class);

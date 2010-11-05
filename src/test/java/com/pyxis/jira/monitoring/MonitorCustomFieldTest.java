@@ -24,7 +24,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.security.JiraAuthenticationContext;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
@@ -38,7 +37,6 @@ public class MonitorCustomFieldTest {
 	private MonitorCustomField field;
 	private MonitorHelper helper;
 	@Mock private JiraAuthenticationContext authenticationContext;
-	@Mock private IssueManager issueManager;
 
 	@Before
 	public void init() {

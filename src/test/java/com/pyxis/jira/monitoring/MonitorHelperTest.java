@@ -50,7 +50,7 @@ public class MonitorHelperTest {
 	public void init() {
 		helper = new DefaultMonitorHelper();
 	}
-	
+
 	@Test
 	public void shouldHaveNoActivityForProject() {
 		assertEquals(0, helper.getActivities(PROJECT_TEST).size());
@@ -65,22 +65,22 @@ public class MonitorHelperTest {
 	public void shouldRecordOneActivity() {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
-		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+		assertUserActivities(activities, FDENOMMEE_USER);
 	}
-	
+
 	@Test
 	public void activitesAreFoundPerProjectForSameUser() {
-		
+
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		helper.notify(FDENOMMEE_USER, OTHER_TEST_1_ISSUE);
-		
+
 		List<UserIssueActivity> activities = helper.getActivities(PROJECT_TEST);
-		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+		assertUserActivities(activities, FDENOMMEE_USER);
 
 		activities = helper.getActivities(PROJECT_OTHER_TEST);
-		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+		assertUserActivities(activities, FDENOMMEE_USER);
 	}
-	
+
 	@Test
 	public void activitesAreFoundForDifferentUserOnSameIssue() {
 
@@ -88,7 +88,7 @@ public class MonitorHelperTest {
 		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
 
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
-		assertUserActivities(activities, new User[] { FDENOMMEE_USER, VTHOULE_USER });
+		assertUserActivities(activities, FDENOMMEE_USER, VTHOULE_USER);
 	}
 
 	@Test
@@ -103,7 +103,7 @@ public class MonitorHelperTest {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
-		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+		assertUserActivities(activities, FDENOMMEE_USER);
 	}
 
 	@Test
@@ -113,9 +113,9 @@ public class MonitorHelperTest {
 		helper.notify(FDENOMMEE_USER, TEST_2_ISSUE);
 
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
-		assertUserActivities(activities, new User[] { FDENOMMEE_USER});
+		assertUserActivities(activities, FDENOMMEE_USER);
 	}
-	
+
 	@Test
 	public void shouldKeepUsersActivityByIssue() {
 
@@ -123,7 +123,7 @@ public class MonitorHelperTest {
 		helper.notify(FDENOMMEE_USER, TEST_2_ISSUE);
 
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
-		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
+		assertUserActivities(activities, FDENOMMEE_USER);
 	}
 
 	@Test
@@ -153,7 +153,7 @@ public class MonitorHelperTest {
 		assertThat(activities.size(), is(equalTo(0)));
 	}
 
-	private void assertUserActivities(List<UserIssueActivity> activities, User[] users) {
+	private void assertUserActivities(List<UserIssueActivity> activities, User... users) {
 		assertEquals("Activity count mistmatch", activities.size(), users.length);
 
 		List<String> expectedUsers = new ArrayList<String>();
