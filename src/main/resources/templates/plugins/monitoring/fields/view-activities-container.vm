@@ -34,6 +34,7 @@
 	});
 	// -->
 </script>
+#set ( $showIssue = false )
 <div id="monitor_activity">
 	<table>
 		<tr>

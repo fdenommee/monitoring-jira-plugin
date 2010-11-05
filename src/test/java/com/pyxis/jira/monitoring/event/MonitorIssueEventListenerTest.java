@@ -28,20 +28,39 @@ public class MonitorIssueEventListenerTest {
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper(issueManager);
+		helper = new DefaultMonitorHelper();
 		eventListener = new MonitorIssueEventListener(helper);
+	}
+
+	@Test
+	public void shouldDoNothingOnOtherEvent() {
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		
+		IssueEvent event = new IssueEvent(TEST_1_ISSUE, (Map)null, (User)null, EventType.ISSUE_UPDATED_ID);
+		eventListener.customEvent(event);
+		
+		assertThat(helper.getActivities(TEST_1_ISSUE).size(), is(equalTo(1)));
+		
+	}
+
+	@Test
+	public void shouldRemoveIssueActivityForDeletedIssue() {
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		
+		IssueEvent event = new IssueEvent(TEST_1_ISSUE, (Map)null, (User)null, EventType.ISSUE_DELETED_ID);
+		eventListener.issueDeleted(event);
+		
+		assertThat(helper.getActivities(TEST_1_ISSUE).size(), is(equalTo(0)));
+		
 	}
 
 	@Test
 	public void shouldRemoveIssueActivityOnlyForDeletedIssue() {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
-
+		
 		helper.notify(FDENOMMEE_USER, TEST_2_ISSUE);
 		helper.notify(VTHOULE_USER, TEST_2_ISSUE);
-
-		assertThat(helper.getActivities(TEST_1_ISSUE).size(), is(equalTo(1)));
-		assertThat(helper.getActivities(TEST_2_ISSUE).size(), is(equalTo(2)));
-
+	
 		IssueEvent event = new IssueEvent(TEST_1_ISSUE, (Map)null, (User)null, EventType.ISSUE_DELETED_ID);
 		eventListener.issueDeleted(event);
 

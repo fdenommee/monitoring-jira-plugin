@@ -56,6 +56,12 @@ public class MonitorCustomFieldAction
 		return SUCCESS;
 	}
 
+	protected String doClearActivity()
+			throws Exception {
+		monitorHelper.clear();
+		return SUCCESS;
+	}
+
 	private Issue getIssue() {
 		return issueManager.getIssueObject(getIssueId());
 	}

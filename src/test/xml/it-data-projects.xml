@@ -4,7 +4,7 @@
 
 ___ Exported on _____________________________
 
-     on                                            : mardi 2 novembre 2010 15 h 10 EDT
+     on                                            : mercredi 3 novembre 2010 14 h 50 EDT
      by                                            : admin ( admin )
 
 ___ Environment ___________________________
@@ -15,14 +15,14 @@ ___ Environment ___________________________
      Java Version                                  : 1.6.0_13 - Sun Microsystems Inc.
      Current Working Directory                     : C:\Data\Workspaces\spike\monitoring-jira-plugin
      Maximum Allowable Memory                      : 508MB
-     Total Memory                                  : 264MB
-     Free Memory                                   : 56MB
-     Used Memory                                   : 208MB
-     Memory Pool: Code Cache                       : Code Cache: init = 163840(160K) used = 16249152(15868K) committed = 16285696(15904K) max = 33554432(32768K)
-     Memory Pool: Eden Space                       : Eden Space: init = 917504(896K) used = 15682392(15314K) committed = 17301504(16896K) max = 33030144(32256K)
-     Memory Pool: Survivor Space                   : Survivor Space: init = 65536(64K) used = 721488(704K) committed = 2162688(2112K) max = 4128768(4032K)
-     Memory Pool: Tenured Gen                      : Tenured Gen: init = 4194304(4096K) used = 202339896(197597K) committed = 258359296(252304K) max = 495583232(483968K)
-     Memory Pool: Perm Gen                         : Perm Gen: init = 12582912(12288K) used = 68564920(66957K) committed = 68681728(67072K) max = 167772160(163840K)
+     Total Memory                                  : 272MB
+     Free Memory                                   : 80MB
+     Used Memory                                   : 192MB
+     Memory Pool: Code Cache                       : Code Cache: init = 163840(160K) used = 15575488(15210K) committed = 15597568(15232K) max = 33554432(32768K)
+     Memory Pool: Eden Space                       : Eden Space: init = 917504(896K) used = 16811224(16417K) committed = 17891328(17472K) max = 33030144(32256K)
+     Memory Pool: Survivor Space                   : Survivor Space: init = 65536(64K) used = 2162688(2112K) committed = 2162688(2112K) max = 4128768(4032K)
+     Memory Pool: Tenured Gen                      : Tenured Gen: init = 4194304(4096K) used = 182583408(178304K) committed = 266055680(259820K) max = 495583232(483968K)
+     Memory Pool: Perm Gen                         : Perm Gen: init = 12582912(12288K) used = 67209472(65634K) committed = 67371008(65792K) max = 167772160(163840K)
      JVM Input Arguments                           : -Xmx512m -XX:MaxPermSize=160m -Datlassian.dev.mode=true -Dplugin.resource.directories=C:\Data\Workspaces\spike\monitoring-jira-plugin\src\main\resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Datlassian.dev.mode=true -Dplugin.resource.directories=C:\Data\Workspaces\spike\monitoring-jira-plugin\src\main\resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Dbaseurl=http://localhost:2990/jira -Dcatalina.home=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\apache-tomcat-6.0.20 -Dcatalina.base=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\cargo-jira-home -Djava.io.tmpdir=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\cargo-jira-home\temp
 
 ___ Database Configuration ________________
@@ -209,7 +209,7 @@ Examples: 4d, 5h 30m, 60m and 3w.
      jira.view.issue.links.sort.order              : type, status, priority
      jira.view.issue.show.quicksubtask.when.no.subtasks : false
      jira.viewcvs.root.type                        : cvsroot
-     jira.webresource.flushcounter                 : 210
+     jira.webresource.flushcounter                 : 257
      jira.webresource.superbatch.flushcounter      : 1
      user.default.share.private                    : true
      user.issues.per.page                          : 50
@@ -233,7 +233,7 @@ ___ License Details _______________________
 
 ___ Database Statistics ___________________
 
-     Issues                                        : 6
+     Issues                                        : 7
      Projects                                      : 2
      Custom Fields                                 : 1
      Workflows                                     : 0
@@ -545,10 +545,10 @@ ___ Services ______________________________
 
      Mail Queue Service                            : com.atlassian.jira.service.services.mail.MailQueueService
           Service Delay                                 : 60000ms
-     Last Run                                      : 10-11-02 15:10
+     Last Run                                      : 10-11-03 14:50
      Service Provider Token Remover                : com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService
           Service Delay                                 : 28800000ms
-     Last Run                                      : 10-11-02 14:57
+     Last Run                                      : 10-11-03 14:49
           pluginJobName                                 : Service Provider Token Remover
 
 ___ Trusted Applications __________________
@@ -650,10 +650,10 @@ ___ Trusted Applications __________________
     <GadgetUserPreference id="10017" portletconfiguration="10010" userprefkey="isConfigured" userprefvalue="true"/>
     <GadgetUserPreference id="10018" portletconfiguration="10010" userprefkey="columnNames" userprefvalue="--Default--"/>
     <GadgetUserPreference id="10019" portletconfiguration="10010" userprefkey="refresh" userprefvalue="false"/>
-    <GadgetUserPreference id="10064" portletconfiguration="10011" userprefkey="isConfigured" userprefvalue="true"/>
-    <GadgetUserPreference id="10065" portletconfiguration="10011" userprefkey="issueId" userprefvalue="10000"/>
-    <GadgetUserPreference id="10066" portletconfiguration="10020" userprefkey="isConfigured" userprefvalue="true"/>
-    <GadgetUserPreference id="10067" portletconfiguration="10020" userprefkey="issueId" userprefvalue="10010"/>
+    <GadgetUserPreference id="10090" portletconfiguration="10011" userprefkey="isConfigured" userprefvalue="true"/>
+    <GadgetUserPreference id="10091" portletconfiguration="10011" userprefkey="projectId" userprefvalue="project-10000"/>
+    <GadgetUserPreference id="10092" portletconfiguration="10020" userprefkey="isConfigured" userprefvalue="true"/>
+    <GadgetUserPreference id="10093" portletconfiguration="10020" userprefkey="projectId" userprefvalue="project-10010"/>
     <GenericConfiguration id="10000" datatype="DefaultValue" datakey="10000" xmlvalue="&lt;string&gt;1&lt;/string&gt;"/>
     <Issue id="10000" key="TEST-1" project="10000" reporter="admin" assignee="admin" type="1" summary="Test Issue 1" description="test" priority="3" status="1" created="2010-10-05 11:26:52.88" updated="2010-10-27 16:17:27.531" votes="0" workflowId="10000"/>
     <Issue id="10010" key="TEST-2" project="10000" reporter="admin" assignee="admin" type="3" summary="Test Issue 2" priority="3" status="1" created="2010-10-21 16:30:42.982" updated="2010-10-27 16:17:13.875" votes="0" workflowId="10010"/>
@@ -661,6 +661,7 @@ ___ Trusted Applications __________________
     <Issue id="10021" key="TEST-4" project="10000" reporter="admin" assignee="admin" type="1" summary="Test Issue 4" priority="3" status="1" created="2010-10-27 16:15:18.0" updated="2010-10-27 16:16:40.265" votes="0" workflowId="10021"/>
     <Issue id="10022" key="TEST-5" project="10000" reporter="admin" assignee="admin" type="1" summary="Test Issue 5" priority="3" status="1" created="2010-10-27 16:15:27.328" updated="2010-10-27 16:16:26.578" votes="0" workflowId="10022"/>
     <Issue id="10030" key="OTH-1" project="10010" reporter="admin" assignee="admin" type="1" summary="Other Issue 1 " priority="3" status="1" created="2010-11-02 15:10:17.25" updated="2010-11-02 15:10:17.25" votes="0" workflowId="10030"/>
+    <Issue id="10040" key="TEST-6" project="10000" reporter="admin" assignee="admin" type="1" summary="Test Issue 6" priority="3" status="1" created="2010-11-02 16:31:52.265" updated="2010-11-02 16:31:52.265" votes="0" workflowId="10040"/>
     <IssueType id="1" sequence="1" name="Bug" description="A problem which impairs or prevents the functions of the product." iconurl="/images/icons/bug.gif"/>
     <IssueType id="2" sequence="2" name="New Feature" description="A new feature of the product, which has yet to be developed." iconurl="/images/icons/newfeature.gif"/>
     <IssueType id="3" sequence="3" name="Task" description="A task that needs to be done." iconurl="/images/icons/task.gif"/>
@@ -670,7 +671,7 @@ ___ Trusted Applications __________________
     <ListenerConfig id="10000" clazz="com.atlassian.jira.event.listeners.cache.IssueCacheListener" name="Issue Cache Listener"/>
     <ListenerConfig id="10001" clazz="com.atlassian.jira.event.listeners.mail.MailListener" name="Mail Listener"/>
     <ListenerConfig id="10020" clazz="com.pyxis.jira.monitoring.event.MonitorIssueEventListener" name="Monitor Issue Event Listener"/>
-    <ListenerConfig id="10110" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
+    <ListenerConfig id="10140" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
     <NodeAssociation sourceNodeId="10000" sourceNodeEntity="Project" sinkNodeId="0" sinkNodeEntity="PermissionScheme" associationType="ProjectScheme"/>
     <NodeAssociation sourceNodeId="10000" sourceNodeEntity="Project" sinkNodeId="1" sinkNodeEntity="IssueTypeScreenScheme" associationType="ProjectScheme"/>
     <NodeAssociation sourceNodeId="10010" sourceNodeEntity="Project" sinkNodeId="0" sinkNodeEntity="PermissionScheme" associationType="ProjectScheme"/>
@@ -730,6 +731,7 @@ ___ Trusted Applications __________________
     <OSCurrentStep id="10031" entryId="10021" stepId="1" actionId="0" owner="" startDate="2010-10-27 16:15:18.0" status="Open"/>
     <OSCurrentStep id="10032" entryId="10022" stepId="1" actionId="0" owner="" startDate="2010-10-27 16:15:27.328" status="Open"/>
     <OSCurrentStep id="10040" entryId="10030" stepId="1" actionId="0" owner="" startDate="2010-11-02 15:10:17.25" status="Open"/>
+    <OSCurrentStep id="10050" entryId="10040" stepId="1" actionId="0" owner="" startDate="2010-11-02 16:31:52.265" status="Open"/>
     <OSCurrentStepPrev id="10010" previousId="10000"/>
     <OSCurrentStepPrev id="10011" previousId="10010"/>
     <OSGroup id="10000" name="jira-administrators"/>
@@ -814,10 +816,11 @@ ___ Trusted Applications __________________
     <OSPropertyEntry id="10331" entityName="jira.properties" entityId="1" propertyKey="jira.trustedapp.key.private.data" type="6"/>
     <OSPropertyEntry id="10332" entityName="jira.properties" entityId="1" propertyKey="jira.trustedapp.key.public.data" type="6"/>
     <OSPropertyEntry id="10333" entityName="jira.properties" entityId="1" propertyKey="jira.trustedapp.uid" type="5"/>
-    <OSPropertyEntry id="10340" entityName="ServiceConfig" entityId="10280" propertyKey="pluginJobName" type="5"/>
     <OSPropertyEntry id="10350" entityName="OSUser" entityId="10030" propertyKey="login.currentFailedCount" type="5"/>
     <OSPropertyEntry id="10351" entityName="OSUser" entityId="10030" propertyKey="login.lastLoginMillis" type="5"/>
     <OSPropertyEntry id="10352" entityName="OSUser" entityId="10030" propertyKey="login.count" type="5"/>
+    <OSPropertyEntry id="10360" entityName="ServiceConfig" entityId="10290" propertyKey="pluginJobName" type="5"/>
+    <OSPropertyEntry id="10370" entityName="OSUser" entityId="10030" propertyKey="login.previousLoginMillis" type="5"/>
     <OSPropertyNumber id="10001" value="22"/>
     <OSPropertyNumber id="10014" value="1"/>
     <OSPropertyNumber id="10015" value="1"/>
@@ -875,10 +878,10 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSPropertyString id="10053" value="1"/>
     <OSPropertyString id="10054" value="0"/>
     <OSPropertyString id="10055" value="0"/>
-    <OSPropertyString id="10056" value="1288724731671"/>
-    <OSPropertyString id="10057" value="87"/>
-    <OSPropertyString id="10061" value="1288724292640"/>
-    <OSPropertyString id="10250" value="210"/>
+    <OSPropertyString id="10056" value="1288810194296"/>
+    <OSPropertyString id="10057" value="95"/>
+    <OSPropertyString id="10061" value="1288810172234"/>
+    <OSPropertyString id="10250" value="257"/>
     <OSPropertyString id="10251" value="${fullname} (JIRA)"/>
     <OSPropertyString id="10255" value="never"/>
     <OSPropertyString id="10262" value="workaround"/>
@@ -890,10 +893,11 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSPropertyString id="10292" value="1287692246393"/>
     <OSPropertyString id="10293" value="1"/>
     <OSPropertyString id="10333" value="jira:15489595"/>
-    <OSPropertyString id="10340" value="Service Provider Token Remover"/>
     <OSPropertyString id="10350" value="0"/>
-    <OSPropertyString id="10351" value="1288293501716"/>
-    <OSPropertyString id="10352" value="1"/>
+    <OSPropertyString id="10351" value="1288810174000"/>
+    <OSPropertyString id="10352" value="3"/>
+    <OSPropertyString id="10360" value="Service Provider Token Remover"/>
+    <OSPropertyString id="10370" value="1288809976000"/>
     <OSPropertyText id="10021" value="AAABBA0ODAoPeNptj1FPgzAUhd/7K5r4jGmZmkDSBwaNogMWYM4svtTuOmtGR27L4v69bOiL8ek+nJzvO/dqDVuaDDvKbim/i2cs5iGVTUtDxiKSgdNoem8OVjzmdUKl9YA9GgevMU0PXQeojdrTBvAISMqhewOs3lcO0ImAkxRBnduZ8iBCNosCHgaMk0+D6nphNFgHcmsuAlm2sl7WeSOnWGlvjiA8DkAKZUazVVaD/OoNniZgFEUj7QyscKescReZSPxeOWeUJdOuPBPz+6gNXlbPN8HTZvMQzBlfk0aWogXnx0t+t/wL/wnbUw+l6kCkVVHIOs2TBVkOqD+Ug78PfgPSNG6BMC0CFBZN4P8f7FRdIKPx3oWYkJwGfM9tAhUAllLN8BrljKaWmkSeRtRCiwHCZ7g=X02dd"/>
     <OSPropertyText id="10331" value="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC0XdkxCqMjEgB2brqprkW9+nIyTdBlavfhuQd2mgkhyO0EXPSW4DdkJupxn7wZGJdTAVK0lRneKniL13LJd1b2gU8reFdvlUI4+Siz77lWggpmOQGO+/I54YRbJW3ZSovEr9mV0n3RZUVgakWnizgplFFvY/QY8sbj80cJkzswSXkLI2EvRW5kUHrv8P7MidLbZGp8S38Xtx1FzQwYRbU4rgzISpgr6L+3qDHOAWfu+8tfY/JJIqSOW236fgn9R0ysVykoc2kBLCrBi0fYcvDeM3sqHu+1cF8iv4VHtu0DyxaYI2GQVBAG631/hZ1n0h48J83NVVsE4/ichQ0BUFuLAgMBAAECggEAFuaHiguAtRY3CtJ6Tsr6velLkImCuS3AtV8pzGw4VprNRS2MPI/RWJz8TVrrpgASTo6vcpAvzZ502cSMJXpKh1fZtno8F8XKt7Mi8N2yGYK/UUVRplbk5WZ1yKDS9rDZWCq/pJ8qLGkASwKTP3eUtOrJACyftH82s4CS92tDK5khnFHbG3TT47uICm0I5UpJV6ZKHiJybUUH/K2aHM2YdUtqCwLF1/pamgqapkGdciqzzj3nwg5JYCQNM3dOnHaHoxva53ed+GsMphMF3F5ajg4fZM0HbsTS1Actr2MEDPRbA+cGxNqZU5Vp4gci3RaB4L2Vw74UgaugCJispofbsQKBgQDxvSmcYTdw/IrLUJ6ozBnX3qKelyfdVq3D1EjEuh7M6gDuZkNweFZFJvvgudoOOk332E9ASb2rfFSU7iyniWalO5gD8xFBDVTG+2rfIjdajoOXfaWKOP56dfKiAnLtYBm/PWF/tT552SW4RU9JYMA4FM1D2wq+w9waU9EOBgD+AwKBgQC/AdENhmdaZG/Dzkxbh43VlBK/bAdXT2fCyyY8KBsdwBzZRTyxC+TZ3VWhAwo5gD/+gkJxk2fxpIzCeyaGm/Xw08vpovRHZM/RwcSbTyGAFgL5JoIQq/hCPNBH4yH9PZmnF0GpX7vmSWCRd1e+MUyxafpCCY4STx4HUYLTOg5Z2QKBgQDlkQtcG6KH5Px1uhkCGdmM/DuYudk8xBz+dLGqSUoItUyvGWSAAXeD8lKOhlCC5HG4pa4VUjISEV9Nk6XKcJyO27owPfuruFpDIO3L+vVwRRjIm6TCT/+zEiGaIxM7Q+EPkN3vZpJvKn08sm1qNLw2ReLsxq48nUl/owtL8v2sOwKBgBsJqcsNVIICJ6QDBuIJ/TTXghPgueVNEzYKxb3MO5JpiGvlFiNFuL5yS1XAdWkQU362d6tWH2egUGCTSC/T0eumP34yF/wnNBfQIwGNIQPdmcwk/FJZ1YmizCTw7PXJC4AQlbXhHFsL1gShbSU6G04d31QLwDWtR2XnzuoRlMh5AoGAV43Cp4RIGRqZbwgcnkdjUSve3PpxFbIDoLVo87E6EjFOQH3ByO75XqyL/DRpQtgZwJ3/pW/UZhmUhpdQnqjLxaapWgfXbmqhnIwPj9LrOiWDaWqC9jjqIS7UEDala3/6zgiotpt4/xy0vaXED+7VX+qMiaNqUYIn1AP64LX/24M="/>
     <OSPropertyText id="10332" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF3ZMQqjIxIAdm66qa5FvfpyMk3QZWr34bkHdpoJIcjtBFz0luA3ZCbqcZ+8GRiXUwFStJUZ3ip4i9dyyXdW9oFPK3hXb5VCOPkos++5VoIKZjkBjvvyOeGEWyVt2UqLxK/ZldJ90WVFYGpFp4s4KZRRb2P0GPLG4/NHCZM7MEl5CyNhL0VuZFB67/D+zInS22RqfEt/F7cdRc0MGEW1OK4MyEqYK+i/t6gxzgFn7vvLX2PySSKkjltt+n4J/UdMrFcpKHNpASwqwYtH2HLw3jN7Kh7vtXBfIr+FR7btA8sWmCNhkFQQBut9f4WdZ9IePCfNzVVbBOP4nIUNAVBbiwIDAQAB"/>
@@ -906,6 +910,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSWorkflowEntry id="10021" name="jira" state="1"/>
     <OSWorkflowEntry id="10022" name="jira" state="1"/>
     <OSWorkflowEntry id="10030" name="jira" state="1"/>
+    <OSWorkflowEntry id="10040" name="jira" state="1"/>
     <OptionConfiguration id="10000" fieldid="issuetype" optionid="1" fieldconfig="10000" sequence="0"/>
     <OptionConfiguration id="10001" fieldid="issuetype" optionid="2" fieldconfig="10000" sequence="1"/>
     <OptionConfiguration id="10002" fieldid="issuetype" optionid="3" fieldconfig="10000" sequence="2"/>
@@ -977,8 +982,9 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <PluginVersion id="10073" name="OSGi R4 Compendium Bundle" key="org.osgi.compendium-4.1.0" version="4.1.0" created="2010-10-05 11:21:15.463"/>
     <PluginVersion id="10074" name="httpservice-bridge" key="com.atlassian.labs.httpservice.bridge-0.6.1" version="0.6.1" created="2010-10-05 11:21:15.465"/>
     <PluginVersion id="10075" name="Apache Commons FileUpload Bundle" key="org.apache.commons.fileupload-1.2.1" version="1.2.1" created="2010-10-05 11:21:15.468"/>
+    <PluginVersion id="10080" name="RPC JIRA Plugin" key="com.atlassian.jira.ext.rpc" version="4.1.2-1" created="2010-11-02 16:28:12.921"/>
     <PortalPage id="10000" pagename="System Dashboard" sequence="0" favCount="0" layout="AA" version="0"/>
-    <PortalPage id="10010" username="admin" pagename="My Dashboard" favCount="1" layout="AA" version="32"/>
+    <PortalPage id="10010" username="admin" pagename="My Dashboard" favCount="1" layout="AA" version="36"/>
     <PortalPage id="10020" username="admin" pagename="Monitoring" favCount="1" layout="AA" version="0"/>
     <PortletConfiguration id="10000" portalpage="10000" columnNumber="0" position="0" gadgetXml="rest/gadgets/1.0/g/com.atlassian.jira.gadgets:introduction-gadget/gadgets/introduction-gadget.xml"/>
     <PortletConfiguration id="10001" portalpage="10000" columnNumber="0" position="1" gadgetXml="rest/gadgets/1.0/g/com.atlassian.streams.streams-jira-plugin:activitystream-gadget/gadgets/activitystream-gadget.xml"/>
@@ -993,7 +999,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <Priority id="3" sequence="3" name="Major" description="Major loss of function." iconurl="/images/icons/priority_major.gif" statusColor="#009900"/>
     <Priority id="4" sequence="4" name="Minor" description="Minor loss of function, or other problem where easy workaround is present." iconurl="/images/icons/priority_minor.gif" statusColor="#006600"/>
     <Priority id="5" sequence="5" name="Trivial" description="Cosmetic problem like misspelt words or misaligned text." iconurl="/images/icons/priority_trivial.gif" statusColor="#003300"/>
-    <Project id="10000" name="Test" url="" lead="admin" description="" key="TEST" counter="5" assigneetype="2" avatar="10011"/>
+    <Project id="10000" name="Test" url="" lead="admin" description="" key="TEST" counter="6" assigneetype="2" avatar="10011"/>
     <Project id="10010" name="Other Test" url="" lead="admin" description="" key="OTH" counter="1" assigneetype="2" avatar="10011"/>
     <ProjectRole id="10000" name="Users" description="A project role that represents users in a project"/>
     <ProjectRole id="10001" name="Developers" description="A project role that represents developers in a project"/>
@@ -1062,34 +1068,34 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SequenceValueItem seqName="FieldScreenScheme" seqId="10000"/>
     <SequenceValueItem seqName="FieldScreenSchemeItem" seqId="10010"/>
     <SequenceValueItem seqName="FieldScreenTab" seqId="10010"/>
-    <SequenceValueItem seqName="GadgetUserPreference" seqId="10080"/>
+    <SequenceValueItem seqName="GadgetUserPreference" seqId="10100"/>
     <SequenceValueItem seqName="GenericConfiguration" seqId="10010"/>
-    <SequenceValueItem seqName="Issue" seqId="10040"/>
+    <SequenceValueItem seqName="Issue" seqId="10050"/>
     <SequenceValueItem seqName="IssueTypeScreenSchemeEntity" seqId="10010"/>
-    <SequenceValueItem seqName="ListenerConfig" seqId="10120"/>
+    <SequenceValueItem seqName="ListenerConfig" seqId="10150"/>
     <SequenceValueItem seqName="Notification" seqId="10050"/>
     <SequenceValueItem seqName="NotificationScheme" seqId="10010"/>
-    <SequenceValueItem seqName="OSCurrentStep" seqId="10050"/>
+    <SequenceValueItem seqName="OSCurrentStep" seqId="10060"/>
     <SequenceValueItem seqName="OSGroup" seqId="10010"/>
     <SequenceValueItem seqName="OSMembership" seqId="10040"/>
-    <SequenceValueItem seqName="OSPropertyEntry" seqId="10360"/>
+    <SequenceValueItem seqName="OSPropertyEntry" seqId="10380"/>
     <SequenceValueItem seqName="OSUser" seqId="10040"/>
-    <SequenceValueItem seqName="OSWorkflowEntry" seqId="10040"/>
+    <SequenceValueItem seqName="OSWorkflowEntry" seqId="10050"/>
     <SequenceValueItem seqName="OptionConfiguration" seqId="10010"/>
-    <SequenceValueItem seqName="PluginVersion" seqId="10080"/>
+    <SequenceValueItem seqName="PluginVersion" seqId="10090"/>
     <SequenceValueItem seqName="PortalPage" seqId="10030"/>
     <SequenceValueItem seqName="PortletConfiguration" seqId="10040"/>
     <SequenceValueItem seqName="Project" seqId="10020"/>
     <SequenceValueItem seqName="ProjectRole" seqId="10010"/>
     <SequenceValueItem seqName="ProjectRoleActor" seqId="10030"/>
     <SequenceValueItem seqName="SchemePermissions" seqId="10050"/>
-    <SequenceValueItem seqName="ServiceConfig" seqId="10290"/>
+    <SequenceValueItem seqName="ServiceConfig" seqId="10300"/>
     <SequenceValueItem seqName="SharePermissions" seqId="10010"/>
     <SequenceValueItem seqName="UpgradeHistory" seqId="10050"/>
     <SequenceValueItem seqName="UpgradeVersionHistory" seqId="10020"/>
-    <SequenceValueItem seqName="UserHistoryItem" seqId="10080"/>
+    <SequenceValueItem seqName="UserHistoryItem" seqId="10090"/>
     <ServiceConfig id="10000" time="60000" clazz="com.atlassian.jira.service.services.mail.MailQueueService" name="Mail Queue Service"/>
-    <ServiceConfig id="10280" time="28800000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="Service Provider Token Remover"/>
+    <ServiceConfig id="10290" time="28800000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="Service Provider Token Remover"/>
     <SharePermissions id="10000" entityId="10000" entityType="PortalPage" type="global"/>
     <Status id="1" sequence="1" name="Open" description="The issue is open and ready for the assignee to start work on it." iconurl="/images/icons/status_open.gif"/>
     <Status id="3" sequence="3" name="In Progress" description="This issue is being actively worked on at the moment by the assignee." iconurl="/images/icons/status_inprogress.gif"/>
@@ -1132,25 +1138,26 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <UpgradeHistory id="10001" upgradeclass="com.atlassian.jira.upgrade.tasks.professional.UpgradeTask1_2_1" targetbuild="522"/>
     <UpgradeVersionHistory id="10000" timeperformed="2010-04-28 19:20:54.928" targetbuild="522" targetversion="4.1.1"/>
     <UpgradeVersionHistory id="10010" timeperformed="2010-10-05 11:21:17.135" targetbuild="531" targetversion="4.1.2"/>
-    <UserHistoryItem id="10000" type="Project" entityId="10000" username="admin" lastViewed="1288293501613"/>
-    <UserHistoryItem id="10001" type="Issue" entityId="10000" username="admin" lastViewed="1288293501520"/>
+    <UserHistoryItem id="10000" type="Project" entityId="10000" username="admin" lastViewed="1288810173859"/>
+    <UserHistoryItem id="10001" type="Issue" entityId="10000" username="admin" lastViewed="1288810173640"/>
     <UserHistoryItem id="10030" type="Issue" entityId="10000" username="bob" lastViewed="1287692324283"/>
     <UserHistoryItem id="10031" type="Project" entityId="10000" username="bob" lastViewed="1287692324285"/>
-    <UserHistoryItem id="10040" type="Issue" entityId="10010" username="admin" lastViewed="1288293501612"/>
+    <UserHistoryItem id="10040" type="Issue" entityId="10010" username="admin" lastViewed="1288810173859"/>
     <UserHistoryItem id="10050" type="Issue" entityId="10020" username="admin" lastViewed="1288211003484"/>
     <UserHistoryItem id="10051" type="Issue" entityId="10021" username="admin" lastViewed="1288210775828"/>
     <UserHistoryItem id="10052" type="Issue" entityId="10022" username="admin" lastViewed="1288211001703"/>
-    <UserHistoryItem id="10060" type="Issue" entityId="10000" username="fred" lastViewed="1288293502110"/>
-    <UserHistoryItem id="10061" type="Project" entityId="10000" username="fred" lastViewed="1288293502179"/>
-    <UserHistoryItem id="10062" type="Issue" entityId="10010" username="fred" lastViewed="1288293502179"/>
+    <UserHistoryItem id="10060" type="Issue" entityId="10000" username="fred" lastViewed="1288810174718"/>
+    <UserHistoryItem id="10061" type="Project" entityId="10000" username="fred" lastViewed="1288810174875"/>
+    <UserHistoryItem id="10062" type="Issue" entityId="10010" username="fred" lastViewed="1288810174875"/>
     <UserHistoryItem id="10070" type="Project" entityId="10010" username="admin" lastViewed="1288725017609"/>
     <UserHistoryItem id="10071" type="Issue" entityId="10030" username="admin" lastViewed="1288725017609"/>
+    <UserHistoryItem id="10080" type="Issue" entityId="10040" username="admin" lastViewed="1288729912328"/>
 <!-- 
 
 
 ___ Entities ________________________________
 
-     Total                                         : 583
+     Total                                         : 590
 
      Avatar                                        : 12
      ChangeGroup                                   : 7
@@ -1169,7 +1176,7 @@ ___ Entities ________________________________
      FieldScreenTab                                : 3
      GadgetUserPreference                          : 14
      GenericConfiguration                          : 1
-     Issue                                         : 6
+     Issue                                         : 7
      IssueType                                     : 4
      IssueTypeScreenScheme                         : 1
      IssueTypeScreenSchemeEntity                   : 1
@@ -1177,21 +1184,21 @@ ___ Entities ________________________________
      NodeAssociation                               : 4
      Notification                                  : 48
      NotificationScheme                            : 1
-     OSCurrentStep                                 : 6
+     OSCurrentStep                                 : 7
      OSCurrentStepPrev                             : 2
      OSGroup                                       : 3
      OSHistoryStep                                 : 2
      OSHistoryStepPrev                             : 1
      OSMembership                                  : 5
-     OSPropertyEntry                               : 75
+     OSPropertyEntry                               : 76
      OSPropertyNumber                              : 19
-     OSPropertyString                              : 53
+     OSPropertyString                              : 54
      OSPropertyText                                : 3
      OSUser                                        : 3
-     OSWorkflowEntry                               : 6
+     OSWorkflowEntry                               : 7
      OptionConfiguration                           : 4
      PermissionScheme                              : 1
-     PluginVersion                                 : 66
+     PluginVersion                                 : 67
      PortalPage                                    : 3
      PortletConfiguration                          : 8
      Priority                                      : 5
@@ -1206,7 +1213,7 @@ ___ Entities ________________________________
      Status                                        : 5
      UpgradeHistory                                : 34
      UpgradeVersionHistory                         : 2
-     UserHistoryItem                               : 13
+     UserHistoryItem                               : 14
 
  -->
 </entity-engine-xml>

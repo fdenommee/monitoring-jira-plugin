@@ -19,7 +19,7 @@
 		#oauth
 		#supportedLocales("gadget.common,gadget.monitoring.user")
 	</ModulePrefs>
-	<UserPref name="issueId" datatype="text" default_value="10000"/>
+	<UserPref name="projectId" datatype="hidden"/>
 	<UserPref name="isConfigured" datatype="hidden" default_value="false"/>
 	<Content type="html" view="profile">
 		<![CDATA[

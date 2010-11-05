@@ -26,6 +26,8 @@ import static org.mockito.Mockito.*;
 
 public class IssueObjectMother {
 
+	public static final Project PROJECT_REST = newProject("REST", 10010);
+	
 	public static final Project PROJECT_TEST = newProject("TEST", 10000);
 
 	public static final MutableIssue TEST_1_ISSUE = newMutableIssue("TEST-1", 1001, PROJECT_TEST);

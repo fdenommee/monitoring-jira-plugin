@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
+import it.com.pyxis.jira.monitoring.rest.MonitoringClearer;
 import it.com.pyxis.jira.selenium.JiraWebDriver;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,6 +14,10 @@ import static org.hamcrest.Matchers.*;
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
 
+	private static final int PROJECT_TEST_ID = 10000;
+	private static final int PROJECT_OTHER_TEST_ID = 10010;
+
+	private static final int ISSUE_NONE = -1;
 	private static final int TEST1_ISSUE_ID = 10000;
 	private static final int TEST2_ISSUE_ID = 10010;
 	private static final int TEST3_ISSUE_ID = 10020;
@@ -24,10 +29,12 @@ public class UserMonitorGadgetTest
 
 	private JiraWebDriver driver;
 	private MonitoringGadget gadget;
+	private MonitoringClearer clearer = MonitoringClearer.getInstance();
 
 	@Override
 	protected void setUpTest() {
-		administration.restoreData("it-UserMonitorGadgetTest.xml");
+//		administration.restoreData("it-UserMonitorGadgetTest.xml");
+		administration.restoreData("it-data-projects.xml");
 
 		driver = new JiraWebDriver();
 		driver.gotoDashboard().loginAsAdmin();
@@ -42,17 +49,18 @@ public class UserMonitorGadgetTest
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
 
-		gadget.config(TEST2_ISSUE_ID);
-		gadget.assertConfig(TEST2_ISSUE_ID);
+		gadget.config(PROJECT_TEST_ID);
+		gadget.assertConfig(PROJECT_TEST_ID);
 
-		gadget.config(TEST1_ISSUE_ID);
-		gadget.assertConfig(TEST1_ISSUE_ID);
+		gadget.config(PROJECT_OTHER_TEST_ID);
+		gadget.assertConfig(PROJECT_OTHER_TEST_ID);
 	}
 
 	public void testShouldSeeNoActivityInAnyGadget() {
+		clearer.clearActivities();
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(TEST3_ISSUE_ID);
+			config(PROJECT_TEST_ID);
 		}};
 
 		List<String> actual = gadget.getUserActivities();
@@ -60,15 +68,16 @@ public class UserMonitorGadgetTest
 	}
 
 	public void testShouldSeeDifferentActivityBetweenGadgets() {
-
+		clearer.clearActivities();
+		
 		navigation.issue().viewIssue("TEST-1");
 		navigation.login("fred", "admin");
-		navigation.issue().viewIssue("TEST-2");
+		navigation.issue().viewIssue("OTH-1");
 
 		driver.gotoDashboard();
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(TEST1_ISSUE_ID);
+			config(PROJECT_TEST_ID);
 		}};
 
 		List<String> expected = Arrays.asList(ADMIN);
@@ -78,7 +87,7 @@ public class UserMonitorGadgetTest
 		assertThat(actual.containsAll(expected), is(true));
 
 		gadget = new MonitoringGadget(driver, SECOND_MONITORING_GADGET) {{
-			config(TEST2_ISSUE_ID);
+			config(PROJECT_OTHER_TEST_ID);
 		}};
 
 		expected = Arrays.asList("fred");
@@ -89,66 +98,79 @@ public class UserMonitorGadgetTest
 	}
 
 	public void testShouldIssueActivityRemovedOnIssueDelete() {
+		clearer.clearActivities();
 
-		navigation.issue().viewIssue("TEST-1");
-		navigation.issue().viewIssue("TEST-2");
-		navigation.login("fred", "admin");
-		navigation.issue().viewIssue("TEST-1");
-		navigation.issue().viewIssue("TEST-2");
+		navigation.issue().viewIssue("OTH-1");
+//		navigation.issue().viewIssue("TEST-2");
 		
-		driver.gotoDashboard();
-
-		MonitoringGadget gadget1 = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
-		MonitoringGadget gadget2 = new MonitoringGadget(driver, SECOND_MONITORING_GADGET);
-		List<String> expected = Arrays.asList(ADMIN, "fred");
-
-		List<String> actual = gadget1.getUserActivities();
-		assertThat(actual.size(), is(equalTo(expected.size())));
-		assertThat(actual.containsAll(expected), is(true));
-		
-		actual = gadget2.getUserActivities();
-		assertThat(actual.size(), is(equalTo(expected.size())));
-		assertThat(actual.containsAll(expected), is(true));
-		
-		navigation.login("admin", "admin");
-		navigation.issue().deleteIssue("TEST-2");
-		
-		driver.gotoDashboard();
-		
-		actual = gadget1.getUserActivities();
-		assertThat(actual.size(), is(equalTo(expected.size())));
-
-		actual = gadget2.getUserActivities();
-		assertThat(actual.size(), is(equalTo(0)));
-
-	}
-
-	public void testShouldSeeSameActivitiesBetweenGadgets() {
-
-		navigation.issue().viewIssue("TEST-4");
-		navigation.issue().viewIssue("TEST-5");
-		navigation.login("fred", "admin");
-		navigation.issue().viewIssue("TEST-4");
-		navigation.issue().viewIssue("TEST-5");
-
 		driver.gotoDashboard();
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(TEST4_ISSUE_ID);
+			config(PROJECT_OTHER_TEST_ID);
 		}};
 
-		List<String> expected = Arrays.asList(ADMIN, "fred");
-
+		List<String> expected = Arrays.asList(ADMIN);
+		
 		List<String> actual = gadget.getUserActivities();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 
-		gadget = new MonitoringGadget(driver, SECOND_MONITORING_GADGET) {{
-			config(TEST5_ISSUE_ID);
-		}};
+		navigation.login("admin", "admin");
+		navigation.issue().deleteIssue("OTH-1");
+		
+		driver.gotoDashboard();
 
 		actual = gadget.getUserActivities();
+		assertThat(actual.size(), is(equalTo(0)));
+
+	}
+
+	public void testShouldHaveSameActivitiesBetweenGadgets() {
+		clearer.clearActivities();
+
+		navigation.issue().viewIssue("TEST-1");
+		navigation.issue().viewIssue("TEST-2");
+		
+//		navigation.login("fred", "admin");
+//		navigation.issue().viewIssue("TEST-1");
+//		navigation.issue().viewIssue("TEST-2");
+
+		driver.gotoDashboard();
+
+		MonitoringGadget gadget1 = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
+			config(PROJECT_TEST_ID);
+		}};
+
+		MonitoringGadget gadget2 = new MonitoringGadget(driver, SECOND_MONITORING_GADGET) {{
+			config(PROJECT_TEST_ID);
+		}};
+		
+		List<String> expected = Arrays.asList(ADMIN, ADMIN);
+
+		List<String> actual = gadget1.getUserActivities();
+		assertThat(actual.size(), is(equalTo(expected.size())));
+		assertThat(actual.containsAll(expected), is(true));
+
+		actual = gadget2.getUserActivities();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 	}
+	
+	public void testShouldSeeActivityPerProject() {
+		clearer.clearActivities();
+
+		navigation.issue().viewIssue("OTH-1");
+		navigation.issue().viewIssue("TEST-1");
+
+		driver.gotoDashboard();
+
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
+			config(PROJECT_OTHER_TEST_ID);
+		}};
+
+		List<String> actual = gadget.getUserActivities();
+		assertThat(actual.size(), is(equalTo(1)));
+	}
+
+	
 }

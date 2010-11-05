@@ -1,21 +1,4 @@
 (function () {
-    AJS.gadget.fields.testIssuePicker = function(gadget, userprefField, userprefLabel, userprefDescription, options) {
-        if (options == null) {
-            options = {options:[{label:gadget.getPref(userprefField),value:gadget.getPref(userprefField)}] };
-        }
-        if(!AJS.$.isArray(options.options)){
-            options.options = [options.options];
-        }
-        return {
-            userpref: userprefField,
-            label: gadget.getMsg(userprefLabel),
-            description:gadget.getMsg(userprefDescription),
-            type: "select",
-            selected: gadget.getPref(userprefField),
-            options: [{label:"Issue 1",value:"10000"},{label:"Issue 2",value:"10010"},{label:"Issue 3",value:"10020"},{label:"Issue 4",value:"10021"},{label:"Issue 5",value:"10022"},{label:"Issue X",value:"10150"}]
-        };
-    };
-    
     var gadget = AJS.Gadget({
         baseUrl: GadgetBaseUrl,
         useOauth: "/rest/gadget/1.0/currentUser",
@@ -33,11 +16,19 @@
                         }
                     }(),
                     fields: [
-                        AJS.gadget.fields.testIssuePicker(gadget,"issueId","Issue","Id. de l''Issue "),
+                        AJS.gadget.fields.projectPicker(gadget,"projectId", args.options),
                         AJS.gadget.fields.nowConfigured()
                     ]
                 };
-            }
+            },
+            args: function(){
+                return [
+                    {
+                        key: "options",
+                        ajaxOptions:  "/rest/gadget/1.0/filtersAndProjects?showFilters=true"
+                    }
+                ];
+            }()
         },
         view: {
             onResizeAdjustHeight: true,
@@ -50,11 +41,11 @@
                 gadget.getView().empty();
                 gadget.getView().append(AJS.$("<div id='gadget_monitoring_user'/>"));
 
-                var issueId = gadget.getPref("issueId");
+                var projectId = gadget.getPref("projectId");
 
             	AJS.$.ajax({
             		url: "/rest/monitor/1.0/usershtml",
-                    data: ({issueId: issueId}),
+                    data: ({projectId: projectId}),
             		dataType: "json",
             		cache: false,
             		success: function(data) {

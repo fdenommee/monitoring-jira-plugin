@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
 import com.atlassian.jira.issue.Issue;
-import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.project.Project;
 import com.opensymphony.user.User;
 
@@ -20,11 +17,6 @@ public class DefaultMonitorHelper
 		implements MonitorHelper {
 
 	private static final Logger log = Logger.getLogger(MonitorHelper.class);
-	private IssueManager issueManager; 
-
-	public DefaultMonitorHelper(IssueManager issueManager) {
-		this.issueManager = issueManager;
-	}
 
 	private final Map<Long, List<UserIssueActivity>> activities = new HashMap<Long, List<UserIssueActivity>>();
 
@@ -72,13 +64,13 @@ public class DefaultMonitorHelper
 	private List<UserIssueActivity> getActivitiesForProject(Project project) {
 
 		List<UserIssueActivity> userActivities = new ArrayList<UserIssueActivity>();
-		for (Entry<Long, List<UserIssueActivity>> entry:  activities.entrySet() ) {
-			Long issueId = (Long)entry.getKey();
-			Issue issue =  issueManager.getIssueObject(issueId);
-			if (issue.getProjectObject().getKey().equals(project.getKey())) {
-				userActivities.addAll((List<UserIssueActivity>) entry.getValue());
+		for (List<UserIssueActivity> userIssueActivities :  activities.values() ) {
+			UserIssueActivity userIssueActivity = userIssueActivities.get(0);
+			if (userIssueActivity.getIssue().getProjectObject().getKey().equals(project.getKey())) {
+				userActivities.addAll(userIssueActivities);
 			}
 		}
+
 		return userActivities;
 	}
 
@@ -94,6 +86,10 @@ public class DefaultMonitorHelper
 		}
 
 		return userActivities;
+	}
+
+	public void clear() {
+		activities.clear();		
 	}
 
 }

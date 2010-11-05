@@ -30,9 +30,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.atlassian.jira.issue.IssueManager;
+import com.atlassian.jira.project.ProjectManager;
 import com.pyxis.jira.monitoring.DefaultMonitorHelper;
 import com.pyxis.jira.monitoring.MonitorHelper;
 import com.pyxis.jira.util.velocity.VelocityRenderer;
+
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_REST;
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_TEST;
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_OTHER_TEST;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_MUTABLEISSUE;
@@ -48,12 +53,13 @@ public class MonitorResourceTest {
 	private MonitorHelper helper;
 	private MonitorResource resource;
 	@Mock private IssueManager issueManager;
+	@Mock private ProjectManager projectManager;
 	@Mock private VelocityRenderer velocityRenderer;
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper(issueManager);
-		resource = new MonitorResource(issueManager, velocityRenderer, helper);
+		helper = new DefaultMonitorHelper();
+		resource = new MonitorResource(issueManager, projectManager, velocityRenderer, helper);
 	}
 
 	@Test
@@ -62,9 +68,10 @@ public class MonitorResourceTest {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
 
-		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
+		when(issueManager.getIssueObject(TEST_1_ISSUE.getId())).thenReturn(TEST_1_ISSUE);
+		when(projectManager.getProjectObj(PROJECT_TEST.getId())).thenReturn(PROJECT_TEST);
 
-		Response response = resource.getActiveUsers(TEST_1_ISSUE.getId());
+		Response response = resource.getActiveUsers(PROJECT_TEST.getId().toString());
 
 		List<RestUserIssueActivity> users = toListOfUsers(response);
 
@@ -90,7 +97,7 @@ public class MonitorResourceTest {
 		when(velocityRenderer.newVelocityParameters()).thenReturn(new HashMap<String, Object>());
 		when(velocityRenderer.render(any(String.class), any(HashMap.class))).thenReturn("<html/>");
 
-		Response response = resource.getActiveUsersHtml(TEST_1_ISSUE.getId());
+		Response response = resource.getActiveUsersHtml(PROJECT_REST.getId().toString());
 
 		HtmlEntity htmlEntity = toHtmlEntity(response);
 		assertThat(htmlEntity.isSuccess(), is(true));

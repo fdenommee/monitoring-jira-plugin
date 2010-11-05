@@ -2,6 +2,9 @@
 <table id="monitor_activity_data">
 	<thead>
 	<tr>
+		#if ($showIssue)
+		<th>${i18n.getText('cf.table.header.issue')}</th>
+		#end
 		<th>${i18n.getText('cf.table.header.user')}</th>
 		<th>${i18n.getText('cf.table.header.lastaccess')}</th>
 	</tr>
@@ -14,6 +17,11 @@
 		#else
 			#foreach( $activity in $activities)
 			<tr id="monitor_activity_${activity.UserName}">
+				#if ($showIssue)
+				<td>
+					<a href="${baseurl}/browse/${activity.issue.key}">${activity.issue.key}</a>
+				</td>
+				#end
 				<td>
 					<a href="${baseurl}/secure/ViewProfile.jspa?name=${activity.UserName}">${activity.UserName}</a>
 				</td>

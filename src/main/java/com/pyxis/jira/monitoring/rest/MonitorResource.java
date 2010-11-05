@@ -31,6 +31,8 @@ import javax.ws.rs.core.Response;
 
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.IssueManager;
+import com.atlassian.jira.project.Project;
+import com.atlassian.jira.project.ProjectManager;
 import com.pyxis.jira.monitoring.MonitorHelper;
 import com.pyxis.jira.monitoring.UserIssueActivity;
 import com.pyxis.jira.util.velocity.VelocityRenderer;
@@ -39,11 +41,15 @@ import com.pyxis.jira.util.velocity.VelocityRenderer;
 public class MonitorResource {
 
 	private final IssueManager issueManager;
+	private final ProjectManager projectManager;
 	private final VelocityRenderer velocityRenderer;
 	private final MonitorHelper helper;
 
-	public MonitorResource(IssueManager issueManager, VelocityRenderer velocityRenderer, MonitorHelper helper) {
+    public static final String PROJECT_PREFIX = "project-";
+
+	public MonitorResource(IssueManager issueManager, ProjectManager projectManager, VelocityRenderer velocityRenderer, MonitorHelper helper) {
 		this.issueManager = issueManager;
+		this.projectManager = projectManager;
 		this.velocityRenderer = velocityRenderer;
 		this.helper = helper;
 	}
@@ -51,13 +57,16 @@ public class MonitorResource {
 	@GET
 	@Path("users")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getActiveUsers(@QueryParam("issueId") long issueId) {
+	public Response getActiveUsers(
+			@QueryParam("projectId") String projectId
+			) {
 
 		List<RestUserIssueActivity> activities = new ArrayList<RestUserIssueActivity>();
 
-		for (UserIssueActivity activity : getActivitiesForIssue(issueId)) {
+		Long pid = stripFilterPrefix(projectId, PROJECT_PREFIX);
+		for (UserIssueActivity activity : getActivitiesForProject(pid)) {
 			activities.add(new RestUserIssueActivity(activity.getUserName(), activity.getIssue().getId(),
-													 activity.getTime().getTime()));
+					activity.getTime().getTime()));
 		}
 
 		GenericEntity<List<RestUserIssueActivity>> entities =
@@ -70,10 +79,14 @@ public class MonitorResource {
 	@GET
 	@Path("usershtml")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getActiveUsersHtml(@QueryParam("issueId") long issueId) {
+	public Response getActiveUsersHtml(
+			@QueryParam("projectId") String projectId
+			) {
 
 		Map<String, Object> parameters = velocityRenderer.newVelocityParameters();
-		parameters.put("activities", getActivitiesForIssue(issueId));
+		Long pid = stripFilterPrefix(projectId, PROJECT_PREFIX);
+//		parameters.put("showIssue", Boolean.TRUE);
+		parameters.put("activities", getActivitiesForProject(pid));
 
 		String body = velocityRenderer.render(
 				"templates/plugins/monitoring/fields/view-activities.vm", parameters);
@@ -84,8 +97,36 @@ public class MonitorResource {
 		return Response.ok(entity).build();
 	}
 
+	@GET
+	@Path("clear")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response clearActivities() {
+		clearAllActivities();
+		return Response.ok().build();
+	}
+
+	private void clearAllActivities() {
+		helper.clear();
+	}
+	
 	private List<UserIssueActivity> getActivitiesForIssue(long issueId) {
 		Issue issue = issueManager.getIssueObject(issueId);
 		return issue == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(issue);
 	}
+
+	private List<UserIssueActivity> getActivitiesForProject(long projectId) {
+		Project project = projectManager.getProjectObj(projectId);
+		return project == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(project);
+	}
+	
+	private Long stripFilterPrefix(String filterId, String prefix) {
+		if (filterId.startsWith(prefix)) {
+			final String numPart = filterId.substring(prefix.length());
+			return Long.valueOf(numPart);
+		} else {
+			return Long.valueOf(filterId);
+		}
+	}
+
+	
 }

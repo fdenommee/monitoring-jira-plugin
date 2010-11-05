@@ -42,7 +42,7 @@ public class MonitorCustomFieldTest {
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper(issueManager);
+		helper = new DefaultMonitorHelper();
 		field = new MonitorCustomField(helper, authenticationContext);
 	}
 

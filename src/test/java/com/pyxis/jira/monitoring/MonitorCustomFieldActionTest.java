@@ -43,7 +43,7 @@ public class MonitorCustomFieldActionTest {
 
 	@Before
 	public void init() {
-		monitorHelper = new DefaultMonitorHelper(issueManager);
+		monitorHelper = new DefaultMonitorHelper();
 		action = new MonitorCustomFieldAction(issueManager, monitorHelper);
 	}
 
@@ -81,5 +81,22 @@ public class MonitorCustomFieldActionTest {
 		
 		action.doExecute();
 		assertEquals(2, action.getActivities().size());
+	}
+
+	@Test
+	public void shouldHaveNoActivitiesAfterClear()
+			throws Exception {
+
+		monitorHelper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		monitorHelper.notify(VTHOULE_USER, TEST_1_ISSUE);
+		
+		when(issueManager.getIssueObject(TEST_1_MUTABLEISSUE.getId())).thenReturn(TEST_1_MUTABLEISSUE);
+		action.setIssueId(TEST_1_MUTABLEISSUE.getId());
+		
+		action.doExecute();
+		assertEquals(2, action.getActivities().size());
+
+		action.doClearActivity();
+		assertEquals(0, action.getActivities().size());
 	}
 }
