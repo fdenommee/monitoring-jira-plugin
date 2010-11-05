@@ -18,9 +18,7 @@
  */
 package it.com.pyxis.jira.selenium;
 
-import org.apache.commons.lang.SystemUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 
 public class Gadget {
@@ -68,49 +66,31 @@ public class Gadget {
 		saveButton.click();
 	}
 
-	private WebElement gadgetRenderBox() {
-		outsideFocus();
-		return driver.findElement(By.id(String.format("%s-renderbox", gadgetId)));
-	}
-
 	private void clickMenuItem(String classItem) {
 
-		WebElement gadget = gadgetRenderBox();
-		hoverOn(gadget);
-
+		outsideFocus();
 		toggleGadgetMenu();
 
-		String xpath = String.format(
-				".//*[@id='%s-chrome']/*/div[@class='gadget-menu']/*//li[@class='%s']/a[@class='no_target']",
-				gadgetId, classItem);
+		try {
+			By xpath = By.xpath(String.format(
+					".//*[@id='%s-chrome']/*/div[@class='gadget-menu']/*//li[@class='%s']/a[@class='no_target']",
+					gadgetId, classItem));
 
-		WebElement menuElement = gadget.findElement(By.xpath(xpath));
-		hoverOn(menuElement);
-
-		menuElement.click();
-
-		toggleGadgetMenu();
-
-		insideFocus();
+			WebElement menuElement = driver.waitForElementToAppear(xpath);
+			menuElement.click();
+		}
+		finally {
+			toggleGadgetMenu();
+			insideFocus();
+		}
 	}
 
 	private void toggleGadgetMenu() {
 		driver.executeScript(String.format(
 				"AJS.$('#%s-chrome').toggleClass('gadget-hover');\n" +
 				"AJS.$('#%s-renderbox').toggleClass('dropdown-active');\n" +
-				"AJS.$('[id=%s-chrome] [class=aui-dropdown standard hidden]').toggleClass('hidden');",
-				gadgetId, gadgetId, gadgetId));
-	}
-
-	private void hoverOn(WebElement element) {
-
-		if (SystemUtils.IS_OS_WINDOWS && element instanceof RenderedWebElement) {
-			try {
-				((RenderedWebElement)element).hover();
-			}
-			catch (UnsupportedOperationException ex) {
-				System.err.printf("WARNING: hover not supported : %s", ex.getMessage());
-			}
-		}
+				"AJS.$('[id=%s-chrome] [class=aui-dropdown standard hidden]').toggleClass('hidden');\n" +
+				"AJS.$('#%s-renderbox').css('z-index: 0');",
+				gadgetId, gadgetId, gadgetId, gadgetId));
 	}
 }
