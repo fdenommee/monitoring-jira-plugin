@@ -24,6 +24,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -37,6 +38,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.common.base.Function;
 
 import static it.com.pyxis.jira.selenium.WebDriverFactory.DEFAULT_TIMEOUT_IN_SECONDS;
+import static org.junit.Assert.*;
 
 public class JiraWebDriver {
 
@@ -164,5 +166,12 @@ public class JiraWebDriver {
 		catch (IllegalAccessException ex) {
 			throw new RuntimeException(ex);
 		}
+	}
+
+	public void executeScript(String script) {
+		assertTrue("Driver does not support Javascript execution", driver instanceof JavascriptExecutor);
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		assertTrue("Javascript not enabled", executor.isJavascriptEnabled());
+		executor.executeScript(script);
 	}
 }

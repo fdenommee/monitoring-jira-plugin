@@ -18,28 +18,15 @@
  */
 package it.com.pyxis.jira.selenium;
 
-import java.awt.Dimension;
-import java.awt.Point;
-
+import org.apache.commons.lang.SystemUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
-
-import com.objogate.wl.Automaton;
-import com.objogate.wl.gesture.Gestures;
-import com.objogate.wl.gesture.Tracker;
-import com.objogate.wl.robot.RoboticAutomaton;
-
-import static com.objogate.wl.gesture.Gestures.clickMouseButton;
-import static com.objogate.wl.gesture.Gestures.moveMouseTo;
-import static com.objogate.wl.gesture.Gestures.sequence;
 
 public class Gadget {
 
 	protected final JiraWebDriver driver;
 	protected final String gadgetId;
-
-	private Automaton automaton;
 
 	public Gadget(JiraWebDriver driver, String gadgetId) {
 		this.driver = driver;
@@ -57,16 +44,6 @@ public class Gadget {
 		driver.switchTo().defaultContent();
 		driver.waitForElementToAppear(By.id(gadgetId));
 		driver.switchTo().frame(gadgetId);
-	}
-
-	public void closeMenu() {
-		outsideFocus();
-		getAutomaton().perform(
-				moveMouseTo(new Tracker() {
-					public Point target(Point currentLocation) {
-						return new Point(0, 0);
-					}
-				}));
 	}
 
 	public void clickEditMenu() {
@@ -101,8 +78,7 @@ public class Gadget {
 		WebElement gadget = gadgetRenderBox();
 		hoverOn(gadget);
 
-		getAutomaton().perform(
-				sequence(moveMouseTo(new GadgetMenuTracker(gadget)), clickMouseButton(Gestures.BUTTON1)));
+		toggleGadgetMenu();
 
 		String xpath = String.format(
 				".//*[@id='%s-chrome']/*/div[@class='gadget-menu']/*//li[@class='%s']/a[@class='no_target']",
@@ -111,71 +87,30 @@ public class Gadget {
 		WebElement menuElement = gadget.findElement(By.xpath(xpath));
 		hoverOn(menuElement);
 
-		getAutomaton().perform(
-				sequence(moveMouseTo(new MenuTracker(menuElement)), clickMouseButton(Gestures.BUTTON1)));
+		menuElement.click();
+
+		toggleGadgetMenu();
 
 		insideFocus();
 	}
 
+	private void toggleGadgetMenu() {
+		driver.executeScript(String.format(
+				"AJS.$('#%s-chrome').toggleClass('gadget-hover');\n" +
+				"AJS.$('#%s-renderbox').toggleClass('dropdown-active');\n" +
+				"AJS.$('[id=%s-chrome] [class=aui-dropdown standard hidden]').toggleClass('hidden');",
+				gadgetId, gadgetId, gadgetId));
+	}
+
 	private void hoverOn(WebElement element) {
 
-		if (element instanceof RenderedWebElement) {
+		if (SystemUtils.IS_OS_WINDOWS && element instanceof RenderedWebElement) {
 			try {
 				((RenderedWebElement)element).hover();
 			}
 			catch (UnsupportedOperationException ex) {
 				System.err.printf("WARNING: hover not supported : %s", ex.getMessage());
 			}
-		}
-	}
-
-	private Automaton getAutomaton() {
-		if (automaton == null) {
-			automaton = new RoboticAutomaton();
-		}
-		return automaton;
-	}
-
-	private class MenuTracker
-			implements Tracker {
-
-		private final WebElement element;
-		private Point center;
-
-		private MenuTracker(WebElement element) {
-			this.element = element;
-		}
-
-		public Point target(Point currentLocation) {
-			if (center == null) {
-				Point p = driver.getLocationOnScreenOnceScrolledIntoView(element);
-				Dimension d = ((RenderedWebElement)element).getSize();
-
-				center = new Point(p.x + d.width / 2, p.y + d.height / 2);
-			}
-			return center;
-		}
-	}
-
-	private class GadgetMenuTracker
-			implements Tracker {
-
-		private final WebElement element;
-		private Point target;
-
-		private GadgetMenuTracker(WebElement element) {
-			this.element = element;
-		}
-
-		public Point target(Point currentLocation) {
-
-			if (target == null) {
-				Point p = driver.getLocationOnScreenOnceScrolledIntoView(element);
-				Dimension d = ((RenderedWebElement)element).getSize();
-				target = new Point(p.x + d.width - 18, p.y + 15); //pic size is 13x13
-			}
-
-			return target;
 		}
 	}
 }
