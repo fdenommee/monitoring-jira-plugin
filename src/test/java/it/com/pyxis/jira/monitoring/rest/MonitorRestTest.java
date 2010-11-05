@@ -55,7 +55,7 @@ public class MonitorRestTest
 	}
 
 	@Test
-	public void testCanFoundActivityOfOurselfOnIssue() {
+	public void testCanFoundActivityOfOurselfOnProject() {
 
 		List<RestUserIssueActivity> actual = getActivities(PROJECT_REST);
 		assertThat(actual.size(), is(equalTo(0)));
@@ -87,13 +87,13 @@ public class MonitorRestTest
 
 	@Test
 	public void testDeletingAnIssue() {
-		clearActivities();
-		navigation.issue().viewIssue("REST-2");
+
+		navigation.issue().viewIssue("REST-3");
 		
 		List<RestUserIssueActivity> actual = getActivities(PROJECT_REST);
 		assertThat(actual.size(), is(greaterThanOrEqualTo(1)));
 		
-		navigation.issue().deleteIssue("REST-2");
+		navigation.issue().deleteIssue("REST-3");
 		
 		actual = getActivities(PROJECT_REST);
 		assertThat(actual.size(), is(equalTo(0)));
