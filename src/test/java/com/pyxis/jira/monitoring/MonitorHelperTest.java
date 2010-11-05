@@ -18,6 +18,17 @@
  */
 package com.pyxis.jira.monitoring;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import com.atlassian.jira.issue.Issue;
+import com.opensymphony.user.User;
+
 import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_OTHER_TEST;
 import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_TEST;
@@ -27,31 +38,17 @@ import static com.pyxis.jira.monitoring.IssueObjectMother.UNKNOWN_ISSUE;
 import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
 import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import com.atlassian.jira.issue.IssueManager;
-import com.opensymphony.user.User;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MonitorHelperTest {
 
 	private MonitorHelper helper;
-	@Mock private IssueManager issueManager;
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper(issueManager);
+		helper = new DefaultMonitorHelper();
 	}
 	
 	@Test
@@ -61,7 +58,7 @@ public class MonitorHelperTest {
 
 	@Test
 	public void shouldHaveNoActivity() {
-		assertEquals(0, helper.getActivities(TEST_1_ISSUE).size());
+		assertNoActivityForIssue(TEST_1_ISSUE);
 	}
 
 	@Test
@@ -74,15 +71,10 @@ public class MonitorHelperTest {
 	@Test
 	public void activitesAreFoundPerProjectForSameUser() {
 		
-		when(issueManager.getIssueObject(OTHER_TEST_1_ISSUE.getId())).thenReturn(OTHER_TEST_1_ISSUE);
-		when(issueManager.getIssueObject(TEST_1_ISSUE.getId())).thenReturn(TEST_1_ISSUE);
-		
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		helper.notify(FDENOMMEE_USER, OTHER_TEST_1_ISSUE);
 		
-		List<UserIssueActivity> activities = null;
-		
-		activities = helper.getActivities(PROJECT_TEST);
+		List<UserIssueActivity> activities = helper.getActivities(PROJECT_TEST);
 		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
 
 		activities = helper.getActivities(PROJECT_OTHER_TEST);
@@ -101,9 +93,7 @@ public class MonitorHelperTest {
 
 	@Test
 	public void shouldReturnNoUserActivityForUnknownIssue() {
-
-		List<UserIssueActivity> activities = helper.getActivities(UNKNOWN_ISSUE);
-		assertThat(activities.size(), is(equalTo(0)));
+		assertNoActivityForIssue(UNKNOWN_ISSUE);
 	}
 
 	@Test
@@ -135,11 +125,49 @@ public class MonitorHelperTest {
 		List<UserIssueActivity> activities = helper.getActivities(TEST_1_ISSUE);
 		assertUserActivities(activities, new User[] { FDENOMMEE_USER });
 	}
-	
-	private void assertUserActivities(List<UserIssueActivity> expected, User[] actualUsers) {
-		assertEquals("Activity count mistmatch", expected.size(), actualUsers.length);
-		for (int index = 0; index < expected.size(); index++) {
-			assertEquals(expected.get(index).getUserName(), actualUsers[index].getName());
+
+	@Test
+	public void shouldRemoveIssueWhenDeleted() {
+
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notifyDelete(TEST_1_ISSUE);
+
+		assertNoActivityForIssue(TEST_1_ISSUE);
+	}
+
+	@Test
+	public void shouldOnlyRemoveActivitiesAffectedByADeletedIssue() {
+
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(FDENOMMEE_USER, TEST_2_ISSUE);
+		helper.notifyDelete(TEST_1_ISSUE);
+
+		assertNoActivityForIssue(TEST_1_ISSUE);
+
+		List<UserIssueActivity> activities = helper.getActivities(TEST_2_ISSUE);
+		assertThat(activities.size(), is(equalTo(1)));
+	}
+
+	private void assertNoActivityForIssue(Issue issue) {
+		List<UserIssueActivity> activities = helper.getActivities(issue);
+		assertThat(activities.size(), is(equalTo(0)));
+	}
+
+	private void assertUserActivities(List<UserIssueActivity> activities, User[] users) {
+		assertEquals("Activity count mistmatch", activities.size(), users.length);
+
+		List<String> expectedUsers = new ArrayList<String>();
+
+		for (UserIssueActivity activity : activities) {
+			expectedUsers.add(activity.getUserName());
 		}
+
+		List<String> actualUsers = new ArrayList<String>();
+
+		for (User user : users) {
+			actualUsers.add(user.getName());
+		}
+
+		assertThat(expectedUsers.containsAll(actualUsers), is(true));
 	}
 }
