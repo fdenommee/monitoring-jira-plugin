@@ -21,6 +21,7 @@ public class DefaultMonitorHelper
 	private final Map<Long, List<UserIssueActivity>> activities = new HashMap<Long, List<UserIssueActivity>>();
 
 	public List<UserIssueActivity> getActivities(Project project) {
+		if (project == null) return Collections.emptyList();
 		List<UserIssueActivity> userActivities = getActivitiesForProject(project);
 		sortByDate(userActivities);
 		return userActivities;
