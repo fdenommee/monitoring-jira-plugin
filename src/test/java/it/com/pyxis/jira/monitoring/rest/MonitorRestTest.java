@@ -47,6 +47,7 @@ public class MonitorRestTest
 	protected void setUpTest() {
 		initRestService();
 		administration.restoreData("it-MonitorRestTest.xml");
+		clearActivities();
 	}
 	
 	private void initRestService() {
