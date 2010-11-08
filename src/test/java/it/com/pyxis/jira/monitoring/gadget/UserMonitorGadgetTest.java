@@ -6,7 +6,7 @@ import java.util.List;
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.pyxis.jira.monitoring.rest.MonitorResource;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
-import it.com.pyxis.jira.monitoring.rest.MonitoringClearer;
+import it.com.pyxis.jira.monitoring.rest.MonitorRestClient;
 import it.com.pyxis.jira.selenium.JiraWebDriver;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,13 +25,12 @@ public class UserMonitorGadgetTest
 
 	private JiraWebDriver driver;
 	private MonitoringGadget gadget;
-	private MonitoringClearer clearer = MonitoringClearer.getInstance();
 
 	@Override
 	protected void setUpTest() {
 		administration.restoreData("it-UserMonitorGadgetTest.xml");
 
-		clearer.clearActivities();
+		new MonitorRestClient().clearAndClose();
 
 		driver = new JiraWebDriver();
 		driver.gotoDashboard().loginAsAdmin();

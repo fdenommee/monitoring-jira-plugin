@@ -19,18 +19,14 @@
 package it.com.pyxis.jira.monitoring.rest;
 
 import java.util.List;
-import javax.ws.rs.core.MediaType;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.pyxis.jira.monitoring.rest.MonitorResource;
 import com.pyxis.jira.monitoring.rest.RestUserIssueActivity;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -41,19 +37,17 @@ public class MonitorRestTest
 	private static final long PROJECT_REST = 10010;
 	private static final long REST1_ISSUE_ID = 10030;
 
-	private Client client = Client.create();
-	private WebResource service;
+	private final MonitorRestClient client = new MonitorRestClient();
 
 	@Before
 	protected void setUpTest() {
-		initRestService();
 		administration.restoreData("it-MonitorRestTest.xml");
 		clearActivities();
 	}
-	
-	private void initRestService() {
-		client.addFilter(new HTTPBasicAuthFilter("admin", "admin"));
-		service = client.resource("http://localhost:2990/jira/rest/monitor/1.0");
+
+	@After
+	protected void tearDownTest() {
+		client.close();
 	}
 
 	@Test
@@ -101,22 +95,15 @@ public class MonitorRestTest
 		assertThat(actual.size(), is(equalTo(0)));
 	}
 	
-	public String asProjectId(long fitlerOrProjectId) {
+	private String asProjectId(long fitlerOrProjectId) {
 		return MonitorResource.PROJECT_PREFIX + String.valueOf(fitlerOrProjectId);
 	}
 	
-	private List<RestUserIssueActivity> getActivities(long fitlerOrProjectId) {
-
-		return service.path("users")
-				.queryParam("projectId", asProjectId(fitlerOrProjectId))
-				.accept(MediaType.APPLICATION_XML_TYPE)
-				.get(new GenericType<List<RestUserIssueActivity>>() {
-				});
+	private List<RestUserIssueActivity> getActivities(long filterOrProjectId) {
+		return client.getActivities(asProjectId(filterOrProjectId));
 	}
 
 	private void clearActivities() {
-		service.path("clear")
-				.accept(MediaType.APPLICATION_XML_TYPE)
-				.get(String.class);
+		client.clearActivities();
 	}
 }

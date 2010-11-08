@@ -1,26 +1,20 @@
 package it.com.pyxis.jira.monitoring.rest;
 
+import java.util.List;
 import javax.ws.rs.core.MediaType;
 
+import com.pyxis.jira.monitoring.rest.RestUserIssueActivity;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
-public class MonitoringClearer {
+public class MonitorRestClient {
 
 	private final Client client;
 	private final WebResource service;
 
-	private static MonitoringClearer instance;
-
-	public static MonitoringClearer getInstance() {
-		if (instance == null) {
-			instance = new MonitoringClearer();
-		}
-		return instance;
-	}
-
-	private MonitoringClearer() {
+	public MonitorRestClient() {
 		client = Client.create();
 		client.addFilter(new HTTPBasicAuthFilter("admin", "admin"));
 
@@ -31,5 +25,22 @@ public class MonitoringClearer {
 		service.path("clear")
 				.accept(MediaType.APPLICATION_XML_TYPE)
 				.get(String.class);
+	}
+
+	public void clearAndClose() {
+		clearActivities();
+		close();
+	}
+	
+	public List<RestUserIssueActivity> getActivities(String filterOrProjectId) {
+		return service.path("users")
+				.queryParam("projectId", filterOrProjectId)
+				.accept(MediaType.APPLICATION_XML_TYPE)
+				.get(new GenericType<List<RestUserIssueActivity>>() {
+				});
+	}
+
+	public void close() {
+		client.destroy();
 	}
 }
