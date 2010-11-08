@@ -64,7 +64,7 @@ public class WebDriverFactory {
 
 	private boolean usingXvfb() {
 		boolean useXvfb = Boolean.valueOf(System.getProperty("xvfb", "false"));
-		System.err.printf("Note: Using Xvfb\n");
+		System.err.printf("Note: Xvfb = %s\n", useXvfb);
 		return useXvfb;
 	}
 
