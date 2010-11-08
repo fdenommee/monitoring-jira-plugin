@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.atlassian.jira.functest.framework.FuncTestCase;
+import com.pyxis.jira.monitoring.rest.MonitorResource;
 import com.pyxis.jira.monitoring.rest.RestUserIssueActivity;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.GenericType;
@@ -99,10 +100,14 @@ public class MonitorRestTest
 		assertThat(actual.size(), is(equalTo(0)));
 	}
 	
-	private List<RestUserIssueActivity> getActivities(long projectId) {
+	public String asProjectId(long fitlerOrProjectId) {
+		return MonitorResource.PROJECT_PREFIX + String.valueOf(fitlerOrProjectId);
+	}
+	
+	private List<RestUserIssueActivity> getActivities(long fitlerOrProjectId) {
 
 		return service.path("users")
-				.queryParam("projectId", String.valueOf(projectId))
+				.queryParam("projectId", asProjectId(fitlerOrProjectId))
 				.accept(MediaType.APPLICATION_XML_TYPE)
 				.get(new GenericType<List<RestUserIssueActivity>>() {
 				});

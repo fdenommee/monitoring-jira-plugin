@@ -41,23 +41,23 @@ public class MonitoringGadget
 		return content().getText();
 	}
 
-	public void config(int projectId) {
+	public void config(String filterOrProject) {
 
 		clickEditMenu();
 
-		Select select = new Select(configProjectId());
-		select.selectByValue(toProjectValue(projectId));
+		Select select = new Select(configFilterAndProjectId());
+		select.selectByValue(filterOrProject);
 
 		clickSaveButton();
 	}
 
-	public void assertConfig(int projectId) {
+	public void assertConfig(String filterOrProject) {
 
 		clickEditMenu();
 
 		try {
-			String value = configProjectId().getValue();
-			assertEquals(toProjectValue(projectId), value);
+			String value = configFilterAndProjectId().getValue();
+			assertEquals(filterOrProject, value);
 		}
 		finally {
 			clickCancelButton();
@@ -81,7 +81,7 @@ public class MonitoringGadget
 		return driver.findElement(By.id("gadget_monitoring_user"));
 	}
 
-	private WebElement configProjectId() {
+	private WebElement configFilterAndProjectId() {
 		return driver.findElement(By.id("projectId"));
 	}
 

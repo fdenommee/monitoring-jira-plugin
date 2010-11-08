@@ -41,7 +41,7 @@
                 gadget.getView().empty();
                 gadget.getView().append(AJS.$("<div id='gadget_monitoring_user'/>"));
 
-                var projectId = gadget.getPref("projectId").substring("project-".length);
+                var projectId = gadget.getPref("projectId");
                 
             	AJS.$.ajax({
             		url: "/rest/monitor/1.0/usershtml",

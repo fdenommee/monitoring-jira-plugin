@@ -4,7 +4,7 @@
 
 ___ Exported on _____________________________
 
-     on                                            : mercredi 3 novembre 2010 14 h 50 EDT
+     on                                            : lundi 8 novembre 2010 11 h 22 EST
      by                                            : admin ( admin )
 
 ___ Environment ___________________________
@@ -15,14 +15,14 @@ ___ Environment ___________________________
      Java Version                                  : 1.6.0_13 - Sun Microsystems Inc.
      Current Working Directory                     : C:\Data\Workspaces\spike\monitoring-jira-plugin
      Maximum Allowable Memory                      : 508MB
-     Total Memory                                  : 272MB
-     Free Memory                                   : 80MB
-     Used Memory                                   : 192MB
-     Memory Pool: Code Cache                       : Code Cache: init = 163840(160K) used = 15575488(15210K) committed = 15597568(15232K) max = 33554432(32768K)
-     Memory Pool: Eden Space                       : Eden Space: init = 917504(896K) used = 16811224(16417K) committed = 17891328(17472K) max = 33030144(32256K)
-     Memory Pool: Survivor Space                   : Survivor Space: init = 65536(64K) used = 2162688(2112K) committed = 2162688(2112K) max = 4128768(4032K)
-     Memory Pool: Tenured Gen                      : Tenured Gen: init = 4194304(4096K) used = 182583408(178304K) committed = 266055680(259820K) max = 495583232(483968K)
-     Memory Pool: Perm Gen                         : Perm Gen: init = 12582912(12288K) used = 67209472(65634K) committed = 67371008(65792K) max = 167772160(163840K)
+     Total Memory                                  : 277MB
+     Free Memory                                   : 90MB
+     Used Memory                                   : 187MB
+     Memory Pool: Code Cache                       : Code Cache: init = 163840(160K) used = 17952576(17531K) committed = 17989632(17568K) max = 33554432(32768K)
+     Memory Pool: Eden Space                       : Eden Space: init = 917504(896K) used = 5242936(5120K) committed = 18153472(17728K) max = 33030144(32256K)
+     Memory Pool: Survivor Space                   : Survivor Space: init = 65536(64K) used = 227048(221K) committed = 2228224(2176K) max = 4128768(4032K)
+     Memory Pool: Tenured Gen                      : Tenured Gen: init = 4194304(4096K) used = 190525096(186059K) committed = 270594048(264252K) max = 495583232(483968K)
+     Memory Pool: Perm Gen                         : Perm Gen: init = 12582912(12288K) used = 68647224(67038K) committed = 68681728(67072K) max = 167772160(163840K)
      JVM Input Arguments                           : -Xmx512m -XX:MaxPermSize=160m -Datlassian.dev.mode=true -Dplugin.resource.directories=C:\Data\Workspaces\spike\monitoring-jira-plugin\src\main\resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Datlassian.dev.mode=true -Dplugin.resource.directories=C:\Data\Workspaces\spike\monitoring-jira-plugin\src\main\resources -Dcargo.datasource.datasource=cargo.datasource.url=jdbc:hsqldb:C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home/database|cargo.datasource.driver=org.hsqldb.jdbcDriver|cargo.datasource.username=sa|cargo.datasource.password=|cargo.datasource.type=javax.sql.DataSource|cargo.datasource.jndi=jdbc/JiraDS -Djira.home=C:/Data/Workspaces/spike/monitoring-jira-plugin/target/jira/home -Djava.awt.headless=true -Dbaseurl=http://localhost:2990/jira -Dcatalina.home=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\apache-tomcat-6.0.20 -Dcatalina.base=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\cargo-jira-home -Djava.io.tmpdir=C:\Data\Workspaces\spike\monitoring-jira-plugin\target\container\tomcat6x\cargo-jira-home\temp
 
 ___ Database Configuration ________________
@@ -209,7 +209,7 @@ Examples: 4d, 5h 30m, 60m and 3w.
      jira.view.issue.links.sort.order              : type, status, priority
      jira.view.issue.show.quicksubtask.when.no.subtasks : false
      jira.viewcvs.root.type                        : cvsroot
-     jira.webresource.flushcounter                 : 257
+     jira.webresource.flushcounter                 : 379
      jira.webresource.superbatch.flushcounter      : 1
      user.default.share.private                    : true
      user.issues.per.page                          : 50
@@ -545,10 +545,10 @@ ___ Services ______________________________
 
      Mail Queue Service                            : com.atlassian.jira.service.services.mail.MailQueueService
           Service Delay                                 : 60000ms
-     Last Run                                      : 10-11-03 14:50
+     Last Run                                      : 10-11-08 11:21
      Service Provider Token Remover                : com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService
           Service Delay                                 : 28800000ms
-     Last Run                                      : 10-11-03 14:49
+     Last Run                                      : 10-11-08 11:18
           pluginJobName                                 : Service Provider Token Remover
 
 ___ Trusted Applications __________________
@@ -605,6 +605,7 @@ ___ Trusted Applications __________________
     <EventType id="16" name="Issue Worklog Deleted" description="This is the &apos;issue worklog deleted&apos; event." type="jira.system.event.type"/>
     <FavouriteAssociations id="10000" username="admin" entityType="PortalPage" entityId="10010" sequence="0"/>
     <FavouriteAssociations id="10010" username="admin" entityType="PortalPage" entityId="10020" sequence="1"/>
+    <FavouriteAssociations id="10020" username="admin" entityType="SearchRequest" entityId="10000" sequence="0"/>
     <FieldConfigScheme id="10000" name="Default Issue Type Scheme" description="Default issue type scheme is the list of global issue types. All newly created issue types will automatically be added to this scheme." fieldid="issuetype"/>
     <FieldConfigScheme id="10010" name="Default Configuration Scheme for Monitor" description="Default configuration scheme generated by JIRA" fieldid="customfield_10000"/>
     <FieldConfigSchemeIssueType id="10001" fieldconfigscheme="10000" fieldconfiguration="10000"/>
@@ -650,10 +651,10 @@ ___ Trusted Applications __________________
     <GadgetUserPreference id="10017" portletconfiguration="10010" userprefkey="isConfigured" userprefvalue="true"/>
     <GadgetUserPreference id="10018" portletconfiguration="10010" userprefkey="columnNames" userprefvalue="--Default--"/>
     <GadgetUserPreference id="10019" portletconfiguration="10010" userprefkey="refresh" userprefvalue="false"/>
-    <GadgetUserPreference id="10090" portletconfiguration="10011" userprefkey="isConfigured" userprefvalue="true"/>
-    <GadgetUserPreference id="10091" portletconfiguration="10011" userprefkey="projectId" userprefvalue="project-10000"/>
     <GadgetUserPreference id="10092" portletconfiguration="10020" userprefkey="isConfigured" userprefvalue="true"/>
     <GadgetUserPreference id="10093" portletconfiguration="10020" userprefkey="projectId" userprefvalue="project-10010"/>
+    <GadgetUserPreference id="10100" portletconfiguration="10011" userprefkey="isConfigured" userprefvalue="true"/>
+    <GadgetUserPreference id="10101" portletconfiguration="10011" userprefkey="projectId" userprefvalue="project-10000"/>
     <GenericConfiguration id="10000" datatype="DefaultValue" datakey="10000" xmlvalue="&lt;string&gt;1&lt;/string&gt;"/>
     <Issue id="10000" key="TEST-1" project="10000" reporter="admin" assignee="admin" type="1" summary="Test Issue 1" description="test" priority="3" status="1" created="2010-10-05 11:26:52.88" updated="2010-10-27 16:17:27.531" votes="0" workflowId="10000"/>
     <Issue id="10010" key="TEST-2" project="10000" reporter="admin" assignee="admin" type="3" summary="Test Issue 2" priority="3" status="1" created="2010-10-21 16:30:42.982" updated="2010-10-27 16:17:13.875" votes="0" workflowId="10010"/>
@@ -671,7 +672,7 @@ ___ Trusted Applications __________________
     <ListenerConfig id="10000" clazz="com.atlassian.jira.event.listeners.cache.IssueCacheListener" name="Issue Cache Listener"/>
     <ListenerConfig id="10001" clazz="com.atlassian.jira.event.listeners.mail.MailListener" name="Mail Listener"/>
     <ListenerConfig id="10020" clazz="com.pyxis.jira.monitoring.event.MonitorIssueEventListener" name="Monitor Issue Event Listener"/>
-    <ListenerConfig id="10140" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
+    <ListenerConfig id="10150" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
     <NodeAssociation sourceNodeId="10000" sourceNodeEntity="Project" sinkNodeId="0" sinkNodeEntity="PermissionScheme" associationType="ProjectScheme"/>
     <NodeAssociation sourceNodeId="10000" sourceNodeEntity="Project" sinkNodeId="1" sinkNodeEntity="IssueTypeScreenScheme" associationType="ProjectScheme"/>
     <NodeAssociation sourceNodeId="10010" sourceNodeEntity="Project" sinkNodeId="0" sinkNodeEntity="PermissionScheme" associationType="ProjectScheme"/>
@@ -878,10 +879,10 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <OSPropertyString id="10053" value="1"/>
     <OSPropertyString id="10054" value="0"/>
     <OSPropertyString id="10055" value="0"/>
-    <OSPropertyString id="10056" value="1288810194296"/>
-    <OSPropertyString id="10057" value="95"/>
-    <OSPropertyString id="10061" value="1288810172234"/>
-    <OSPropertyString id="10250" value="257"/>
+    <OSPropertyString id="10056" value="1289233234703"/>
+    <OSPropertyString id="10057" value="100"/>
+    <OSPropertyString id="10061" value="1289233162515"/>
+    <OSPropertyString id="10250" value="379"/>
     <OSPropertyString id="10251" value="${fullname} (JIRA)"/>
     <OSPropertyString id="10255" value="never"/>
     <OSPropertyString id="10262" value="workaround"/>
@@ -984,7 +985,7 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <PluginVersion id="10075" name="Apache Commons FileUpload Bundle" key="org.apache.commons.fileupload-1.2.1" version="1.2.1" created="2010-10-05 11:21:15.468"/>
     <PluginVersion id="10080" name="RPC JIRA Plugin" key="com.atlassian.jira.ext.rpc" version="4.1.2-1" created="2010-11-02 16:28:12.921"/>
     <PortalPage id="10000" pagename="System Dashboard" sequence="0" favCount="0" layout="AA" version="0"/>
-    <PortalPage id="10010" username="admin" pagename="My Dashboard" favCount="1" layout="AA" version="36"/>
+    <PortalPage id="10010" username="admin" pagename="My Dashboard" favCount="1" layout="AA" version="37"/>
     <PortalPage id="10020" username="admin" pagename="Monitoring" favCount="1" layout="AA" version="0"/>
     <PortletConfiguration id="10000" portalpage="10000" columnNumber="0" position="0" gadgetXml="rest/gadgets/1.0/g/com.atlassian.jira.gadgets:introduction-gadget/gadgets/introduction-gadget.xml"/>
     <PortletConfiguration id="10001" portalpage="10000" columnNumber="0" position="1" gadgetXml="rest/gadgets/1.0/g/com.atlassian.streams.streams-jira-plugin:activitystream-gadget/gadgets/activitystream-gadget.xml"/>
@@ -1054,12 +1055,13 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SchemePermissions id="10033" scheme="0" permission="29" type="projectrole" parameter="10001"/>
     <SchemePermissions id="10040" permission="33" type="group" parameter="jira-users"/>
     <SchemePermissions id="10041" permission="44" type="group" parameter="jira-administrators"/>
+    <SearchRequest id="10000" name="All Issues" author="admin" user="admin" request="" favCount="1"/>
     <SequenceValueItem seqName="Avatar" seqId="10020"/>
     <SequenceValueItem seqName="ChangeGroup" seqId="10020"/>
     <SequenceValueItem seqName="ChangeItem" seqId="10020"/>
     <SequenceValueItem seqName="ConfigurationContext" seqId="10020"/>
     <SequenceValueItem seqName="CustomField" seqId="10010"/>
-    <SequenceValueItem seqName="FavouriteAssociations" seqId="10020"/>
+    <SequenceValueItem seqName="FavouriteAssociations" seqId="10030"/>
     <SequenceValueItem seqName="FieldConfigScheme" seqId="10020"/>
     <SequenceValueItem seqName="FieldConfigSchemeIssueType" seqId="10020"/>
     <SequenceValueItem seqName="FieldConfiguration" seqId="10020"/>
@@ -1068,11 +1070,11 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SequenceValueItem seqName="FieldScreenScheme" seqId="10000"/>
     <SequenceValueItem seqName="FieldScreenSchemeItem" seqId="10010"/>
     <SequenceValueItem seqName="FieldScreenTab" seqId="10010"/>
-    <SequenceValueItem seqName="GadgetUserPreference" seqId="10100"/>
+    <SequenceValueItem seqName="GadgetUserPreference" seqId="10110"/>
     <SequenceValueItem seqName="GenericConfiguration" seqId="10010"/>
     <SequenceValueItem seqName="Issue" seqId="10050"/>
     <SequenceValueItem seqName="IssueTypeScreenSchemeEntity" seqId="10010"/>
-    <SequenceValueItem seqName="ListenerConfig" seqId="10150"/>
+    <SequenceValueItem seqName="ListenerConfig" seqId="10160"/>
     <SequenceValueItem seqName="Notification" seqId="10050"/>
     <SequenceValueItem seqName="NotificationScheme" seqId="10010"/>
     <SequenceValueItem seqName="OSCurrentStep" seqId="10060"/>
@@ -1089,14 +1091,16 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <SequenceValueItem seqName="ProjectRole" seqId="10010"/>
     <SequenceValueItem seqName="ProjectRoleActor" seqId="10030"/>
     <SequenceValueItem seqName="SchemePermissions" seqId="10050"/>
+    <SequenceValueItem seqName="SearchRequest" seqId="10010"/>
     <SequenceValueItem seqName="ServiceConfig" seqId="10300"/>
-    <SequenceValueItem seqName="SharePermissions" seqId="10010"/>
+    <SequenceValueItem seqName="SharePermissions" seqId="10020"/>
     <SequenceValueItem seqName="UpgradeHistory" seqId="10050"/>
     <SequenceValueItem seqName="UpgradeVersionHistory" seqId="10020"/>
     <SequenceValueItem seqName="UserHistoryItem" seqId="10090"/>
     <ServiceConfig id="10000" time="60000" clazz="com.atlassian.jira.service.services.mail.MailQueueService" name="Mail Queue Service"/>
     <ServiceConfig id="10290" time="28800000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="Service Provider Token Remover"/>
     <SharePermissions id="10000" entityId="10000" entityType="PortalPage" type="global"/>
+    <SharePermissions id="10010" entityId="10000" entityType="SearchRequest" type="global"/>
     <Status id="1" sequence="1" name="Open" description="The issue is open and ready for the assignee to start work on it." iconurl="/images/icons/status_open.gif"/>
     <Status id="3" sequence="3" name="In Progress" description="This issue is being actively worked on at the moment by the assignee." iconurl="/images/icons/status_inprogress.gif"/>
     <Status id="4" sequence="4" name="Reopened" description="This issue was once resolved, but the resolution was deemed incorrect. From here issues are either marked assigned or resolved." iconurl="/images/icons/status_reopened.gif"/>
@@ -1138,8 +1142,8 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <UpgradeHistory id="10001" upgradeclass="com.atlassian.jira.upgrade.tasks.professional.UpgradeTask1_2_1" targetbuild="522"/>
     <UpgradeVersionHistory id="10000" timeperformed="2010-04-28 19:20:54.928" targetbuild="522" targetversion="4.1.1"/>
     <UpgradeVersionHistory id="10010" timeperformed="2010-10-05 11:21:17.135" targetbuild="531" targetversion="4.1.2"/>
-    <UserHistoryItem id="10000" type="Project" entityId="10000" username="admin" lastViewed="1288810173859"/>
-    <UserHistoryItem id="10001" type="Issue" entityId="10000" username="admin" lastViewed="1288810173640"/>
+    <UserHistoryItem id="10000" type="Project" entityId="10000" username="admin" lastViewed="1289233142906"/>
+    <UserHistoryItem id="10001" type="Issue" entityId="10000" username="admin" lastViewed="1289233142906"/>
     <UserHistoryItem id="10030" type="Issue" entityId="10000" username="bob" lastViewed="1287692324283"/>
     <UserHistoryItem id="10031" type="Project" entityId="10000" username="bob" lastViewed="1287692324285"/>
     <UserHistoryItem id="10040" type="Issue" entityId="10010" username="admin" lastViewed="1288810173859"/>
@@ -1149,15 +1153,15 @@ Examples: 4d, 5h 30m, 60m and 3w.]]></value>
     <UserHistoryItem id="10060" type="Issue" entityId="10000" username="fred" lastViewed="1288810174718"/>
     <UserHistoryItem id="10061" type="Project" entityId="10000" username="fred" lastViewed="1288810174875"/>
     <UserHistoryItem id="10062" type="Issue" entityId="10010" username="fred" lastViewed="1288810174875"/>
-    <UserHistoryItem id="10070" type="Project" entityId="10010" username="admin" lastViewed="1288725017609"/>
-    <UserHistoryItem id="10071" type="Issue" entityId="10030" username="admin" lastViewed="1288725017609"/>
+    <UserHistoryItem id="10070" type="Project" entityId="10010" username="admin" lastViewed="1289233142734"/>
+    <UserHistoryItem id="10071" type="Issue" entityId="10030" username="admin" lastViewed="1289233142734"/>
     <UserHistoryItem id="10080" type="Issue" entityId="10040" username="admin" lastViewed="1288729912328"/>
 <!-- 
 
 
 ___ Entities ________________________________
 
-     Total                                         : 590
+     Total                                         : 594
 
      Avatar                                        : 12
      ChangeGroup                                   : 7
@@ -1165,7 +1169,7 @@ ___ Entities ________________________________
      ConfigurationContext                          : 2
      CustomField                                   : 1
      EventType                                     : 16
-     FavouriteAssociations                         : 2
+     FavouriteAssociations                         : 3
      FieldConfigScheme                             : 2
      FieldConfigSchemeIssueType                    : 2
      FieldConfiguration                            : 2
@@ -1207,9 +1211,10 @@ ___ Entities ________________________________
      ProjectRoleActor                              : 9
      Resolution                                    : 5
      SchemePermissions                             : 36
-     SequenceValueItem                             : 40
+     SearchRequest                                 : 1
+     SequenceValueItem                             : 41
      ServiceConfig                                 : 2
-     SharePermissions                              : 1
+     SharePermissions                              : 2
      Status                                        : 5
      UpgradeHistory                                : 34
      UpgradeVersionHistory                         : 2

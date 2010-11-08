@@ -10,6 +10,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.issue.search.SearchRequest;
+import com.atlassian.jira.issue.search.SearchResults;
 import com.atlassian.jira.project.Project;
 import com.opensymphony.user.User;
 
@@ -33,6 +35,12 @@ public class DefaultMonitorHelper
 		return userActivities;
 	}
 
+	public List<UserIssueActivity> getActivities(SearchResults searchResults) {
+		List<UserIssueActivity> userActivities = getActivitiesForFilter(searchResults);
+		sortByDate(userActivities);
+		return userActivities;
+	}
+	
 	public synchronized void notify(User user, Issue issue) {
 		log.info("notify : user = " + user.getName() + " / " + issue.getId() + "( " +
 				 Thread.currentThread().toString() + ")");
@@ -81,6 +89,20 @@ public class DefaultMonitorHelper
 		return userActivities;
 	}
 
+	private List<UserIssueActivity> getActivitiesForFilter(SearchResults searchResults) {
+		List<UserIssueActivity> userActivities = new ArrayList<UserIssueActivity>();
+		for (Issue issue : searchResults.getIssues()) {
+			userActivities.addAll(getActivitiesForIssue(issue));
+		}
+		
+		return userActivities;
+	}
+
+	private List<UserIssueActivity> getActivitiesForIssue(Issue issue) {
+		List<UserIssueActivity> userActivities = activities.get(issue.getId());
+		return userActivities == null ? new ArrayList<UserIssueActivity>() : userActivities;
+	}
+
 	private boolean has(List<UserIssueActivity> entries) {
 		return entries.size() > 0;
 	}
@@ -97,8 +119,4 @@ public class DefaultMonitorHelper
 		return p1.getKey().equals(p2.getKey());
 	}
 
-	private List<UserIssueActivity> getActivitiesForIssue(Issue issue) {
-		List<UserIssueActivity> userActivities = activities.get(issue.getId());
-		return userActivities == null ? new ArrayList<UserIssueActivity>() : userActivities;
-	}
 }

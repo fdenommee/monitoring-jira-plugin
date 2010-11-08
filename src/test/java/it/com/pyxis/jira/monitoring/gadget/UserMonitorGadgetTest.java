@@ -1,21 +1,32 @@
 package it.com.pyxis.jira.monitoring.gadget;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.atlassian.jira.functest.framework.FuncTestCase;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
 import it.com.pyxis.jira.monitoring.rest.MonitoringClearer;
 import it.com.pyxis.jira.selenium.JiraWebDriver;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import java.util.Arrays;
+import java.util.List;
+
+import com.atlassian.jira.functest.framework.FuncTestCase;
+import com.pyxis.jira.monitoring.rest.MonitorResource;
 
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
 
 	private static final int PROJECT_TEST_ID = 10000;
 	private static final int PROJECT_OTHER_TEST_ID = 10010;
+
+	private static final int FILTER_ALL_ISSUES_ID = 10000;
+
+	private static final int ISSUE_NONE = -1;
+	private static final int TEST1_ISSUE_ID = 10000;
+	private static final int TEST2_ISSUE_ID = 10010;
+	private static final int TEST3_ISSUE_ID = 10020;
+	private static final int TEST4_ISSUE_ID = 10021;
+	private static final int TEST5_ISSUE_ID = 10022;
 
 	private static final String FIRST_MONITORING_GADGET = "gadget-10011";
 	private static final String SECOND_MONITORING_GADGET = "gadget-10020";
@@ -43,17 +54,17 @@ public class UserMonitorGadgetTest
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
 
-		gadget.config(PROJECT_TEST_ID);
-		gadget.assertConfig(PROJECT_TEST_ID);
+		gadget.config(asProjectId(PROJECT_TEST_ID));
+		gadget.assertConfig(asProjectId(PROJECT_TEST_ID));
 
-		gadget.config(PROJECT_OTHER_TEST_ID);
-		gadget.assertConfig(PROJECT_OTHER_TEST_ID);
+		gadget.config(asProjectId(PROJECT_OTHER_TEST_ID));
+		gadget.assertConfig(asProjectId(PROJECT_OTHER_TEST_ID));
 	}
 
 	public void testShouldSeeNoActivityInAnyGadget() {
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(PROJECT_TEST_ID);
+			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
 		List<String> actual = gadget.getUserActivities();
@@ -69,7 +80,7 @@ public class UserMonitorGadgetTest
 		driver.gotoDashboard();
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(PROJECT_TEST_ID);
+			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
 		List<String> expected = Arrays.asList(ADMIN);
@@ -79,7 +90,7 @@ public class UserMonitorGadgetTest
 		assertThat(actual.containsAll(expected), is(true));
 
 		gadget = new MonitoringGadget(driver, SECOND_MONITORING_GADGET) {{
-			config(PROJECT_OTHER_TEST_ID);
+			config(asProjectId(PROJECT_OTHER_TEST_ID));
 		}};
 
 		expected = Arrays.asList("fred");
@@ -96,7 +107,7 @@ public class UserMonitorGadgetTest
 		driver.gotoDashboard();
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(PROJECT_OTHER_TEST_ID);
+			config(asProjectId(PROJECT_OTHER_TEST_ID));
 		}};
 
 		List<String> expected = Arrays.asList(ADMIN);
@@ -122,11 +133,11 @@ public class UserMonitorGadgetTest
 		driver.gotoDashboard();
 
 		MonitoringGadget gadget1 = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(PROJECT_TEST_ID);
+			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
 		MonitoringGadget gadget2 = new MonitoringGadget(driver, SECOND_MONITORING_GADGET) {{
-			config(PROJECT_TEST_ID);
+			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
 		List<String> expected = Arrays.asList(ADMIN, ADMIN);
@@ -148,10 +159,33 @@ public class UserMonitorGadgetTest
 		driver.gotoDashboard();
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(PROJECT_OTHER_TEST_ID);
+			config(asProjectId(PROJECT_OTHER_TEST_ID));
 		}};
 
 		List<String> actual = gadget.getUserActivities();
 		assertThat(actual.size(), is(equalTo(1)));
 	}
+
+	public void testShouldSeeActivityPerFilter() {
+		navigation.issue().viewIssue("OTH-1");
+		navigation.issue().viewIssue("TEST-1");
+
+		driver.gotoDashboard();
+
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
+			config(asFilterId(FILTER_ALL_ISSUES_ID));
+		}};
+
+		List<String> actual = gadget.getUserActivities();
+		assertThat(actual.size(), is(equalTo(2)));
+	}
+
+	public String asFilterId(int fitlerOrProject) {
+		return MonitorResource.FILTER_PREFIX + String.valueOf(fitlerOrProject);
+	}
+
+	public String asProjectId(int fitlerOrProject) {
+		return MonitorResource.PROJECT_PREFIX + String.valueOf(fitlerOrProject);
+	}
+
 }
