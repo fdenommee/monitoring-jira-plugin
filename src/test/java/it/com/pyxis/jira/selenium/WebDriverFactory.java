@@ -63,7 +63,9 @@ public class WebDriverFactory {
 	}
 
 	private boolean usingXvfb() {
-		return Boolean.valueOf(System.getProperty("xvfb", "false"));
+		boolean useXvfb = Boolean.valueOf(System.getProperty("xvfb", "false"));
+		System.err.printf("Note: Using Xvfb\n");
+		return useXvfb;
 	}
 
 	private WebDriver newXvfbDriver() {
@@ -162,6 +164,8 @@ public class WebDriverFactory {
 	}
 
 	private static int systemTimeout() {
-		return Integer.parseInt(System.getProperty("timeout", "15"));
+		int timeout = Integer.parseInt(System.getProperty("timeout", "30"));
+		System.err.printf("Note: Using timeout of %s\n", timeout);
+		return timeout;
 	}
 }
