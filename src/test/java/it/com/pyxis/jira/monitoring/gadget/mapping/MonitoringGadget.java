@@ -64,6 +64,11 @@ public class MonitoringGadget
 		}
 	}
 
+	public void assertNoActivity() {
+		insideFocus();
+		assertNotNull(driver.findElement(By.id("no_monitor_activity")));
+	}
+
 	public List<String> getUserActivities() {
 		insideFocus();
 
@@ -83,9 +88,5 @@ public class MonitoringGadget
 
 	private WebElement configFilterAndProjectId() {
 		return driver.findElement(By.id("projectId"));
-	}
-
-	private String toProjectValue(int projectId) {
-		return String.format("project-%d", projectId);
 	}
 }

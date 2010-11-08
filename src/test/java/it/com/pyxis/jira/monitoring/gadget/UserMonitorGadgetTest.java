@@ -1,17 +1,16 @@
 package it.com.pyxis.jira.monitoring.gadget;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
-import it.com.pyxis.jira.monitoring.rest.MonitoringClearer;
-import it.com.pyxis.jira.selenium.JiraWebDriver;
-
 import java.util.Arrays;
 import java.util.List;
 
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.pyxis.jira.monitoring.rest.MonitorResource;
+import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
+import it.com.pyxis.jira.monitoring.rest.MonitoringClearer;
+import it.com.pyxis.jira.selenium.JiraWebDriver;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class UserMonitorGadgetTest
 		extends FuncTestCase {
@@ -20,13 +19,6 @@ public class UserMonitorGadgetTest
 	private static final int PROJECT_OTHER_TEST_ID = 10010;
 
 	private static final int FILTER_ALL_ISSUES_ID = 10000;
-
-	private static final int ISSUE_NONE = -1;
-	private static final int TEST1_ISSUE_ID = 10000;
-	private static final int TEST2_ISSUE_ID = 10010;
-	private static final int TEST3_ISSUE_ID = 10020;
-	private static final int TEST4_ISSUE_ID = 10021;
-	private static final int TEST5_ISSUE_ID = 10022;
 
 	private static final String FIRST_MONITORING_GADGET = "gadget-10011";
 	private static final String SECOND_MONITORING_GADGET = "gadget-10020";
@@ -67,8 +59,7 @@ public class UserMonitorGadgetTest
 			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
-		List<String> actual = gadget.getUserActivities();
-		assertThat(actual.size(), is(equalTo(0)));
+		gadget.assertNoActivity();
 	}
 
 	public void testShouldSeeDifferentActivityBetweenGadgets() {
@@ -121,8 +112,7 @@ public class UserMonitorGadgetTest
 
 		driver.gotoDashboard();
 
-		actual = gadget.getUserActivities();
-		assertThat(actual.size(), is(equalTo(0)));
+		gadget.assertNoActivity();
 	}
 
 	public void testShouldHaveSameActivitiesBetweenGadgets() {
