@@ -43,7 +43,8 @@ public class WebDriverFactory {
 	}
 
 	public WebDriver newDriver() {
-		return usingXvfb() ? newXvfbDriver() : newCustomDriver();
+		String xvfbDisplayId = getXvfbDisplayId();
+		return xvfbDisplayId == null ? newCustomDriver() : newXvfbDriver(xvfbDisplayId);
 	}
 
 	public String homeUrl() {
@@ -62,14 +63,7 @@ public class WebDriverFactory {
 		return url.toString();
 	}
 
-	private boolean usingXvfb() {
-		boolean useXvfb = Boolean.valueOf(System.getProperty("xvfb", "false"));
-		System.err.printf("Note: Xvfb = %s\n", useXvfb);
-		return useXvfb;
-	}
-
-	private WebDriver newXvfbDriver() {
-		String xvfbDisplayId = getXvfbDisplayId();
+	private WebDriver newXvfbDriver(String xvfbDisplayId) {
 
 		FirefoxBinary firefox = new FirefoxBinary();
 		firefox.setEnvironmentProperty("DISPLAY", xvfbDisplayId);
@@ -142,7 +136,7 @@ public class WebDriverFactory {
 		File displayPropertyFile = new File("target/selenium/display.properties");
 
 		if (!displayPropertyFile.exists()) {
-			return ":38";
+			return null;
 		}
 
 		Properties displayProperties = new Properties();
