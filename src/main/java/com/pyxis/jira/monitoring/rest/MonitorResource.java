@@ -21,7 +21,6 @@ package com.pyxis.jira.monitoring.rest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -32,7 +31,6 @@ import javax.ws.rs.core.Response;
 
 import com.atlassian.jira.bc.JiraServiceContextImpl;
 import com.atlassian.jira.bc.filter.SearchRequestService;
-import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.search.SearchException;
 import com.atlassian.jira.issue.search.SearchProvider;
 import com.atlassian.jira.issue.search.SearchRequest;
@@ -56,10 +54,12 @@ public class MonitorResource {
 	private final VelocityRenderer velocityRenderer;
 	private final MonitorHelper helper;
 
-    public static final String PROJECT_PREFIX = "project-";
-    public static final String FILTER_PREFIX = "filter-";
+	public static final String PROJECT_PREFIX = "project-";
+	public static final String FILTER_PREFIX = "filter-";
 
-	public MonitorResource(ProjectManager projectManager, SearchRequestService searchRequestService, VelocityRenderer velocityRenderer, JiraAuthenticationContext _authenticationContext, SearchProvider searchProvider, MonitorHelper helper) {
+	public MonitorResource(ProjectManager projectManager, SearchRequestService searchRequestService,
+						   VelocityRenderer velocityRenderer, JiraAuthenticationContext _authenticationContext,
+						   SearchProvider searchProvider, MonitorHelper helper) {
 		this.projectManager = projectManager;
 		this.searchRequestService = searchRequestService;
 		this.authenticationContext = _authenticationContext;
@@ -71,9 +71,7 @@ public class MonitorResource {
 	@GET
 	@Path("users")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getActiveUsers(
-			@QueryParam("projectId") String fitlerOrProjectId
-			) {
+	public Response getActiveUsers(@QueryParam("projectId") String fitlerOrProjectId) {
 
 		List<RestUserIssueActivity> activities = new ArrayList<RestUserIssueActivity>();
 		List<UserIssueActivity> activitiesFound = null;
@@ -81,11 +79,12 @@ public class MonitorResource {
 		if (fitlerOrProjectId.startsWith(PROJECT_PREFIX)) {
 			Long pid = stripFilterPrefix(fitlerOrProjectId, PROJECT_PREFIX);
 			activitiesFound = getActivitiesForProject(pid);
-		} else if (fitlerOrProjectId.startsWith(FILTER_PREFIX)) {
+		}
+		else if (fitlerOrProjectId.startsWith(FILTER_PREFIX)) {
 			Long filterId = stripFilterPrefix(fitlerOrProjectId, FILTER_PREFIX);
 			activitiesFound = getActivitiesForFilter(filterId);
 		}
-		
+
 		for (UserIssueActivity activity : activitiesFound) {
 			activities.add(new RestUserIssueActivity(activity.getUserName(), activity.getIssue().getId(),
 													 activity.getTime().getTime()));
@@ -101,15 +100,14 @@ public class MonitorResource {
 	@GET
 	@Path("usershtml")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getActiveUsersHtml(
-			@QueryParam("projectId") String fitlerOrProjectId
-			) {
+	public Response getActiveUsersHtml(@QueryParam("projectId") String fitlerOrProjectId) {
 
 		Map<String, Object> parameters = velocityRenderer.newVelocityParameters();
 		if (fitlerOrProjectId.startsWith(PROJECT_PREFIX)) {
 			Long pid = stripFilterPrefix(fitlerOrProjectId, PROJECT_PREFIX);
 			parameters.put("activities", getActivitiesForProject(pid));
-		} else if (fitlerOrProjectId.startsWith(FILTER_PREFIX)) {
+		}
+		else if (fitlerOrProjectId.startsWith(FILTER_PREFIX)) {
 			Long filterId = stripFilterPrefix(fitlerOrProjectId, FILTER_PREFIX);
 			parameters.put("activities", getActivitiesForFilter(filterId));
 		}
@@ -139,31 +137,33 @@ public class MonitorResource {
 		Project project = projectManager.getProjectObj(projectId);
 		return project == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(project);
 	}
-	
+
 	private List<UserIssueActivity> getActivitiesForFilter(long filterId) {
-		SearchRequest searchRequest = searchRequestService.getFilter(new JiraServiceContextImpl(authenticationContext.getUser()), filterId);
+		SearchRequest searchRequest =
+				searchRequestService.getFilter(new JiraServiceContextImpl(authenticationContext.getUser()), filterId);
 		SearchResults srs = getSearchResults(searchRequest, authenticationContext.getUser());
 		return searchRequest == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(srs);
 	}
-	
+
 	protected SearchResults getSearchResults(final SearchRequest _searchRequest, final User _user) {
 		if (_searchRequest == null) {
 			return null;
 		}
 		try {
 			return searchProvider.search(_searchRequest.getQuery(), _user, PagerFilter.getUnlimitedFilter());
-		} catch (SearchException e) {
+		}
+		catch (SearchException e) {
 			return null;
 		}
 	}
-	
+
 	private Long stripFilterPrefix(String filterId, String prefix) {
 		if (filterId.startsWith(prefix)) {
 			final String numPart = filterId.substring(prefix.length());
 			return Long.valueOf(numPart);
-		} else {
+		}
+		else {
 			return Long.valueOf(filterId);
 		}
 	}
-
 }

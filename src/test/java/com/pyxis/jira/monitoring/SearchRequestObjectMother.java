@@ -34,6 +34,8 @@ import com.atlassian.jira.issue.search.SearchResults;
 
 public class SearchRequestObjectMother {
 
+	public static final Long ALL_ISSUES_FILTER_ID = (long)10000;
+
 	public static SearchRequest newSearchRequest(String name, long id) {
 		SearchRequest searchRequest = mock(SearchRequest.class);
 		when(searchRequest.getName()).thenReturn(name);
@@ -51,8 +53,7 @@ public class SearchRequestObjectMother {
 		return newSearchResults(Arrays.asList((Issue)TEST_1_ISSUE,(Issue)TEST_2_ISSUE,(Issue)OTHER_TEST_1_ISSUE,(Issue)OTHER_TEST_2_ISSUE));
 	}
 	
-	public static SearchRequest allIssuesRequest() {
-		return newSearchRequest("All Issues", 10000);
+	public static SearchRequest allIssuesRequest(long filterId) {
+		return newSearchRequest("All Issues", filterId);
 	}
-	
 }
