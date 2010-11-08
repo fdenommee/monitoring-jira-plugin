@@ -39,7 +39,8 @@
                 gadgets.window.setTitle(gadget.getMsg("gadget.monitoring.user.title"));
                 
                 gadget.getView().empty();
-                gadget.getView().append(AJS.$("<div id='gadget_monitoring_user'/>"));
+                var gadgetId = gadget.getPrefs().getModuleId();
+                gadget.getView().append(AJS.$("<div id='gadget_" + gadgetId + "_monitoring_user'/>"));
 
                 var projectId = gadget.getPref("projectId");
                 
@@ -49,7 +50,7 @@
             		dataType: "json",
             		cache: false,
             		success: function(data) {
-                        AJS.$("#gadget_monitoring_user").html(data.body);
+                        AJS.$("#gadget_" + gadgetId + "_monitoring_user").html(data.body);
                         gadget.resize();
             		},
             		error: function(xhr, textStatus, errorThrown) {

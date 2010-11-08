@@ -24,8 +24,8 @@ import org.openqa.selenium.WebElement;
 public class LoginGadget
 		extends Gadget {
 
-	public LoginGadget(JiraWebDriver driver, String gadgetId) {
-		super(driver, gadgetId);
+	public LoginGadget(JiraWebDriver driver, String gadgetConfigId) {
+		super(driver, gadgetConfigId);
 
 		driver.waitForElementToAppear(By.id("content"));
 	}

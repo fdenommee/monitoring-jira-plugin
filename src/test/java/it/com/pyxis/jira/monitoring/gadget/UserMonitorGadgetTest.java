@@ -3,6 +3,7 @@ package it.com.pyxis.jira.monitoring.gadget;
 import java.util.Arrays;
 import java.util.List;
 
+
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.pyxis.jira.monitoring.rest.MonitorResource;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
@@ -20,8 +21,12 @@ public class UserMonitorGadgetTest
 
 	private static final int FILTER_ALL_ISSUES_ID = 10000;
 
-	private static final String FIRST_MONITORING_GADGET = "gadget-10011";
-	private static final String SECOND_MONITORING_GADGET = "gadget-10020";
+	private static final int TEST1_ISSUE_ID = 10000;
+	private static final int TEST2_ISSUE_ID = 10010;
+	private static final int OTHER1_ISSUE_ID = 10030;
+	
+	private static final String FIRST_MONITORING_GADGET = "10011";
+	private static final String SECOND_MONITORING_GADGET = "10020";
 
 	private JiraWebDriver driver;
 	private MonitoringGadget gadget;
@@ -73,9 +78,9 @@ public class UserMonitorGadgetTest
 			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
-		List<String> expected = Arrays.asList(ADMIN);
+		List<String> expected = Arrays.asList("monitor_activity_" + TEST1_ISSUE_ID + "_user_" + ADMIN);
 
-		List<String> actual = gadget.getUserActivities();
+		List<String> actual = gadget.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 
@@ -83,26 +88,9 @@ public class UserMonitorGadgetTest
 			config(asProjectId(PROJECT_OTHER_TEST_ID));
 		}};
 
-		expected = Arrays.asList("fred");
+		expected = Arrays.asList("monitor_activity_" + OTHER1_ISSUE_ID + "_user_" + "fred" );
 
-		actual = gadget.getUserActivities();
-		assertThat(actual.size(), is(equalTo(expected.size())));
-		assertThat(actual.containsAll(expected), is(true));
-	}
-
-	public void testShouldIssueActivityRemovedOnIssueDelete() {
-
-		navigation.issue().viewIssue("OTH-1");
-
-		driver.gotoDashboard();
-
-		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
-			config(asProjectId(PROJECT_OTHER_TEST_ID));
-		}};
-
-		List<String> expected = Arrays.asList(ADMIN);
-
-		List<String> actual = gadget.getUserActivities();
+		actual = gadget.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 
@@ -129,13 +117,13 @@ public class UserMonitorGadgetTest
 			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
-		List<String> expected = Arrays.asList(ADMIN, ADMIN);
+		List<String> expected = Arrays.asList("monitor_activity_" + TEST1_ISSUE_ID + "_user_" + ADMIN, "monitor_activity_" + TEST2_ISSUE_ID + "_user_" + ADMIN);
 
-		List<String> actual = gadget1.getUserActivities();
+		List<String> actual = gadget1.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 
-		actual = gadget2.getUserActivities();
+		actual = gadget2.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 	}
@@ -169,6 +157,49 @@ public class UserMonitorGadgetTest
 		assertThat(actual.size(), is(equalTo(2)));
 	}
 
+	public void testShouldSeeActivityForFilterDisplayedWithDetails() {
+		navigation.issue().viewIssue("OTH-1");
+		navigation.issue().viewIssue("TEST-1");
+
+		driver.gotoDashboard();
+
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
+			config(asFilterId(FILTER_ALL_ISSUES_ID));
+		}};
+
+		List<String> expected = Arrays.asList("monitor_activity_" + OTHER1_ISSUE_ID + "_user_" + ADMIN, "monitor_activity_" + TEST1_ISSUE_ID + "_user_" + ADMIN );
+		
+		List<String> actual = gadget.getUserActivitiesByIds();
+		assertThat(actual.size(), is(equalTo(2)));
+		assertThat(actual.containsAll(expected), is(true));
+	}
+
+	public void testShouldIssueActivityRemovedOnIssueDelete() {
+
+		navigation.issue().viewIssue("OTH-1");
+
+		driver.gotoDashboard();
+
+		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
+			config(asProjectId(PROJECT_OTHER_TEST_ID));
+		}};
+
+		List<String> expected = Arrays.asList("monitor_activity_" + OTHER1_ISSUE_ID + "_user_" + ADMIN);
+
+		List<String> actual = gadget.getUserActivitiesByIds();
+		assertThat(actual.size(), is(equalTo(expected.size())));
+		assertThat(actual.containsAll(expected), is(true));
+
+		navigation.login("admin", "admin");
+		navigation.issue().deleteIssue("OTH-1");
+
+		driver.gotoDashboard();
+
+		actual = gadget.getUserActivities();
+		assertThat(actual.size(), is(equalTo(0)));
+	}
+
+	
 	public String asFilterId(int fitlerOrProject) {
 		return MonitorResource.FILTER_PREFIX + String.valueOf(fitlerOrProject);
 	}

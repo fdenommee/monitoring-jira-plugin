@@ -33,8 +33,14 @@ import static org.junit.Assert.*;
 public class MonitoringGadget
 		extends Gadget {
 
-	public MonitoringGadget(final JiraWebDriver driver, String gadgetId) {
-		super(driver, gadgetId);
+	public MonitoringGadget(final JiraWebDriver driver, String gadgetConfigId) {
+		super(driver, gadgetConfigId);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getText() {
@@ -82,8 +88,21 @@ public class MonitoringGadget
 		return activities;
 	}
 
+	public List<String> getUserActivitiesByIds() {
+		insideFocus();
+
+		List<String> activities = new ArrayList<String>();
+		List<WebElement> elements = content().findElements(By.xpath("//tr[starts-with(@id,'monitor_activity_')]"));
+
+		for (WebElement element : elements) {
+			activities.add(element.getAttribute("id"));
+		}
+
+		return activities;
+	}
+
 	private WebElement content() {
-		return driver.findElement(By.id("gadget_monitoring_user"));
+		return driver.findElement(By.id("gadget_" + gadgetConfigId + "_monitoring_user"));
 	}
 
 	private WebElement configFilterAndProjectId() {

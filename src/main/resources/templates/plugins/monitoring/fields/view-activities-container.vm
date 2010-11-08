@@ -38,7 +38,7 @@
 <div id="monitor_activity">
 	<table>
 		<tr>
-			<td>#parse("/templates/plugins/monitoring/fields/view-activities.vm")</td>
+			<td>#parse("/templates/plugins/monitoring/fields/view-issue-activities.vm")</td>
 			<td>
 				<input id="monitor_activity_refresh" type="image"
 					   src="${baseurl}/download/resources/com.pyxis.monitoring-jira-plugin/images/refresh.gif"

@@ -24,11 +24,13 @@ import org.openqa.selenium.WebElement;
 public class Gadget {
 
 	protected final JiraWebDriver driver;
+	protected final String gadgetConfigId;
 	protected final String gadgetId;
 
-	public Gadget(JiraWebDriver driver, String gadgetId) {
+	public Gadget(JiraWebDriver driver, String gadgetConfigId) {
 		this.driver = driver;
-		this.gadgetId = gadgetId;
+		this.gadgetConfigId = gadgetConfigId;
+		this.gadgetId = "gadget-" + gadgetConfigId;
 
 		insideFocus();
 	}

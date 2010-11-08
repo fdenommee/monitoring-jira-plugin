@@ -1,0 +1,27 @@
+<!-- /templates/plugins/monitoring/fields/monitor/view-activities.vm -->
+<table id="monitor_activity_data">
+	<thead>
+	<tr>
+		<th>${i18n.getText('cf.table.header.user')}</th>
+		<th>${i18n.getText('cf.table.header.lastaccess')}</th>
+	</tr>
+	</thead>
+	<tbody>
+		#if($activities.isEmpty())
+		<tr>
+			<td colspan="2">${i18n.getText('cf.no.activity')}</td>
+		</tr>
+		#else
+			#foreach( $activity in $activities)
+			<tr id="monitor_activity_${activity.UserName}">
+				<td>
+					<a href="${baseurl}/secure/ViewProfile.jspa?name=${activity.UserName}">${activity.UserName}</a>
+				</td>
+				<td>
+					${outlookdate.format(${activity.Time})}
+				</td>
+			</tr>
+			#end
+		#end
+	</tbody>
+</table>

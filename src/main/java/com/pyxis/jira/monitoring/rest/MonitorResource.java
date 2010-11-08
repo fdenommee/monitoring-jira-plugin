@@ -101,6 +101,8 @@ public class MonitorResource {
 	@Path("usershtml")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getActiveUsersHtml(@QueryParam("projectId") String fitlerOrProjectId) {
+		System.err.printf("getActiveUsersHtml called with %s" , fitlerOrProjectId);
+		System.err.println();
 
 		Map<String, Object> parameters = velocityRenderer.newVelocityParameters();
 		if (fitlerOrProjectId.startsWith(PROJECT_PREFIX)) {
@@ -111,12 +113,13 @@ public class MonitorResource {
 			Long filterId = stripFilterPrefix(fitlerOrProjectId, FILTER_PREFIX);
 			parameters.put("activities", getActivitiesForFilter(filterId));
 		}
-
 		String body = velocityRenderer.render(
 				"templates/plugins/monitoring/fields/view-activities.vm", parameters);
 
 		GenericEntity<HtmlEntity> entity = new GenericEntity<HtmlEntity>(new HtmlEntity(body)) {
 		};
+		System.err.printf("Return getActiveUsersHtml called with %s" , fitlerOrProjectId);
+		System.err.println();
 
 		return Response.ok(entity).build();
 	}

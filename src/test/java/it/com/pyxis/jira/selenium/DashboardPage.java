@@ -27,7 +27,7 @@ public class DashboardPage {
 	}
 
 	public void login(String username, String password) {
-		new LoginGadget(driver, "gadget-0").doLogin(username, password);
+		new LoginGadget(driver, "0").doLogin(username, password);
 	}
 
 	public void loginAsAdmin() {
