@@ -18,8 +18,23 @@
  */
 package com.pyxis.jira.monitoring.rest;
 
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_REST;
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_TEST;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.SearchRequestObjectMother.ALL_ISSUES_FILTER_ID;
+import static com.pyxis.jira.monitoring.SearchRequestObjectMother.allIssuesProvider;
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
+
 import java.util.HashMap;
 import java.util.List;
+
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
@@ -29,32 +44,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.atlassian.jira.bc.JiraServiceContext;
-import com.atlassian.jira.bc.filter.SearchRequestService;
-import com.atlassian.jira.issue.search.SearchProvider;
-import com.atlassian.jira.issue.search.SearchRequest;
-import com.atlassian.jira.issue.search.SearchResults;
 import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.security.JiraAuthenticationContext;
-import com.atlassian.jira.web.bean.PagerFilter;
-import com.atlassian.query.Query;
+import com.pyxis.jira.issue.IssueProvider;
+import com.pyxis.jira.issue.IssueProviderBuilder;
 import com.pyxis.jira.monitoring.DefaultMonitorHelper;
 import com.pyxis.jira.monitoring.MonitorHelper;
 import com.pyxis.jira.util.velocity.VelocityRenderer;
-
-import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_REST;
-import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_TEST;
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
-import static com.pyxis.jira.monitoring.SearchRequestObjectMother.ALL_ISSUES_FILTER_ID;
-import static com.pyxis.jira.monitoring.SearchRequestObjectMother.allIssuesRequest;
-import static com.pyxis.jira.monitoring.SearchRequestObjectMother.allIssuesResults;
-import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
-import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MonitorResourceTest {
@@ -63,14 +59,13 @@ public class MonitorResourceTest {
 	private MonitorResource resource;
 	@Mock private ProjectManager projectManager;
 	@Mock private VelocityRenderer velocityRenderer;
-	@Mock private SearchRequestService searchRequestService;
 	@Mock private JiraAuthenticationContext authenticationContext;
-	@Mock private SearchProvider searchProvider;
+	@Mock private IssueProviderBuilder issueProviderBuilder;
 
 	@Before
 	public void init() {
 		helper = new DefaultMonitorHelper();
-		resource = new MonitorResource(projectManager, searchRequestService, velocityRenderer, authenticationContext, searchProvider, helper);
+		resource = new MonitorResource(projectManager, velocityRenderer, authenticationContext, helper, issueProviderBuilder);
 	}
 
 	@Test
@@ -95,16 +90,10 @@ public class MonitorResourceTest {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
 
-		SearchRequest allIssuesRequest = allIssuesRequest(ALL_ISSUES_FILTER_ID);
-		SearchResults allIssuesResults = allIssuesResults();
+		IssueProvider allIssuesProvider = allIssuesProvider();
+		when(issueProviderBuilder.build()).thenReturn(allIssuesProvider);
 
-		when(searchProvider.search(any(Query.class), eq(FDENOMMEE_USER), any(PagerFilter.class)))
-				.thenReturn(allIssuesResults);
-		when(searchRequestService.getFilter(any(JiraServiceContext.class), eq(ALL_ISSUES_FILTER_ID)))
-				.thenReturn(allIssuesRequest);
-		when(authenticationContext.getUser()).thenReturn(FDENOMMEE_USER);
-
-		Response response = resource.getActiveUsers(MonitorResource.FILTER_PREFIX + allIssuesRequest.getId().toString());
+		Response response = resource.getActiveUsers(MonitorResource.FILTER_PREFIX + ALL_ISSUES_FILTER_ID);
 
 		List<RestUserIssueActivity> users = toListOfUsers(response);
 

@@ -13,6 +13,7 @@ import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.search.SearchResults;
 import com.atlassian.jira.project.Project;
 import com.opensymphony.user.User;
+import com.pyxis.jira.issue.IssueProvider;
 
 public class DefaultMonitorHelper
 		implements MonitorHelper {
@@ -35,8 +36,8 @@ public class DefaultMonitorHelper
 		return userActivities;
 	}
 
-	public List<UserIssueActivity> getActivities(SearchResults searchResults) {
-		List<UserIssueActivity> userActivities = getActivitiesForFilter(searchResults);
+	public List<UserIssueActivity> getActivities(IssueProvider issueProvider) {
+		List<UserIssueActivity> userActivities = getActivitiesForIssues(issueProvider.getIssues());
 		sortByDate(userActivities);
 		return userActivities;
 	}
@@ -89,9 +90,9 @@ public class DefaultMonitorHelper
 		return userActivities;
 	}
 
-	private List<UserIssueActivity> getActivitiesForFilter(SearchResults searchResults) {
+	private List<UserIssueActivity> getActivitiesForIssues(List<Issue> issues) {
 		List<UserIssueActivity> userActivities = new ArrayList<UserIssueActivity>();
-		for (Issue issue : searchResults.getIssues()) {
+		for (Issue issue : issues) {
 			userActivities.addAll(getActivitiesForIssue(issue));
 		}
 

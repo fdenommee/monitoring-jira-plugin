@@ -28,6 +28,12 @@
 			   class="com.pyxis.jira.monitoring.DefaultMonitorHelper">
 		<interface class="com.pyxis.jira.monitoring.MonitorHelper" />
 	</component>
+	
+	<component key="IssueProviderBuilder" name="IssueProviderBuilder" class="com.pyxis.jira.issue.DefaultIssueProviderBuilder">
+		<interface class="com.pyxis.jira.issue.IssueProviderBuilder" />
+	</component>
+	
+	
 
 	<component key="monitorIssueEventRegistror" name="Monitor Issue Event Registror"
 			   class="com.pyxis.jira.monitoring.event.MonitorIssueEventRegistror" />

@@ -24,6 +24,7 @@ import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.search.SearchResults;
 import com.atlassian.jira.project.Project;
 import com.opensymphony.user.User;
+import com.pyxis.jira.issue.IssueProvider;
 
 public interface MonitorHelper {
 
@@ -31,7 +32,7 @@ public interface MonitorHelper {
 
 	public List<UserIssueActivity> getActivities(Project project);
 
-	public List<UserIssueActivity> getActivities(SearchResults searchResults);
+	public List<UserIssueActivity> getActivities(IssueProvider issueProvider);
 
 	public void notify(User user, Issue issue);
 

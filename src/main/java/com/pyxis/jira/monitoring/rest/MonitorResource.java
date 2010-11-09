@@ -29,17 +29,11 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.atlassian.jira.bc.JiraServiceContextImpl;
-import com.atlassian.jira.bc.filter.SearchRequestService;
-import com.atlassian.jira.issue.search.SearchException;
-import com.atlassian.jira.issue.search.SearchProvider;
-import com.atlassian.jira.issue.search.SearchRequest;
-import com.atlassian.jira.issue.search.SearchResults;
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.security.JiraAuthenticationContext;
-import com.atlassian.jira.web.bean.PagerFilter;
-import com.opensymphony.user.User;
+import com.pyxis.jira.issue.IssueProvider;
+import com.pyxis.jira.issue.IssueProviderBuilder;
 import com.pyxis.jira.monitoring.MonitorHelper;
 import com.pyxis.jira.monitoring.UserIssueActivity;
 import com.pyxis.jira.util.velocity.VelocityRenderer;
@@ -48,29 +42,24 @@ import com.pyxis.jira.util.velocity.VelocityRenderer;
 public class MonitorResource {
 
 	private final ProjectManager projectManager;
-	private final SearchRequestService searchRequestService;
-	private final SearchProvider searchProvider;
-	private final JiraAuthenticationContext authenticationContext;
 	private final VelocityRenderer velocityRenderer;
 	private final MonitorHelper helper;
+	private final IssueProviderBuilder issueProviderBuilder;
 
 	public static final String PROJECT_PREFIX = "project-";
 	public static final String FILTER_PREFIX = "filter-";
 
-	public MonitorResource(ProjectManager projectManager, SearchRequestService searchRequestService,
-						   VelocityRenderer velocityRenderer, JiraAuthenticationContext authenticationContext,
-						   SearchProvider searchProvider, MonitorHelper helper) {
+	public MonitorResource(ProjectManager projectManager, VelocityRenderer velocityRenderer,
+			JiraAuthenticationContext authenticationContext, MonitorHelper helper, IssueProviderBuilder issueProviderBuilder) {
 		this.projectManager = projectManager;
-		this.searchRequestService = searchRequestService;
-		this.authenticationContext = authenticationContext;
 		this.velocityRenderer = velocityRenderer;
-		this.searchProvider = searchProvider;
 		this.helper = helper;
+		this.issueProviderBuilder = issueProviderBuilder;
 	}
 
 	@GET
 	@Path("users")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getActiveUsers(@QueryParam("projectId") String fitlerOrProjectId) {
 
 		List<RestUserIssueActivity> activities = new ArrayList<RestUserIssueActivity>();
@@ -79,40 +68,35 @@ public class MonitorResource {
 		if (fitlerOrProjectId.startsWith(PROJECT_PREFIX)) {
 			Long pid = stripFilterPrefix(fitlerOrProjectId, PROJECT_PREFIX);
 			activitiesFound = getActivitiesForProject(pid);
-		}
-		else if (fitlerOrProjectId.startsWith(FILTER_PREFIX)) {
+		} else if (fitlerOrProjectId.startsWith(FILTER_PREFIX)) {
 			Long filterId = stripFilterPrefix(fitlerOrProjectId, FILTER_PREFIX);
 			activitiesFound = getActivitiesForFilter(filterId);
 		}
 
 		for (UserIssueActivity activity : activitiesFound) {
-			activities.add(new RestUserIssueActivity(activity.getUserName(), activity.getIssue().getId(),
-													 activity.getTime().getTime()));
+			activities.add(new RestUserIssueActivity(activity.getUserName(), activity.getIssue().getId(), activity.getTime().getTime()));
 		}
 
-		GenericEntity<List<RestUserIssueActivity>> entities =
-				new GenericEntity<List<RestUserIssueActivity>>(activities) {
-				};
+		GenericEntity<List<RestUserIssueActivity>> entities = new GenericEntity<List<RestUserIssueActivity>>(activities) {
+		};
 
 		return Response.ok(entities).build();
 	}
 
 	@GET
 	@Path("usershtml")
-	@Produces({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getActiveUsersHtml(@QueryParam("projectId") String fitlerOrProjectId) {
 
 		Map<String, Object> parameters = velocityRenderer.newVelocityParameters();
 		if (fitlerOrProjectId.startsWith(PROJECT_PREFIX)) {
 			Long pid = stripFilterPrefix(fitlerOrProjectId, PROJECT_PREFIX);
 			parameters.put("activities", getActivitiesForProject(pid));
-		}
-		else if (fitlerOrProjectId.startsWith(FILTER_PREFIX)) {
+		} else if (fitlerOrProjectId.startsWith(FILTER_PREFIX)) {
 			Long filterId = stripFilterPrefix(fitlerOrProjectId, FILTER_PREFIX);
 			parameters.put("activities", getActivitiesForFilter(filterId));
 		}
-		String body = velocityRenderer.render(
-				"templates/plugins/monitoring/fields/view-activities.vm", parameters);
+		String body = velocityRenderer.render("templates/plugins/monitoring/fields/view-activities.vm", parameters);
 
 		GenericEntity<HtmlEntity> entity = new GenericEntity<HtmlEntity>(new HtmlEntity(body)) {
 		};
@@ -122,7 +106,7 @@ public class MonitorResource {
 
 	@GET
 	@Path("clear")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response clearActivities() {
 		clearAllActivities();
 		return Response.ok().build();
@@ -138,30 +122,16 @@ public class MonitorResource {
 	}
 
 	private List<UserIssueActivity> getActivitiesForFilter(long filterId) {
-		SearchRequest searchRequest =
-				searchRequestService.getFilter(new JiraServiceContextImpl(authenticationContext.getUser()), filterId);
-		SearchResults srs = getSearchResults(searchRequest, authenticationContext.getUser());
-		return searchRequest == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(srs);
-	}
-
-	protected SearchResults getSearchResults(final SearchRequest searchRequest, final User user) {
-		if (searchRequest == null) {
-			return null;
-		}
-		try {
-			return searchProvider.search(searchRequest.getQuery(), user, PagerFilter.getUnlimitedFilter());
-		}
-		catch (SearchException e) {
-			return null;
-		}
+		issueProviderBuilder.setFilterId(filterId);
+		IssueProvider issueProvider = issueProviderBuilder.build();
+		return issueProvider == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(issueProvider);
 	}
 
 	private Long stripFilterPrefix(String filterId, String prefix) {
 		if (filterId.startsWith(prefix)) {
 			final String numPart = filterId.substring(prefix.length());
 			return Long.valueOf(numPart);
-		}
-		else {
+		} else {
 			return Long.valueOf(filterId);
 		}
 	}

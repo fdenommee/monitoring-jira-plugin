@@ -24,6 +24,7 @@ import java.util.List;
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.search.SearchRequest;
 import com.atlassian.jira.issue.search.SearchResults;
+import com.pyxis.jira.issue.IssueProvider;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_2_ISSUE;
@@ -48,6 +49,12 @@ public class SearchRequestObjectMother {
 		return searchResults;
 	}
 	
+	public static IssueProvider newIssueProvider(List<Issue> issues) {
+		IssueProvider issueProvider = mock(IssueProvider.class);
+		when(issueProvider.getIssues()).thenReturn(issues);
+		return issueProvider;
+	}
+	
 	public static SearchResults allIssuesResults() {
 		return newSearchResults(Arrays.asList((Issue)TEST_1_ISSUE,(Issue)TEST_2_ISSUE,(Issue)OTHER_TEST_1_ISSUE,(Issue)OTHER_TEST_2_ISSUE));
 	}
@@ -55,4 +62,9 @@ public class SearchRequestObjectMother {
 	public static SearchRequest allIssuesRequest(long filterId) {
 		return newSearchRequest("All Issues", filterId);
 	}
+	
+	public static IssueProvider allIssuesProvider() {
+		return newIssueProvider(Arrays.asList((Issue)TEST_1_ISSUE,(Issue)TEST_2_ISSUE,(Issue)OTHER_TEST_1_ISSUE,(Issue)OTHER_TEST_2_ISSUE));
+	}
+	
 }
