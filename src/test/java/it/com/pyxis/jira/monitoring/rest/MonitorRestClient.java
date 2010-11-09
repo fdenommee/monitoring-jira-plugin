@@ -27,20 +27,11 @@ public class MonitorRestClient {
 				.get(String.class);
 	}
 
-	public void clearAndClose() {
-		clearActivities();
-		close();
-	}
-	
 	public List<RestUserIssueActivity> getActivities(String filterOrProjectId) {
 		return service.path("users")
 				.queryParam("projectId", filterOrProjectId)
 				.accept(MediaType.APPLICATION_XML_TYPE)
 				.get(new GenericType<List<RestUserIssueActivity>>() {
 				});
-	}
-
-	public void close() {
-		client.destroy();
 	}
 }

@@ -16,34 +16,33 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA,
  * or see the FSF site: http://www.fsf.org.
  */
-package it.com.pyxis.jira.selenium;
+package it.com.pyxis.jira;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import com.atlassian.jira.functest.framework.Administration;
+import com.atlassian.jira.functest.framework.FuncTestCase;
+import com.atlassian.jira.functest.framework.Navigation;
+import com.atlassian.jira.functest.framework.assertions.Assertions;
 
-public class DashboardPage {
+class FuncTestCaseWrapper
+		extends FuncTestCase {
 
-	private final JiraWebDriver driver;
-
-	public DashboardPage(JiraWebDriver driver) {
-		this.driver = driver;
-
-		driver.gotoHome();
+	public void doSetup() {
+		setUp();
 	}
 
-	public void login(String username, String password) {
-		new LoginGadget(driver, "0").doLogin(username, password);
+	public void doTearDown() {
+		tearDown();
 	}
 
-	public void loginAsAdmin() {
-		login("admin", "admin");
+	public Administration administration() {
+		return administration;
 	}
 
-	public void logout() {
+	public Navigation navigation() {
+		return navigation;
+	}
 
-		WebElement logoutLink = driver.findElement(By.id("log_out"));
-		String logoutHref = logoutLink.getAttribute("href");
-
-		driver.gotoHref(logoutHref);
+	public Assertions assertions() {
+		return assertions;
 	}
 }

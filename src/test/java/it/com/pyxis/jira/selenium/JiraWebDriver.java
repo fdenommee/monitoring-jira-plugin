@@ -33,20 +33,20 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.base.Function;
+import it.com.pyxis.jira.LocalTestProperties;
 
 import static it.com.pyxis.jira.selenium.WebDriverFactory.DEFAULT_TIMEOUT_IN_SECONDS;
 import static org.junit.Assert.*;
 
 public class JiraWebDriver {
 
+	private final LocalTestProperties properties;
 	private final WebDriver driver;
-	private final String homeUrl;
 	private final WebDriverWait wait;
 
 	public JiraWebDriver() {
-		WebDriverFactory factory = new WebDriverFactory();
-		homeUrl = factory.homeUrl();
-		driver = factory.newDriver();
+		properties = new LocalTestProperties();
+		driver = new WebDriverFactory(properties).newDriver();
 		wait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
 	}
 
@@ -54,16 +54,24 @@ public class JiraWebDriver {
 		return driver.switchTo();
 	}
 
+	public WebDriver.Navigation navigate() {
+		return driver.navigate();
+	}
+
+	public String currentUrl() {
+		return driver.getCurrentUrl();
+	}
+
 	public void gotoHome() {
-		driver.navigate().to(homeUrl);
+		driver.navigate().to(properties.homeUrl());
+	}
+
+	public void gotoHref(String href) {
+		driver.navigate().to(String.format("%s/%s", properties.hostUrl(), href));
 	}
 
 	public DashboardPage gotoDashboard() {
 		return new DashboardPage(this);
-	}
-
-	public void gotoIssue(String issueKey) {
-		driver.navigate().to(String.format("%s/browse/%s", homeUrl, issueKey));
 	}
 
 	public WebElement findElement(By by) {

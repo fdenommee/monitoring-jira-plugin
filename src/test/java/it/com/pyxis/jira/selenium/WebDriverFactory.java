@@ -21,7 +21,6 @@ package it.com.pyxis.jira.selenium;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -32,35 +31,21 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import it.com.pyxis.jira.LocalTestProperties;
+
 public class WebDriverFactory {
 
 	public static final int DEFAULT_TIMEOUT_IN_SECONDS = systemTimeout();
 
-	private final Properties properties;
+	private final LocalTestProperties properties;
 
-	public WebDriverFactory() {
-		properties = loadPropertiesFromLocalTestResource();
+	public WebDriverFactory(LocalTestProperties properties) {
+		this.properties = properties;
 	}
 
 	public WebDriver newDriver() {
 		String xvfbDisplayId = getXvfbDisplayId();
 		return xvfbDisplayId == null ? newCustomDriver() : newXvfbDriver(xvfbDisplayId);
-	}
-
-	public String homeUrl() {
-		return buildHomeUrl(properties);
-	}
-
-	private String buildHomeUrl(Properties properties) {
-
-		StringBuilder url = new StringBuilder();
-
-		url.append(properties.getProperty("jira.protocol", "http"))
-				.append("://").append(properties.getProperty("jira.host", "localhost"))
-				.append(":").append(properties.getProperty("jira.port", "2990"))
-				.append(properties.getProperty("jira.context"));
-
-		return url.toString();
 	}
 
 	private WebDriver newXvfbDriver(String xvfbDisplayId) {
@@ -79,7 +64,7 @@ public class WebDriverFactory {
 	@SuppressWarnings("unchecked")
 	private WebDriver newCustomDriver() {
 
-		String driverClassName = properties.getProperty("driver.class", FirefoxDriver.class.getName());
+		String driverClassName = properties.driverClass(FirefoxDriver.class.getName());
 
 		try {
 			Class<WebDriver> driverClass = ClassUtils.getClass(driverClassName);
@@ -111,24 +96,6 @@ public class WebDriverFactory {
 		catch (Exception ex) {
 			// nothing to do
 		}
-	}
-
-	private Properties loadPropertiesFromLocalTestResource() {
-
-		Properties properties = new Properties();
-		InputStream is = JiraWebDriver.class.getResourceAsStream("/localtest.properties");
-
-		try {
-			properties.load(is);
-		}
-		catch (IOException ex) {
-			// fallback to default properties
-		}
-		finally {
-			IOUtils.closeQuietly(is);
-		}
-
-		return properties;
 	}
 
 	private String getXvfbDisplayId() {

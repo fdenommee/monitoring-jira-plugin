@@ -20,38 +20,37 @@ package it.com.pyxis.jira.monitoring.rest;
 
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.pyxis.jira.monitoring.rest.MonitorResource;
 import com.pyxis.jira.monitoring.rest.RestUserIssueActivity;
+import it.com.pyxis.jira.AbstractIntegrationTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class MonitorRestTest
-		extends FuncTestCase {
+		extends AbstractIntegrationTestCase {
 
 	private static final long PROJECT_REST = 10010;
 	private static final long REST1_ISSUE_ID = 10030;
 
 	private final MonitorRestClient client = new MonitorRestClient();
 
+	@BeforeClass
+	public static void initData() {
+		restoreData("it-MonitorRestTest.xml");
+	}
+
 	@Before
-	protected void setUpTest() {
-		administration.restoreData("it-MonitorRestTest.xml");
+	public void resetActivities() {
 		clearActivities();
 	}
 
-	@After
-	protected void tearDownTest() {
-		client.close();
-	}
-
 	@Test
-	public void testCanFoundActivityOfOurselfOnProject() {
+	public void canFoundActivityOfOurselfOnProject() {
 
 		List<RestUserIssueActivity> actual = getActivities(PROJECT_REST);
 		assertThat(actual.size(), is(equalTo(0)));
@@ -68,7 +67,7 @@ public class MonitorRestTest
 	}
 
 	@Test
-	public void testClearActivities() {
+	public void activitiesShouldBeCleared() {
 
 		navigation.issue().viewIssue("REST-2");
 
@@ -82,7 +81,7 @@ public class MonitorRestTest
 	}
 
 	@Test
-	public void testDeletingAnIssue() {
+	public void deletingAnIssue() {
 
 		navigation.issue().viewIssue("REST-3");
 		
