@@ -3,7 +3,6 @@ package it.com.pyxis.jira.monitoring.gadget;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -46,11 +45,6 @@ public class UserMonitorGadgetTest
 		navigation.login("admin", "admin");
 	}
 
-	@After
-	public void makeSureWeLogOut() {
-		driver.gotoDashboard().logout();
-	}
-
 	@Test
 	public void issueConfigurationIsPersisted() {
 
@@ -84,7 +78,7 @@ public class UserMonitorGadgetTest
 			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
-		List<String> expected = Arrays.asList("monitor_activity_" + TEST1_ISSUE_ID + "_user_" + ADMIN);
+		List<String> expected = Arrays.asList(buildActivityId(TEST1_ISSUE_ID, ADMIN));
 
 		List<String> actual = gadget.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(expected.size())));
@@ -94,7 +88,7 @@ public class UserMonitorGadgetTest
 			config(asProjectId(PROJECT_OTHER_TEST_ID));
 		}};
 
-		expected = Arrays.asList("monitor_activity_" + OTHER1_ISSUE_ID + "_user_" + "fred");
+		expected = Arrays.asList(buildActivityId(OTHER1_ISSUE_ID, "fred"));
 
 		actual = gadget.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(expected.size())));
@@ -115,8 +109,8 @@ public class UserMonitorGadgetTest
 			config(asProjectId(PROJECT_TEST_ID));
 		}};
 
-		List<String> expected = Arrays.asList("monitor_activity_" + TEST1_ISSUE_ID + "_user_" + ADMIN,
-											  "monitor_activity_" + TEST2_ISSUE_ID + "_user_" + ADMIN);
+		List<String> expected = Arrays.asList(buildActivityId(TEST1_ISSUE_ID, ADMIN),
+											  buildActivityId(TEST2_ISSUE_ID, ADMIN));
 
 		List<String> actual = gadget1.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(expected.size())));
@@ -165,8 +159,8 @@ public class UserMonitorGadgetTest
 			config(asFilterId(FILTER_ALL_ISSUES_ID));
 		}};
 
-		List<String> expected = Arrays.asList("monitor_activity_" + OTHER1_ISSUE_ID + "_user_" + ADMIN,
-											  "monitor_activity_" + TEST1_ISSUE_ID + "_user_" + ADMIN);
+		List<String> expected = Arrays.asList(buildActivityId(OTHER1_ISSUE_ID, ADMIN),
+											  buildActivityId(TEST1_ISSUE_ID, ADMIN));
 
 		List<String> actual = gadget.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(2)));
@@ -182,13 +176,12 @@ public class UserMonitorGadgetTest
 			config(asProjectId(PROJECT_OTHER_TEST_ID));
 		}};
 
-		List<String> expected = Arrays.asList("monitor_activity_" + OTHER2_ISSUE_ID + "_user_" + ADMIN);
+		List<String> expected = Arrays.asList(buildActivityId(OTHER2_ISSUE_ID, ADMIN));
 
 		List<String> actual = gadget.getUserActivitiesByIds();
 		assertThat(actual.size(), is(equalTo(expected.size())));
 		assertThat(actual.containsAll(expected), is(true));
 
-		navigation.login("admin", "admin");
 		navigation.issue().deleteIssue("OTH-2");
 
 		gadget.clickRefreshMenu();
@@ -202,5 +195,9 @@ public class UserMonitorGadgetTest
 
 	private String asProjectId(int fitlerOrProject) {
 		return MonitorResource.PROJECT_PREFIX + String.valueOf(fitlerOrProject);
+	}
+
+	private String buildActivityId(int issueId, String username) {
+		return String.format("monitor_activity_%s_user_%s", issueId, username);
 	}
 }
