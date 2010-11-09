@@ -53,7 +53,13 @@
 		<description>User Monitoring gadget!</description>
 	</gadget>
 
-	<web-resource key="UserMonitorGadgetJS" i18n-name-key="admin.web.resources.common.name" name="UserMonitorGadgetJS Lib" state="enabled">
+	<web-resource key="UserMonitorGadgetCSS" i18n-name-key="admin.web.resources.user.monitoring.css.name" name="UserMonitorGadgetJS Lib" state="enabled">
+		<resource type="download" name="style.css" location="includes/css/style.css">
+			<property key="content-type" value="text/css"/>
+		</resource>
+	</web-resource>
+
+	<web-resource key="UserMonitorGadgetJS" i18n-name-key="admin.web.resources.user.monitoring.js.name" name="UserMonitorGadgetJS Lib" state="enabled">
 		<resource type="download" name="UserMonitorGadget.js" location="gadgets/js/UserMonitorGadget.js">
 			<property key="content-type" value="text/javascript"/>
 		</resource>

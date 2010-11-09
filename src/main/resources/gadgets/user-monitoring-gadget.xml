@@ -23,11 +23,7 @@
 	<UserPref name="isConfigured" datatype="hidden" default_value="false"/>
 	<Content type="html" view="profile">
 		<![CDATA[
-			<style type="text/css">
-			<!--
-			  @import url(__ATLASSIAN_BASE_URL__/download/resources/com.pyxis.monitoring-jira-plugin/css/style.css);
-			-->
-			</style>
+			#requireResource("com.pyxis.monitoring-jira-plugin:UserMonitorGadgetCSS")
 	        <script type="text/javascript">
     	        var GadgetBaseUrl = "__ATLASSIAN_BASE_URL__";
 	        </script>			
