@@ -45,6 +45,13 @@ public class DashboardPage {
 		driver.findElement(By.id("usernameinput")).sendKeys(username);
 		driver.findElement(By.id("os_password")).sendKeys(password);
 		driver.findElement(By.id("login")).click();
+
+		try {
+			Thread.sleep(2000);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public void logout() {

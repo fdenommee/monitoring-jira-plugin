@@ -3,20 +3,17 @@ package it.com.pyxis.jira.monitoring.gadget;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.pyxis.jira.monitoring.rest.MonitorResource;
-import it.com.pyxis.jira.AbstractUIIntegrationTestCase;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
 import it.com.pyxis.jira.monitoring.rest.MonitorRestClient;
+import it.com.pyxis.jira.selenium.JiraWebDriver;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class UserMonitorGadgetTest
-		extends AbstractUIIntegrationTestCase {
+		extends FuncTestCase {
 
 	private static final int PROJECT_TEST_ID = 10000;
 	private static final int PROJECT_OTHER_TEST_ID = 10010;
@@ -32,21 +29,25 @@ public class UserMonitorGadgetTest
 	private static final String SECOND_MONITORING_GADGET = "10020";
 
 	private MonitoringGadget gadget;
+	private JiraWebDriver driver;
 
-	@BeforeClass
-	public static void initData() {
-		restoreData("it-UserMonitorGadgetTest.xml");
-	}
-
-	@Before
-	public void init() {
-		new MonitorRestClient().clearActivities();
-		driver.gotoDashboard().loginAsAdmin();
+	@Override
+	protected void setUpTest() {
+		administration.restoreData("it-UserMonitorGadgetTest.xml");
 		navigation.login("admin", "admin");
+
+		new MonitorRestClient().clearActivities();
+
+		driver = new JiraWebDriver();
+		driver.gotoDashboard();
 	}
 
-	@Test
-	public void issueConfigurationIsPersisted() {
+	@Override
+	protected void tearDownTest() {
+		driver.quit();
+	}
+
+	public void testIssueConfigurationIsPersisted() {
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
 
@@ -57,8 +58,7 @@ public class UserMonitorGadgetTest
 		gadget.assertConfig(asProjectId(PROJECT_OTHER_TEST_ID));
 	}
 
-	@Test
-	public void shouldSeeNoActivityInAnyGadget() {
+	public void testShouldSeeNoActivityInAnyGadget() {
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
 			config(asProjectId(PROJECT_TEST_ID));
@@ -67,8 +67,7 @@ public class UserMonitorGadgetTest
 		gadget.assertNoActivity();
 	}
 
-	@Test
-	public void shouldSeeDifferentActivityBetweenGadgets() {
+	public void testShouldSeeDifferentActivityBetweenGadgets() {
 
 		navigation.issue().viewIssue("TEST-1");
 		navigation.login("fred", "admin");
@@ -95,8 +94,7 @@ public class UserMonitorGadgetTest
 		assertThat(actual.containsAll(expected), is(true));
 	}
 
-	@Test
-	public void shouldHaveSameActivitiesBetweenGadgets() {
+	public void testShouldHaveSameActivitiesBetweenGadgets() {
 
 		navigation.issue().viewIssue("TEST-1");
 		navigation.issue().viewIssue("TEST-2");
@@ -121,8 +119,7 @@ public class UserMonitorGadgetTest
 		assertThat(actual.containsAll(expected), is(true));
 	}
 
-	@Test
-	public void shouldSeeActivityPerProject() {
+	public void testShouldSeeActivityPerProject() {
 
 		navigation.issue().viewIssue("OTH-1");
 		navigation.issue().viewIssue("TEST-1");
@@ -135,8 +132,7 @@ public class UserMonitorGadgetTest
 		assertThat(actual.size(), is(equalTo(1)));
 	}
 
-	@Test
-	public void shouldSeeActivityPerFilter() {
+	public void testShouldSeeActivityPerFilter() {
 
 		navigation.issue().viewIssue("OTH-1");
 		navigation.issue().viewIssue("TEST-1");
@@ -149,8 +145,7 @@ public class UserMonitorGadgetTest
 		assertThat(actual.size(), is(equalTo(2)));
 	}
 
-	@Test
-	public void shouldSeeActivityForFilterDisplayedWithDetails() {
+	public void testShouldSeeActivityForFilterDisplayedWithDetails() {
 
 		navigation.issue().viewIssue("OTH-1");
 		navigation.issue().viewIssue("TEST-1");
@@ -167,8 +162,7 @@ public class UserMonitorGadgetTest
 		assertThat(actual.containsAll(expected), is(true));
 	}
 
-	@Test
-	public void deletedIssueShouldHaveNoActivityOnIt() {
+	public void testDeletedIssueShouldHaveNoActivityOnIt() {
 
 		navigation.issue().viewIssue("OTH-2");
 
