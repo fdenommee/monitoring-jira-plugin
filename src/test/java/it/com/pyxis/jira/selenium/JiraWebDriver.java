@@ -66,6 +66,10 @@ public class JiraWebDriver {
 		driver.navigate().to(properties.homeUrl());
 	}
 
+	public void gotoHome(String link) {
+		driver.navigate().to(String.format("%s/%s", properties.homeUrl(), link));
+	}
+
 	public void gotoHref(String href) {
 		driver.navigate().to(String.format("%s/%s", properties.hostUrl(), href));
 	}

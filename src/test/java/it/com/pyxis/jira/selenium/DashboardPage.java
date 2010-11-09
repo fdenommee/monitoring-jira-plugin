@@ -27,17 +27,24 @@ public class DashboardPage {
 
 	public DashboardPage(JiraWebDriver driver) {
 		this.driver = driver;
-		loginAsAdmin();
+
+		authenticate();
 	}
 
+	@Deprecated
 	public void loginAsAdmin() {
-		login("admin", "admin");
+		//login("admin", "admin");
 	}
 
-	public void login(String username, String password) {
-		String url = String.format("http://localhost:2990/jira/secure/Dashboard.jspa?os_username=%s&os_password=%s",
-								   username, password);
-		driver.navigate().to(url);
+	public void authenticate() {
+		authenticate("admin", "admin");
+	}
+
+	public void authenticate(String username, String password) {
+		driver.gotoHome("login.jsp?os_destination=/secure/Dashboard.jspa");
+		driver.findElement(By.id("usernameinput")).sendKeys(username);
+		driver.findElement(By.id("os_password")).sendKeys(password);
+		driver.findElement(By.id("login")).click();
 	}
 
 	public void logout() {
