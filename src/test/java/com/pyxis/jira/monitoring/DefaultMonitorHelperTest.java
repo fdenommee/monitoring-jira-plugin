@@ -42,7 +42,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MonitorHelperTest {
+public class DefaultMonitorHelperTest {
 
 	private MonitorHelper helper;
 

@@ -18,19 +18,18 @@
  */
 package com.pyxis.jira.monitoring;
 
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
-import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_1_ISSUE;
-import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_2_ISSUE;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
 import java.util.List;
 
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.search.SearchRequest;
 import com.atlassian.jira.issue.search.SearchResults;
+
+import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_2_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_2_ISSUE;
+import static org.mockito.Mockito.*;
 
 public class SearchRequestObjectMother {
 

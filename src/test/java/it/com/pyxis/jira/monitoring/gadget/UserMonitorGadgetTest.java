@@ -3,7 +3,6 @@ package it.com.pyxis.jira.monitoring.gadget;
 import java.util.Arrays;
 import java.util.List;
 
-
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.pyxis.jira.monitoring.rest.MonitorResource;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
@@ -195,11 +194,9 @@ public class UserMonitorGadgetTest
 
 		driver.gotoDashboard();
 
-		actual = gadget.getUserActivities();
-		assertThat(actual.size(), is(equalTo(0)));
+		gadget.assertNoActivity();
 	}
 
-	
 	public String asFilterId(int fitlerOrProject) {
 		return MonitorResource.FILTER_PREFIX + String.valueOf(fitlerOrProject);
 	}

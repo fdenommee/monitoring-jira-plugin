@@ -58,11 +58,11 @@ public class MonitorResource {
 	public static final String FILTER_PREFIX = "filter-";
 
 	public MonitorResource(ProjectManager projectManager, SearchRequestService searchRequestService,
-						   VelocityRenderer velocityRenderer, JiraAuthenticationContext _authenticationContext,
+						   VelocityRenderer velocityRenderer, JiraAuthenticationContext authenticationContext,
 						   SearchProvider searchProvider, MonitorHelper helper) {
 		this.projectManager = projectManager;
 		this.searchRequestService = searchRequestService;
-		this.authenticationContext = _authenticationContext;
+		this.authenticationContext = authenticationContext;
 		this.velocityRenderer = velocityRenderer;
 		this.searchProvider = searchProvider;
 		this.helper = helper;
@@ -101,8 +101,6 @@ public class MonitorResource {
 	@Path("usershtml")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response getActiveUsersHtml(@QueryParam("projectId") String fitlerOrProjectId) {
-		System.err.printf("getActiveUsersHtml called with %s" , fitlerOrProjectId);
-		System.err.println();
 
 		Map<String, Object> parameters = velocityRenderer.newVelocityParameters();
 		if (fitlerOrProjectId.startsWith(PROJECT_PREFIX)) {
@@ -118,8 +116,6 @@ public class MonitorResource {
 
 		GenericEntity<HtmlEntity> entity = new GenericEntity<HtmlEntity>(new HtmlEntity(body)) {
 		};
-		System.err.printf("Return getActiveUsersHtml called with %s" , fitlerOrProjectId);
-		System.err.println();
 
 		return Response.ok(entity).build();
 	}
@@ -148,12 +144,12 @@ public class MonitorResource {
 		return searchRequest == null ? new ArrayList<UserIssueActivity>() : helper.getActivities(srs);
 	}
 
-	protected SearchResults getSearchResults(final SearchRequest _searchRequest, final User _user) {
-		if (_searchRequest == null) {
+	protected SearchResults getSearchResults(final SearchRequest searchRequest, final User user) {
+		if (searchRequest == null) {
 			return null;
 		}
 		try {
-			return searchProvider.search(_searchRequest.getQuery(), _user, PagerFilter.getUnlimitedFilter());
+			return searchProvider.search(searchRequest.getQuery(), user, PagerFilter.getUnlimitedFilter());
 		}
 		catch (SearchException e) {
 			return null;

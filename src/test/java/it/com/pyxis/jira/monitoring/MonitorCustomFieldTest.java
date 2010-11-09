@@ -28,7 +28,7 @@ public class MonitorCustomFieldTest
 
 	@Before
 	protected void setUpTest() {
-		administration.restoreData("it-data.xml");
+		administration.restoreData("it-MonitorCustomFieldTest.xml");
 	}
 
 	@Test

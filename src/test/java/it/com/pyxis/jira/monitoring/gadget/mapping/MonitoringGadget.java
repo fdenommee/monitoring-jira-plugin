@@ -35,16 +35,6 @@ public class MonitoringGadget
 
 	public MonitoringGadget(final JiraWebDriver driver, String gadgetConfigId) {
 		super(driver, gadgetConfigId);
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public String getText() {
-		return content().getText();
 	}
 
 	public void config(String filterOrProject) {

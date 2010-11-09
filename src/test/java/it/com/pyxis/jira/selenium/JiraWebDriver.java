@@ -59,7 +59,6 @@ public class JiraWebDriver {
 	}
 
 	public DashboardPage gotoDashboard() {
-		gotoHome();
 		return new DashboardPage(this);
 	}
 

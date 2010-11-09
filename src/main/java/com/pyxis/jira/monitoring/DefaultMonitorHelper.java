@@ -10,7 +10,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.atlassian.jira.issue.Issue;
-import com.atlassian.jira.issue.search.SearchRequest;
 import com.atlassian.jira.issue.search.SearchResults;
 import com.atlassian.jira.project.Project;
 import com.opensymphony.user.User;
@@ -41,7 +40,7 @@ public class DefaultMonitorHelper
 		sortByDate(userActivities);
 		return userActivities;
 	}
-	
+
 	public synchronized void notify(User user, Issue issue) {
 		log.info("notify : user = " + user.getName() + " / " + issue.getId() + "( " +
 				 Thread.currentThread().toString() + ")");
@@ -95,7 +94,7 @@ public class DefaultMonitorHelper
 		for (Issue issue : searchResults.getIssues()) {
 			userActivities.addAll(getActivitiesForIssue(issue));
 		}
-		
+
 		return userActivities;
 	}
 
@@ -119,5 +118,4 @@ public class DefaultMonitorHelper
 	private boolean sameProject(Project p1, Project p2) {
 		return p1.getKey().equals(p2.getKey());
 	}
-
 }

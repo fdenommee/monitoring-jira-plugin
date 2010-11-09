@@ -24,6 +24,7 @@ public class DashboardPage {
 
 	public DashboardPage(JiraWebDriver driver) {
 		this.driver = driver;
+		driver.gotoHome();
 	}
 
 	public void login(String username, String password) {

@@ -20,7 +20,6 @@ package com.pyxis.jira.monitoring.event;
 
 import com.atlassian.jira.event.issue.AbstractIssueEventListener;
 import com.atlassian.jira.event.issue.IssueEvent;
-import com.atlassian.jira.event.type.EventType;
 import com.atlassian.jira.issue.Issue;
 import com.pyxis.jira.monitoring.MonitorHelper;
 
@@ -35,12 +34,6 @@ public class MonitorIssueEventListener
 
 	public void issueDeleted(IssueEvent event) {
 		cleanActivitiesForIssue(event.getIssue());
-	}
-
-	public void customEvent(IssueEvent event) {
-		if (EventType.ISSUE_DELETED_ID.equals(event.getEventTypeId())) {
-			cleanActivitiesForIssue(event.getIssue());
-		}
 	}
 
 	private void cleanActivitiesForIssue(Issue issue) {
