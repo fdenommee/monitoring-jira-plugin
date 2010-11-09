@@ -25,40 +25,44 @@ public class DashboardPage {
 
 	private final JiraWebDriver driver;
 
+	private final String atlassianToken;
+
 	public DashboardPage(JiraWebDriver driver) {
 		this.driver = driver;
 
-		authenticate();
+		authenticateAsAdmin();
+
+		atlassianToken = driver.findElement(By.id("atlassian-token")).getAttribute("content");
 	}
 
-	@Deprecated
-	public void loginAsAdmin() {
-		//login("admin", "admin");
-	}
-
-	public void authenticate() {
+	private void authenticateAsAdmin() {
 		authenticate("admin", "admin");
 	}
 
-	public void authenticate(String username, String password) {
-		driver.gotoHome("login.jsp?os_destination=/secure/Dashboard.jspa");
-		driver.findElement(By.id("usernameinput")).sendKeys(username);
-		driver.findElement(By.id("os_password")).sendKeys(password);
-		driver.findElement(By.id("login")).click();
+	private void authenticate(String username, String password) {
+		String loginUrl = "login.jsp?os_destination=/secure/Dashboard.jspa";
+		driver.gotoHome(loginUrl);
 
-		try {
-			Thread.sleep(2000);
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
+		if (driver.currentUrl().endsWith(loginUrl)) {
+			userNameText().sendKeys(username);
+			passwordText().sendKeys(password);
+			loginButton().click();
 		}
 	}
 
 	public void logout() {
+		driver.gotoHome(String.format("/secure/Logout!default.jspa?atl_token=%s", atlassianToken));
+	}
 
-		WebElement logoutLink = driver.findElement(By.id("log_out"));
-		String logoutHref = logoutLink.getAttribute("href");
+	private WebElement userNameText() {
+		return driver.findElement(By.id("usernameinput"));
+	}
 
-		driver.gotoHref(logoutHref);
+	private WebElement passwordText() {
+		return driver.findElement(By.id("os_password"));
+	}
+
+	private WebElement loginButton() {
+		return driver.findElement(By.id("login"));
 	}
 }
