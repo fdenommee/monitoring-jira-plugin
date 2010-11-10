@@ -18,31 +18,64 @@
  */
 package it.com.pyxis.jira;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+
 import com.atlassian.jira.functest.framework.Administration;
 import com.atlassian.jira.functest.framework.FuncTestCase;
 import com.atlassian.jira.functest.framework.Navigation;
 import com.atlassian.jira.functest.framework.assertions.Assertions;
 
-class FuncTestCaseWrapper
-		extends FuncTestCase {
+public abstract class JiraFuncTestCase {
 
-	public void doSetup() {
-		setUp();
+	private static FuncTestCaseWrapper wrapper;
+
+	public static final String ADMIN = "admin";
+
+	public static Administration administration;
+	public static Navigation navigation;
+	public static Assertions assertions;
+
+	@BeforeClass
+	public static void init() {
+		wrapper = new FuncTestCaseWrapper();
+		wrapper.doSetup();
+
+		administration = wrapper.administration();
+		navigation = wrapper.navigation();
+		assertions = wrapper.assertions();
 	}
 
-	public void doTearDown() {
-		tearDown();
+	@AfterClass
+	public static void destroy() {
+		wrapper.doTearDown();
+		wrapper = null;
+		administration = null;
+		navigation = null;
+		assertions = null;
 	}
 
-	public Administration administration() {
-		return administration;
-	}
+	private static class FuncTestCaseWrapper
+			extends FuncTestCase {
 
-	public Navigation navigation() {
-		return navigation;
-	}
+		Administration administration() {
+			return administration;
+		}
 
-	public Assertions assertions() {
-		return assertions;
+		Navigation navigation() {
+			return navigation;
+		}
+
+		Assertions assertions() {
+			return assertions;
+		}
+
+		void doSetup() {
+			setUp();
+		}
+
+		void doTearDown() {
+			tearDown();
+		}
 	}
 }

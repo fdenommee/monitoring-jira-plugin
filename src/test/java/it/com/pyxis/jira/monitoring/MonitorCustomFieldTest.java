@@ -18,23 +18,28 @@
  */
 package it.com.pyxis.jira.monitoring;
 
-import com.atlassian.jira.functest.framework.FuncTestCase;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import it.com.pyxis.jira.JiraFuncTestCase;
 
 public class MonitorCustomFieldTest
-		extends FuncTestCase {
+		extends JiraFuncTestCase {
 
-	@Override
-	protected void setUpTest() {
+	@BeforeClass
+	public static void initData() {
 		administration.restoreData("it-MonitorCustomFieldTest.xml");
 	}
 
-	public void testCanFoundActivityOfOurselfOnIssue() {
+	@Test
+	public void canFoundActivityOfOurselfOnIssue() {
 
 		navigation.issue().viewIssue("TEST-2");
 		assertions.assertNodeByIdExists("monitor_activity_admin");
 	}
 
-	public void testCanFoundActivitiesForOtherUsers() {
+	@Test
+	public void canFoundActivitiesForOtherUsers() {
 
 		navigation.issue().viewIssue("TEST-2");
 		navigation.logout();

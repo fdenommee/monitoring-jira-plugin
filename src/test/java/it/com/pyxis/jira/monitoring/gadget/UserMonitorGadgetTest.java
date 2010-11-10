@@ -3,8 +3,14 @@ package it.com.pyxis.jira.monitoring.gadget;
 import java.util.Arrays;
 import java.util.List;
 
-import com.atlassian.jira.functest.framework.FuncTestCase;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import com.pyxis.jira.monitoring.rest.MonitorResource;
+import it.com.pyxis.jira.JiraFuncTestCase;
 import it.com.pyxis.jira.monitoring.gadget.mapping.MonitoringGadget;
 import it.com.pyxis.jira.monitoring.rest.MonitorRestClient;
 import it.com.pyxis.jira.selenium.JiraWebDriver;
@@ -13,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class UserMonitorGadgetTest
-		extends FuncTestCase {
+		extends JiraFuncTestCase {
 
 	private static final int PROJECT_TEST_ID = 10000;
 	private static final int PROJECT_OTHER_TEST_ID = 10010;
@@ -28,26 +34,36 @@ public class UserMonitorGadgetTest
 	private static final String FIRST_MONITORING_GADGET = "10011";
 	private static final String SECOND_MONITORING_GADGET = "10020";
 
+	private static JiraWebDriver driver;
+
 	private MonitoringGadget gadget;
-	private JiraWebDriver driver;
 
-	@Override
-	protected void setUpTest() {
+	@BeforeClass
+	public static void initData() {
 		administration.restoreData("it-UserMonitorGadgetTest.xml");
-		navigation.login("admin", "admin");
-
-		new MonitorRestClient().clearActivities();
-
 		driver = new JiraWebDriver();
+	}
+
+	@Before
+	public void resetNavigation() {
+		new MonitorRestClient().clearActivities();
+		navigation.login("admin", "admin");
 		driver.gotoDashboard();
 	}
 
-	@Override
-	protected void tearDownTest() {
+//	@After
+//	public void logout() {
+//		driver.gotoDashboard().logout();
+//	}
+
+	@AfterClass
+	public static void closeDriver() {
 		driver.quit();
+		driver = null;
 	}
 
-	public void testIssueConfigurationIsPersisted() {
+	@Test
+	public void issueConfigurationIsPersisted() {
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET);
 
@@ -58,7 +74,8 @@ public class UserMonitorGadgetTest
 		gadget.assertConfig(asProjectId(PROJECT_OTHER_TEST_ID));
 	}
 
-	public void testShouldSeeNoActivityInAnyGadget() {
+	@Test
+	public void shouldSeeNoActivityInAnyGadget() {
 
 		gadget = new MonitoringGadget(driver, FIRST_MONITORING_GADGET) {{
 			config(asProjectId(PROJECT_TEST_ID));
@@ -67,7 +84,8 @@ public class UserMonitorGadgetTest
 		gadget.assertNoActivity();
 	}
 
-	public void testShouldSeeDifferentActivityBetweenGadgets() {
+	@Test
+	public void shouldSeeDifferentActivityBetweenGadgets() {
 
 		navigation.issue().viewIssue("TEST-1");
 		navigation.login("fred", "admin");
@@ -94,7 +112,8 @@ public class UserMonitorGadgetTest
 		assertThat(actual.containsAll(expected), is(true));
 	}
 
-	public void testShouldHaveSameActivitiesBetweenGadgets() {
+	@Test
+	public void shouldHaveSameActivitiesBetweenGadgets() {
 
 		navigation.issue().viewIssue("TEST-1");
 		navigation.issue().viewIssue("TEST-2");
@@ -119,7 +138,8 @@ public class UserMonitorGadgetTest
 		assertThat(actual.containsAll(expected), is(true));
 	}
 
-	public void testShouldSeeActivityPerProject() {
+	@Test
+	public void shouldSeeActivityPerProject() {
 
 		navigation.issue().viewIssue("OTH-1");
 		navigation.issue().viewIssue("TEST-1");
@@ -132,7 +152,8 @@ public class UserMonitorGadgetTest
 		assertThat(actual.size(), is(equalTo(1)));
 	}
 
-	public void testShouldSeeActivityPerFilter() {
+	@Test
+	public void shouldSeeActivityPerFilter() {
 
 		navigation.issue().viewIssue("OTH-1");
 		navigation.issue().viewIssue("TEST-1");
@@ -145,7 +166,8 @@ public class UserMonitorGadgetTest
 		assertThat(actual.size(), is(equalTo(2)));
 	}
 
-	public void testShouldSeeActivityForFilterDisplayedWithDetails() {
+	@Test
+	public void shouldSeeActivityForFilterDisplayedWithDetails() {
 
 		navigation.issue().viewIssue("OTH-1");
 		navigation.issue().viewIssue("TEST-1");
@@ -162,7 +184,8 @@ public class UserMonitorGadgetTest
 		assertThat(actual.containsAll(expected), is(true));
 	}
 
-	public void testDeletedIssueShouldHaveNoActivityOnIt() {
+	@Test
+	public void deletedIssueShouldHaveNoActivityOnIt() {
 
 		navigation.issue().viewIssue("OTH-2");
 
