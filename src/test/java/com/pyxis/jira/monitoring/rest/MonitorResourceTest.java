@@ -18,23 +18,8 @@
  */
 package com.pyxis.jira.monitoring.rest;
 
-import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_REST;
-import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_TEST;
-import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
-import static com.pyxis.jira.monitoring.SearchRequestObjectMother.ALL_ISSUES_FILTER_ID;
-import static com.pyxis.jira.monitoring.SearchRequestObjectMother.allIssuesProvider;
-import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
-import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
-
 import java.util.HashMap;
 import java.util.List;
-
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
@@ -44,13 +29,26 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.atlassian.jira.issue.search.SearchRequest;
 import com.atlassian.jira.project.ProjectManager;
-import com.atlassian.jira.security.JiraAuthenticationContext;
-import com.pyxis.jira.issue.IssueProvider;
-import com.pyxis.jira.issue.IssueProviderBuilder;
+import com.pyxis.jira.issue.search.IssueSearcher;
+import com.pyxis.jira.issue.search.SearchRequestBuilder;
 import com.pyxis.jira.monitoring.DefaultMonitorHelper;
 import com.pyxis.jira.monitoring.MonitorHelper;
 import com.pyxis.jira.util.velocity.VelocityRenderer;
+
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_REST;
+import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_TEST;
+import static com.pyxis.jira.monitoring.IssueObjectMother.TEST_1_ISSUE;
+import static com.pyxis.jira.monitoring.SearchRequestObjectMother.ALL_ISSUES_FILTER_ID;
+import static com.pyxis.jira.monitoring.SearchRequestObjectMother.allIssuesRequest;
+import static com.pyxis.jira.monitoring.SearchRequestObjectMother.allIssuesResults;
+import static com.pyxis.jira.monitoring.UserObjectMother.FDENOMMEE_USER;
+import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MonitorResourceTest {
@@ -59,13 +57,13 @@ public class MonitorResourceTest {
 	private MonitorResource resource;
 	@Mock private ProjectManager projectManager;
 	@Mock private VelocityRenderer velocityRenderer;
-	@Mock private JiraAuthenticationContext authenticationContext;
-	@Mock private IssueProviderBuilder issueProviderBuilder;
+	@Mock private IssueSearcher issueSearcher;
+	@Mock private SearchRequestBuilder searchRequestBuilder;
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper();
-		resource = new MonitorResource(projectManager, velocityRenderer, authenticationContext, helper, issueProviderBuilder);
+		helper = new DefaultMonitorHelper(issueSearcher);
+		resource = new MonitorResource(helper, velocityRenderer, projectManager, searchRequestBuilder);
 	}
 
 	@Test
@@ -90,10 +88,13 @@ public class MonitorResourceTest {
 		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
 		helper.notify(VTHOULE_USER, TEST_1_ISSUE);
 
-		IssueProvider allIssuesProvider = allIssuesProvider();
-		when(issueProviderBuilder.build()).thenReturn(allIssuesProvider);
+		SearchRequest allIssuesRequest = allIssuesRequest(ALL_ISSUES_FILTER_ID);
 
-		Response response = resource.getActiveUsers(MonitorResource.FILTER_PREFIX + ALL_ISSUES_FILTER_ID);
+		when(searchRequestBuilder.forFilter(allIssuesRequest.getId())).thenReturn(allIssuesRequest);
+		when(issueSearcher.search(allIssuesRequest)).thenReturn(allIssuesResults());
+
+		Response response =
+				resource.getActiveUsers(MonitorResource.FILTER_PREFIX + allIssuesRequest.getId().toString());
 
 		List<RestUserIssueActivity> users = toListOfUsers(response);
 

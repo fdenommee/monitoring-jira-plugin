@@ -26,7 +26,7 @@ public class MonitorIssueEventListenerTest {
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper();
+		helper = new DefaultMonitorHelper(null);
 		eventListener = new MonitorIssueEventListener(helper);
 	}
 

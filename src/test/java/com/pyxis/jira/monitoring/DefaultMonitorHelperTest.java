@@ -19,15 +19,19 @@
 package com.pyxis.jira.monitoring;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.issue.search.SearchRequest;
 import com.opensymphony.user.User;
+import com.pyxis.jira.issue.search.IssueSearcher;
 
 import static com.pyxis.jira.monitoring.IssueObjectMother.OTHER_TEST_1_ISSUE;
 import static com.pyxis.jira.monitoring.IssueObjectMother.PROJECT_OTHER_TEST;
@@ -40,15 +44,18 @@ import static com.pyxis.jira.monitoring.UserObjectMother.VTHOULE_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultMonitorHelperTest {
+
+	@Mock private IssueSearcher issueSearcher;
 
 	private MonitorHelper helper;
 
 	@Before
 	public void init() {
-		helper = new DefaultMonitorHelper();
+		helper = new DefaultMonitorHelper(issueSearcher);
 	}
 
 	@Test
@@ -91,6 +98,15 @@ public class DefaultMonitorHelperTest {
 		assertUserActivities(activities, FDENOMMEE_USER, VTHOULE_USER);
 	}
 
+	@Test
+	public void shouldHaveNoMoreActivitiesOnClear() {
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+		helper.notify(FDENOMMEE_USER, TEST_2_ISSUE);
+		helper.clear();
+		assertNoActivityForIssue(TEST_1_ISSUE);
+		assertNoActivityForIssue(TEST_2_ISSUE);
+	}
+	
 	@Test
 	public void shouldReturnNoUserActivityForUnknownIssue() {
 		assertNoActivityForIssue(UNKNOWN_ISSUE);
@@ -145,6 +161,35 @@ public class DefaultMonitorHelperTest {
 		assertNoActivityForIssue(TEST_1_ISSUE);
 
 		List<UserIssueActivity> activities = helper.getActivities(TEST_2_ISSUE);
+		assertThat(activities.size(), is(equalTo(1)));
+	}
+
+	@Test
+	public void shouldFindNoActivityUsingASearchRequest() {
+
+		SearchRequest searchRequest = SearchRequestObjectMother.newSearchRequest("junit", 1);
+
+		List<Issue> expectedIssues = Arrays.asList();
+		
+		when(issueSearcher.search(searchRequest)).thenReturn(expectedIssues);
+
+		List<UserIssueActivity> activities = helper.getActivities(searchRequest);
+
+		assertThat(activities.size(), is(equalTo(0)));
+	}
+
+	@Test
+	public void shouldFindActivityUsingASearchRequest() {
+
+		helper.notify(FDENOMMEE_USER, TEST_1_ISSUE);
+
+		SearchRequest searchRequest = SearchRequestObjectMother.newSearchRequest("junit", 1);
+
+		List<Issue> expectedIssues = Arrays.asList((Issue)TEST_1_ISSUE);
+
+		when(issueSearcher.search(searchRequest)).thenReturn(expectedIssues);
+
+		List<UserIssueActivity> activities = helper.getActivities(searchRequest);
 		assertThat(activities.size(), is(equalTo(1)));
 	}
 

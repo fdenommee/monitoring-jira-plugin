@@ -10,10 +10,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.atlassian.jira.issue.Issue;
-import com.atlassian.jira.issue.search.SearchResults;
+import com.atlassian.jira.issue.search.SearchRequest;
 import com.atlassian.jira.project.Project;
 import com.opensymphony.user.User;
-import com.pyxis.jira.issue.IssueProvider;
+import com.pyxis.jira.issue.search.IssueSearcher;
 
 public class DefaultMonitorHelper
 		implements MonitorHelper {
@@ -21,6 +21,11 @@ public class DefaultMonitorHelper
 	private static final Logger log = Logger.getLogger(MonitorHelper.class);
 
 	private final Map<Long, List<UserIssueActivity>> activities = new HashMap<Long, List<UserIssueActivity>>();
+	private final IssueSearcher issueSearcher;
+
+	public DefaultMonitorHelper(IssueSearcher issueSearcher) {
+		this.issueSearcher = issueSearcher;
+	}
 
 	public List<UserIssueActivity> getActivities(Project project) {
 		if (project == null) return Collections.emptyList();
@@ -36,8 +41,8 @@ public class DefaultMonitorHelper
 		return userActivities;
 	}
 
-	public List<UserIssueActivity> getActivities(IssueProvider issueProvider) {
-		List<UserIssueActivity> userActivities = getActivitiesForIssues(issueProvider.getIssues());
+	public List<UserIssueActivity> getActivities(SearchRequest searchRequest) {
+		List<UserIssueActivity> userActivities = getActivitiesForSearchRequest(searchRequest);
 		sortByDate(userActivities);
 		return userActivities;
 	}
@@ -90,18 +95,20 @@ public class DefaultMonitorHelper
 		return userActivities;
 	}
 
-	private List<UserIssueActivity> getActivitiesForIssues(List<Issue> issues) {
+	private List<UserIssueActivity> getActivitiesForIssue(Issue issue) {
+		List<UserIssueActivity> userActivities = activities.get(issue.getId());
+		return userActivities == null ? new ArrayList<UserIssueActivity>() : userActivities;
+	}
+
+	private List<UserIssueActivity> getActivitiesForSearchRequest(SearchRequest searchRequest) {
+
 		List<UserIssueActivity> userActivities = new ArrayList<UserIssueActivity>();
-		for (Issue issue : issues) {
+
+		for (Issue issue : issueSearcher.search(searchRequest)) {
 			userActivities.addAll(getActivitiesForIssue(issue));
 		}
 
 		return userActivities;
-	}
-
-	private List<UserIssueActivity> getActivitiesForIssue(Issue issue) {
-		List<UserIssueActivity> userActivities = activities.get(issue.getId());
-		return userActivities == null ? new ArrayList<UserIssueActivity>() : userActivities;
 	}
 
 	private boolean has(List<UserIssueActivity> entries) {

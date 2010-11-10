@@ -1,19 +1,16 @@
 <atlassian-plugin key="${project.groupId}.${project.artifactId}"
-	name="${project.name}" plugins-version="2">
+				  name="${project.name}" plugins-version="2">
 	<plugin-info>
 		<description>${project.description}</description>
 		<version>${project.version}</version>
-		<vendor name="${project.organization.name}" url="${project.organization.url}" />
-		<application-version min="4.0" />
-		<!--<bundle-instructions> -->
-		<!--<Import-Package>org.apache.commons.collections,*;resolution:=optional</Import-Package> -->
-		<!--</bundle-instructions> -->
+		<vendor name="${project.organization.name}" url="${project.organization.url}"/>
+		<application-version min="4.0"/>
 	</plugin-info>
 
-	<resource type="i18n" name="i18n" location="i18n/monitor" />
+	<resource type="i18n" name="i18n" location="i18n/monitor"/>
 
-	<resource type="download" name="images/" location="includes/images/" />
-	<resource type="download" name="css/" location="includes/css/" />
+	<resource type="download" name="images/" location="includes/images/"/>
+	<resource type="download" name="css/" location="includes/css/"/>
 
 	<rest key="monitor" path="/monitor" version="1.0">
 		<description>Provides the REST resource for the monitoring plugin.</description>
@@ -26,31 +23,37 @@
 
 	<component key="monitorHelper" name="Monitor Helper"
 			   class="com.pyxis.jira.monitoring.DefaultMonitorHelper">
-		<interface class="com.pyxis.jira.monitoring.MonitorHelper" />
+		<interface class="com.pyxis.jira.monitoring.MonitorHelper"/>
 	</component>
-	
-	<component key="IssueProviderBuilder" name="IssueProviderBuilder" class="com.pyxis.jira.issue.DefaultIssueProviderBuilder">
-		<interface class="com.pyxis.jira.issue.IssueProviderBuilder" />
-	</component>
-	
-	
 
 	<component key="monitorIssueEventRegistror" name="Monitor Issue Event Registror"
-			   class="com.pyxis.jira.monitoring.event.MonitorIssueEventRegistror" />
+			   class="com.pyxis.jira.monitoring.event.MonitorIssueEventRegistror"/>
 
 	<component key="monitorIssueEventListener" name="Monitor Issue event listener"
-			   class="com.pyxis.jira.monitoring.event.MonitorIssueEventListener" />
+			   class="com.pyxis.jira.monitoring.event.MonitorIssueEventListener"/>
+
+	<component key="issueSearcher" name="Issue Searcher"
+			   class="com.pyxis.jira.issue.search.DefaultIssueSearcher">
+		<interface class="com.pyxis.jira.issue.search.IssueSearcher"/>
+	</component>
+
+	<component key="searchRequestBuilder" name="Search Request Builder"
+			   class="com.pyxis.jira.issue.search.DefaultSearchRequestBuilder">
+		<interface class="com.pyxis.jira.issue.search.SearchRequestBuilder"/>
+	</component>
 
 	<customfield-type key="monitorCustomField" name="Monitor Custom Field"
 					  class="com.pyxis.jira.monitoring.MonitorCustomField">
 		<description>Display the list of users that have accessed this issue over a period of time</description>
-		<resource type="velocity" name="view" location="templates/plugins/monitoring/fields/view-activities-container.vm" />
+		<resource type="velocity" name="view"
+				  location="templates/plugins/monitoring/fields/view-activities-container.vm"/>
 	</customfield-type>
 
-	<webwork1 key="monitorCFRefresh" name="Refresh items in the monitor custom field" class="java.lang.Object" roles-required="use">
+	<webwork1 key="monitorCFRefresh" name="Refresh items in the monitor custom field" class="java.lang.Object"
+			  roles-required="use">
 		<actions>
 			<action name="com.pyxis.jira.monitoring.MonitorCustomFieldAction" alias="MonitorCFRefresh">
-				<view name="success">/templates/plugins/monitoring/fields/view-activities.vm</view>
+				<view name="success">/templates/plugins/monitoring/fields/view-issue-activities.vm</view>
 			</action>
 		</actions>
 	</webwork1>
@@ -59,13 +62,15 @@
 		<description>User Monitoring gadget!</description>
 	</gadget>
 
-	<web-resource key="UserMonitorGadgetCSS" i18n-name-key="admin.web.resources.user.monitoring.css.name" name="UserMonitorGadgetJS Lib" state="enabled">
+	<web-resource key="UserMonitorGadgetCSS" i18n-name-key="admin.web.resources.user.monitoring.css.name"
+				  name="UserMonitorGadgetJS Lib" state="enabled">
 		<resource type="download" name="style.css" location="includes/css/style.css">
 			<property key="content-type" value="text/css"/>
 		</resource>
 	</web-resource>
 
-	<web-resource key="UserMonitorGadgetJS" i18n-name-key="admin.web.resources.user.monitoring.js.name" name="UserMonitorGadgetJS Lib" state="enabled">
+	<web-resource key="UserMonitorGadgetJS" i18n-name-key="admin.web.resources.user.monitoring.js.name"
+				  name="UserMonitorGadgetJS Lib" state="enabled">
 		<resource type="download" name="UserMonitorGadget.js" location="gadgets/js/UserMonitorGadget.js">
 			<property key="content-type" value="text/javascript"/>
 		</resource>
